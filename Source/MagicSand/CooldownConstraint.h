@@ -32,7 +32,7 @@ public:
 
 	virtual void ProcessFire() override;
 
-	virtual void ResponseFunction() override;
+	virtual void OnReload() override;
 	
 	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	// End Inherited

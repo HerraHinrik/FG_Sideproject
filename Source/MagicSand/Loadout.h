@@ -18,6 +18,7 @@ class MAGICSAND_API ULoadout : public UObject
 {
 	GENERATED_BODY()
 
+
 protected:
 
 	// Arrays of constructed gun part objects
@@ -35,7 +36,7 @@ public:
 
 public:
 
-	TArray<USpawnerBase*>* GetSpawners();
-	TArray<UConstraintBase*>* GetConstraints();
-	TArray<UModifierBase*>* GetModifiers();
+	TArray<USpawnerBase*> GetSpawners();
+	TArray<UConstraintBase*> GetConstraints();
+	TArray<UModifierBase*> GetModifiers();
 };

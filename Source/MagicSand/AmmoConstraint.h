@@ -15,8 +15,6 @@ class UAmmoConstraint : public UConstraintBase
 {
 	GENERATED_BODY()
 
-	UAmmoConstraint();
-
 protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -28,14 +26,13 @@ protected:
 public:
 
 public:
-	virtual void BeginPlay();
 
 	// Inherited
 	virtual bool Evaluate() const override;
 
 	virtual void ProcessFire() override;
 
-	virtual void ResponseFunction() override;
+	virtual void OnReload() override;
 	// End Inherited
 
 	UFUNCTION(BlueprintCallable)
@@ -44,9 +41,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetMaxAmmo() const;
 
+
+	UFUNCTION(BlueprintCallable)
+	void Reload();
+
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentAmmo(int Value);
-
 
 	UFUNCTION(BlueprintCallable)
 	void SetMaxAmmo(int Value);

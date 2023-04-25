@@ -25,7 +25,7 @@ void UConstraintBase::ProcessFire()
 	
 }
 
-void UConstraintBase::ResponseFunction()
+void UConstraintBase::OnReload()
 {
 
 }

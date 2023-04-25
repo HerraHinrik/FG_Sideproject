@@ -2,6 +2,7 @@
 
 
 #include "GunComponent.h"
+#include "Loadout.h"
 
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
@@ -10,18 +11,19 @@ UGunComponent::UGunComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	// Make empty current loadout
+	CurrentLoadout = CreateDefaultSubobject<ULoadout>(FName(TEXT("DefaultLoadout")));
 }
 
 
 // Called when the game starts
-void UGunComponent::RegisterReloadSubscribers()
+void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 {
-	auto ConstraintsArray = CurrentLoadout->GetConstraints();
-	for (auto Constraint : *ConstraintsArray)
+	auto ConstraintsArray = Loadout->GetConstraints();
+	for (auto Constraint : ConstraintsArray)
 	{
 		// Empty response function on ConstraintBase allows children to add custom reload response
-		OnReload.AddDynamic(Constraint, &UConstraintBase::ResponseFunction);
+		OnReload.AddDynamic(Constraint, &UConstraintBase::OnReload);
 	}
 }
 
@@ -31,14 +33,27 @@ void UGunComponent::SetCurrentLoadout(int Index)
 }
 
 
+void UGunComponent::AddLoadout(ULoadout* Loadout)
+{
+	int32 Index = LoadoutArray.Add(Loadout);
+	RegisterReloadSubscribers(Loadout);
+	SetCurrentLoadout(Index);
+}
+
 // Called every frame
 void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	auto ConstraintsArray = CurrentLoadout->GetConstraints();
+	if (!IsValid(CurrentLoadout)) 
+	{
+		return; 
+	}
+
+	TArray<UConstraintBase*> ConstraintsArray = CurrentLoadout->GetConstraints();
+
 	// Cooldowns need tick propagated to them
-	for (UConstraintBase* Constraint : *ConstraintsArray)
+	for (UConstraintBase* Constraint : ConstraintsArray)
 	{
 		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
 	}
@@ -47,12 +62,12 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UGunComponent::Fire()
 {
 	// Get gun part arrays
-	TArray<UConstraintBase*>* Constraints = CurrentLoadout->GetConstraints();
-	TArray<USpawnerBase*>* Spawners = CurrentLoadout->GetSpawners();
-	TArray<UModifierBase*>* Modifiers = CurrentLoadout->GetModifiers();
+	TArray<UConstraintBase*> Constraints = CurrentLoadout->GetConstraints();
+	TArray<USpawnerBase*> Spawners = CurrentLoadout->GetSpawners();
+	TArray<UModifierBase*> Modifiers = CurrentLoadout->GetModifiers();
 
 	// Constraints
-	for (UConstraintBase* Constraint : *Constraints)
+	for (UConstraintBase* Constraint : Constraints)
 	{
 		if (Constraint == nullptr) continue;
 
@@ -64,10 +79,11 @@ void UGunComponent::Fire()
 	}
 
 	// Update constraints internal logic
-	for (UConstraintBase* Constraint : *Constraints)
+	for (UConstraintBase* Constraint : Constraints)
 	{
 		if (Constraint == nullptr) continue;
 
+		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing: %s"), *Constraint->GetName())
 		Constraint->ProcessFire();
 
 	}
@@ -77,13 +93,13 @@ void UGunComponent::Fire()
 	FRotator Rotation = GetOwner()->GetActorRotation();
 	FVector Location = GetOwner()->GetActorLocation();
 
-	for (USpawnerBase* Spawner : *Spawners)
+	for (USpawnerBase* Spawner : Spawners)
 	{
 		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
 	}
 
 	// Modifiers
-	for (UModifierBase* Modifier : *Modifiers)
+	for (UModifierBase* Modifier : Modifiers)
 	{
 		Modifier->ProcessProjectiles(NewProjectiles);
 	}

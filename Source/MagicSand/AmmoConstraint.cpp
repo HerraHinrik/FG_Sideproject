@@ -4,15 +4,6 @@
 #include "AmmoConstraint.h"
 
 
-UAmmoConstraint::UAmmoConstraint()
-{
-}
-
-void UAmmoConstraint::BeginPlay()
-{
-	CurrentAmmo = MaxAmmo;
-}
-
 int UAmmoConstraint::GetCurrentAmmo() const
 {
 	return CurrentAmmo;
@@ -41,7 +32,12 @@ void UAmmoConstraint::ProcessFire()
 	CurrentAmmo --;
 }
 
-void UAmmoConstraint::ResponseFunction()
+void UAmmoConstraint::OnReload()
+{
+	Reload();
+}
+
+void UAmmoConstraint::Reload()
 {
 	CurrentAmmo = MaxAmmo;
 }

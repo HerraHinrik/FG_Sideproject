@@ -18,7 +18,7 @@ void UCooldownConstraint::ProcessFire()
 	bUsesTick = true;
 }
 
-void UCooldownConstraint::ResponseFunction()
+void UCooldownConstraint::OnReload()
 {
 	TimeElapsed = HUGE_VALF;
 	bUsesTick = false;

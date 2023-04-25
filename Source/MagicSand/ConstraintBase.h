@@ -16,7 +16,6 @@ class UConstraintBase : public UObject
 	GENERATED_BODY()
 	
 
-
 protected:
 	TMap<FName, float> InternalValues;
 
@@ -35,7 +34,7 @@ public:
 	virtual void ProcessFire();
 
 	UFUNCTION(BlueprintCallable)
-	virtual void ResponseFunction();
+	virtual void OnReload();
 
 	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 };

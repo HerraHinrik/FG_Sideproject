@@ -3,17 +3,17 @@
 #include "Loadout.h"
 
 
-TArray<USpawnerBase*>* ULoadout::GetSpawners()
+TArray<USpawnerBase*> ULoadout::GetSpawners()
 {
-	return &SpawnerArray;
+	return SpawnerArray;
 }
 
-TArray<UConstraintBase*>* ULoadout::GetConstraints()
+TArray<UConstraintBase*> ULoadout::GetConstraints()
 {
-	return &ConstraintArray;
+	return ConstraintArray;
 }
 
-TArray<UModifierBase*>* ULoadout::GetModifiers()
+TArray<UModifierBase*> ULoadout::GetModifiers()
 {
-	return &ModifierArray;
+	return ModifierArray;
 }

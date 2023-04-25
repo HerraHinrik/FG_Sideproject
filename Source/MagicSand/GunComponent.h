@@ -32,16 +32,19 @@ protected: // Functions
 
 public: // Properties
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TArray<ULoadout*> LoadoutArray;
 
 public: // Functions
 
 	UFUNCTION(BlueprintCallable)
-	void RegisterReloadSubscribers();
+	void RegisterReloadSubscribers(ULoadout* Loadout);
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentLoadout(int Index);
+
+	UFUNCTION(BlueprintCallable)
+	void AddLoadout(ULoadout* Loadout);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
