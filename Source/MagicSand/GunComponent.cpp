@@ -3,6 +3,7 @@
 
 #include "GunComponent.h"
 #include "Loadout.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
@@ -90,8 +91,10 @@ void UGunComponent::Fire()
 
 	// Spawning
 	TArray<AActor*> NewProjectiles = TArray<AActor*>();
-	FRotator Rotation = GetOwner()->GetActorRotation();
-	FVector Location = GetOwner()->GetActorLocation();
+
+	auto origen = GetOwner()->FindComponentByClass<UCameraComponent>();
+	FRotator Rotation = origen->GetComponentRotation();
+	FVector Location = origen->GetComponentLocation();
 
 	for (USpawnerBase* Spawner : Spawners)
 	{
