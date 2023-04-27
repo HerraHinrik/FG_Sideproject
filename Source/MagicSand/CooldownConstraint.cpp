@@ -7,18 +7,18 @@ UCooldownConstraint::UCooldownConstraint()
 {
 }
 
-bool UCooldownConstraint::Evaluate() const
+bool UCooldownConstraint::Evaluate_Implementation() const
 {
 	return TimeElapsed >= Cooldown;
 }
 
-void UCooldownConstraint::ProcessFire()
+void UCooldownConstraint::ProcessFire_Implementation()
 {
 	TimeElapsed = 0;
 	bUsesTick = true;
 }
 
-void UCooldownConstraint::OnReload()
+void UCooldownConstraint::OnReload_Implementation()
 {
 	TimeElapsed = HUGE_VALF;
 	bUsesTick = false;

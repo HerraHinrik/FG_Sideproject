@@ -8,9 +8,9 @@
 
 
 /**
- * 
+ * Tracks ammo and says no when the player is out of ammo. 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class UAmmoConstraint : public UConstraintBase
 {
 	GENERATED_BODY()
@@ -28,11 +28,11 @@ public:
 public:
 
 	// Inherited
-	virtual bool Evaluate() const override;
+	virtual bool Evaluate_Implementation() const;
 
-	virtual void ProcessFire() override;
+	virtual void ProcessFire_Implementation() override;
 
-	virtual void OnReload() override;
+	virtual void OnReload_Implementation() override;
 	// End Inherited
 
 	UFUNCTION(BlueprintCallable)

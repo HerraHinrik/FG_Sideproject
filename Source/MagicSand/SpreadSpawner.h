@@ -7,7 +7,7 @@
 #include "SpreadSpawner.generated.h"
 
 /**
- * 
+ * Shotgun-type spawner. 
  */
 UCLASS()
 class MAGICSAND_API USpreadSpawner : public USpawnerBase
@@ -32,5 +32,5 @@ public:
 
 public:
 	
-	virtual TArray<AActor*> SpawnProjectiles(FVector Location, FRotator Rotation) override;
+	virtual TArray<AActor*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation) override;
 };

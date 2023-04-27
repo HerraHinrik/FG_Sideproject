@@ -28,7 +28,7 @@ AActor* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator Rotation)
 	return SpawnActor(ProjectileClass, &Location, &Rotation, Params);
 }
 
-TArray<AActor*> USpawnerBase::SpawnProjectiles(FVector Location, FRotator Rotation)
+TArray<AActor*> USpawnerBase::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
 {
 	TArray<AActor*> Projectiles = TArray<AActor*>();
 

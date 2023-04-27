@@ -6,7 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "OnHitComponentBase.generated.h"
 
-
+/**
+ * Component that goes on projectiles to correctly calculate damage on hit.
+ * 
+ * WORK IN PROGRESS
+ */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UOnHitComponentBase : public UActorComponent
 {

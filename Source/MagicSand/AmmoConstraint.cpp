@@ -14,7 +14,7 @@ int UAmmoConstraint::GetMaxAmmo() const
 	return MaxAmmo;
 }
 
-bool UAmmoConstraint::Evaluate() const
+bool UAmmoConstraint::Evaluate_Implementation() const
 {
 	if (CurrentAmmo > 0) {
 		return true;
@@ -27,12 +27,12 @@ bool UAmmoConstraint::Evaluate() const
 	}
 }
 
-void UAmmoConstraint::ProcessFire()
+void UAmmoConstraint::ProcessFire_Implementation()
 {
 	CurrentAmmo --;
 }
 
-void UAmmoConstraint::OnReload()
+void UAmmoConstraint::OnReload_Implementation()
 {
 	Reload();
 }

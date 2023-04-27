@@ -3,29 +3,17 @@
 
 #include "ConstraintBase.h"
 
-float UConstraintBase::GetInternalValue(FName Name) const
-{
-	if (InternalValues.Contains(Name))
-	{
-		return InternalValues[Name];
-	}
-	else
-	{
-		return -1.0;
-	}
-}
-
-bool UConstraintBase::Evaluate() const
+bool UConstraintBase::Evaluate_Implementation() const
 {
 	return true;
 }
 
-void UConstraintBase::ProcessFire()
+void UConstraintBase::ProcessFire_Implementation()
 {
 	
 }
 
-void UConstraintBase::OnReload()
+void UConstraintBase::OnReload_Implementation()
 {
 
 }

@@ -4,15 +4,21 @@
 #include "ModifierBase.h"
 
 
-void UModifierBase::ProcessSingle(AActor* Projectile)
+void UModifierBase::ProcessSingle_Implementation(AActor* Projectile)
 {
 	if (IsValid(Projectile))
 	{
+		for (auto Constraint : ConstraintArray)
+		{
+			Constraint->ProcessFire();
+		}
+
 		Projectile->AddComponentByClass(TargetComponent, false, FTransform(), false);
+		//if (auto Component = Projectile->GetComponentByClass(TargetComponent))
+		// // Do logic on component here
 	}
 
-	//if (auto Component = Projectile->GetComponentByClass(TargetComponent))
-	// // Do logic on component here
+	
 }
 
 void UModifierBase::ProcessProjectiles(TArray<AActor*> ProjectileArray)
@@ -25,5 +31,8 @@ void UModifierBase::ProcessProjectiles(TArray<AActor*> ProjectileArray)
 
 void UModifierBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-
+	for (auto Constraint : ConstraintArray)
+	{
+		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
+	}
 }
