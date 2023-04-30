@@ -25,9 +25,6 @@ public:
 	int BulletAmount;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float Radius;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float HalfAngle;
 
 public:
