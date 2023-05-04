@@ -28,6 +28,8 @@ protected: // Properties
 	
 	ULoadout* CurrentLoadout;
 
+	int CurrentIndex = 0;
+
 protected: // Functions
 
 public: // Properties
@@ -40,8 +42,10 @@ public: // Functions
 	UFUNCTION(BlueprintCallable)
 	void RegisterReloadSubscribers(ULoadout* Loadout);
 
-	UFUNCTION(BlueprintCallable)
 	void SetCurrentLoadout(int Index);
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleLoadout();
 
 	UFUNCTION(BlueprintCallable)
 	void AddLoadout(ULoadout* Loadout);

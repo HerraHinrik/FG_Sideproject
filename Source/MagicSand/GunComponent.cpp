@@ -31,6 +31,20 @@ void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 void UGunComponent::SetCurrentLoadout(int Index)
 {
 	CurrentLoadout = LoadoutArray[Index];
+	CurrentIndex = Index;
+}
+
+void UGunComponent::ToggleLoadout()
+{
+	if (LoadoutArray.IsEmpty())
+	{
+		return;
+	}
+
+	int Index = CurrentIndex;
+	Index ++;
+	Index %= LoadoutArray.Num();
+	SetCurrentLoadout(Index);
 }
 
 
