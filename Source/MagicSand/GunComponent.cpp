@@ -118,7 +118,8 @@ void UGunComponent::Fire()
 	// Modifiers
 	for (UModifierBase* Modifier : Modifiers)
 	{
-		Modifier->ProcessProjectiles(NewProjectiles);
+		TArray<AActor*> OutProjectiles = Modifier->ProcessProjectiles(NewProjectiles);
+		NewProjectiles = OutProjectiles;
 	}
 }
 

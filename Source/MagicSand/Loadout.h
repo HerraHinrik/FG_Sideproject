@@ -35,6 +35,17 @@ public:
 
 
 public:
+	UFUNCTION(BlueprintCallable)
+		void AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass);
+
+	UFUNCTION(BlueprintCallable)
+		void AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass);
+
+	UFUNCTION(BlueprintCallable)
+		void AddModifier(TSubclassOf<UModifierBase> ModifierClass);
+
+	UFUNCTION(BlueprintCallable)
+		void Clear();
 
 	TArray<USpawnerBase*> GetSpawners();
 	TArray<UConstraintBase*> GetConstraints();

@@ -3,30 +3,58 @@
 
 #include "ModifierBase.h"
 
-
-void UModifierBase::ProcessSingle_Implementation(AActor* Projectile)
+bool UModifierBase::CheckConstaints()
 {
-	if (IsValid(Projectile))
+	for (UConstraintBase* Constraint : ConstraintArray)
 	{
-		for (auto Constraint : ConstraintArray)
-		{
-			Constraint->ProcessFire();
-		}
+		if (!IsValid(Constraint)) continue;
 
-		Projectile->AddComponentByClass(TargetComponent, false, FTransform(), false);
-		//if (auto Component = Projectile->GetComponentByClass(TargetComponent))
-		// // Do logic on component here
+		if (!Constraint->Evaluate())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("This constraint failed: %s in modifier %s"), *Constraint->GetName(), *GetName())
+			return false;
+		}
 	}
 
-	
+	return true;
 }
 
-void UModifierBase::ProcessProjectiles(TArray<AActor*> ProjectileArray)
+void UModifierBase::UpdateConstraints()
 {
+	for (UConstraintBase* Constraint : ConstraintArray)
+	{
+		if (!IsValid(Constraint)) continue;
+
+		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing: %s in modifier %s"), *Constraint->GetName(), *GetName())
+		Constraint->ProcessFire();
+	}
+}
+
+TArray< AActor*> UModifierBase::ProcessSingle_Implementation(AActor* Projectile)
+{
+	if (!IsValid(Projectile)) return TArray<AActor*>();
+	
+	// Do logic on projectile here
+
+	return TArray<AActor*>({ Projectile });
+}
+
+TArray<AActor*> UModifierBase::ProcessProjectiles(TArray<AActor*> ProjectileArray)
+{
+	TArray<AActor*> Intermediary = TArray<AActor*>();
+
 	for (AActor* Projectile: ProjectileArray)
 	{
-		ProcessSingle(Projectile);
+		
+		if (!CheckConstaints()) continue;
+		UpdateConstraints();
+
+		TArray<AActor*> ResultProjectiles = ProcessSingle(Projectile);
+		//Sanity checks go here (null safety, what are we modifying?)
+		Intermediary.Append(ResultProjectiles);
 	}
+
+	return Intermediary;
 }
 
 void UModifierBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -35,4 +63,15 @@ void UModifierBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTi
 	{
 		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
 	}
+}
+
+void UModifierBase::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
+{
+	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, ConstraintClass);
+	ConstraintArray.Add(ConstraintObject);
+}
+
+void UModifierBase::ClearConstraints()
+{
+	ConstraintArray.Empty();
 }

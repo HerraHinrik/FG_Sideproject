@@ -8,22 +8,23 @@
 #include "ModifierBase.generated.h"
 
 /**
- * Modifiers are UObjects that add/remove or tweak values of components of fired projectiles. 
+ * Modifiers are UObjects that duplicate/delete/edit/change projectiles. 
  * 
- * They also support constraints that affect whether or not the modifier performs a change. 
- * Using constraints with a modifier requires a blueprint implementation of "Add Constraint"
- * and "Clear Constraints". For custom modifier c++ classes you must define a new
- * BP that implements these events for you.
+ * Override ProcessSingle_Implementation to make custom behavior. Remember modifiers receive 
+ * one projectile and return an array of projectiles (may be empty) for the next modifier in 
+ * the chain -- this is done on a per-projectile basis. 
+ * 
+ * They also support constraints that affect whether or not the modifier performs a change.
  */
 UCLASS(Blueprintable)
 class MAGICSAND_API UModifierBase : public UObject
 {
 	GENERATED_BODY()
 
-protected:
+	bool CheckConstaints();
+	void UpdateConstraints();
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
-	TSubclassOf<class UActorComponent> TargetComponent;
+protected:
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
@@ -32,19 +33,19 @@ protected:
 
 	// Override to add/alter projectile components
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void ProcessSingle(AActor* Projectile);
-	virtual void ProcessSingle_Implementation(AActor* Projectile);
+	TArray< AActor*> ProcessSingle(AActor* Projectile);
+	virtual TArray< AActor*> ProcessSingle_Implementation(AActor* Projectile);
 
 public:
 
 	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 
 	// Not for overriding
-	void ProcessProjectiles(TArray<AActor*> ProjectileArray);
+	TArray<AActor*> ProcessProjectiles(TArray<AActor*> ProjectileArray);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable)
 	void AddConstraint(TSubclassOf<UConstraintBase> Constraint);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable)
 	void ClearConstraints();
 };
