@@ -1,9 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "ProjectileBase.h"
 #include "SpawnerBase.generated.h"
 
 /**
@@ -26,7 +27,7 @@ public:
 protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<class AActor> ProjectileClass;
+	TSubclassOf<class AProjectileBase> ProjectileClass;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	ESpawnActorCollisionHandlingMethod SpawnActorCollisionHandlingMethod;
@@ -36,21 +37,21 @@ protected:
 
 protected:
 
-	AActor* SpawnActor(
-		UClass * InClass, 
+	AProjectileBase* SpawnProjectile(
+		TSubclassOf<AProjectileBase> InClass,
 		const FVector* Location = (const FVector*)0,
 		const FRotator* Rotation = (const FRotator*)0,
 		FActorSpawnParameters SpawnParams = FActorSpawnParameters()
 	);
 
 	UFUNCTION(BlueprintCallable)
-	AActor* SpawnSingleProjectile(FVector Location, FRotator Rotation);
+	AProjectileBase* SpawnSingleProjectile(FVector Location, FRotator Rotation);
 
 public:
 
-	// Override this for custom spawning, 
+	// Override this for custom spawning
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	TArray<AActor*> SpawnProjectiles(FVector Location, FRotator Rotation);
-	virtual TArray<AActor*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation);
+	TArray<AProjectileBase*> SpawnProjectiles(FVector Location, FRotator Rotation);
+	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation);
 	
 };

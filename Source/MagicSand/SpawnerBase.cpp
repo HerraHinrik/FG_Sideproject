@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 
 #include "SpawnerBase.h"
@@ -8,29 +8,31 @@ USpawnerBase::USpawnerBase()
 
 }
 
-AActor* USpawnerBase::SpawnActor(
-	UClass* InClass,
+AProjectileBase* USpawnerBase::SpawnProjectile(
+	TSubclassOf<AProjectileBase> InClass,
 	const FVector* Location,
 	const FRotator* Rotation,
 	FActorSpawnParameters SpawnParams
 )
 {
 	UWorld* const World = GetWorld();
+	AActor* Spawned = World->SpawnActor(InClass, Location, Rotation, SpawnParams);
+	AProjectileBase* Projectile = (AProjectileBase*)Spawned;
 
-	return World->SpawnActor(InClass, Location, Rotation, SpawnParams);
+	return Projectile;
 }
 
-AActor* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator Rotation)
+AProjectileBase* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator Rotation)
 {
 	FActorSpawnParameters Params = FActorSpawnParameters();
 	Params.SpawnCollisionHandlingOverride = SpawnActorCollisionHandlingMethod;
 
-	return SpawnActor(ProjectileClass, &Location, &Rotation, Params);
+	return SpawnProjectile(ProjectileClass, &Location, &Rotation, Params);
 }
 
-TArray<AActor*> USpawnerBase::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
+TArray<AProjectileBase*> USpawnerBase::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
 {
-	TArray<AActor*> Projectiles = TArray<AActor*>();
+	TArray<AProjectileBase*> Projectiles = TArray<AProjectileBase*>();
 
 	FVector AdjustedLoaction = Location + Rotation.RotateVector(MuzzleOffset);
 	Projectiles.Add(SpawnSingleProjectile(AdjustedLoaction, Rotation));

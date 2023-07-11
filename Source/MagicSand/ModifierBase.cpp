@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 
 #include "ModifierBase.h"
@@ -30,26 +30,26 @@ void UModifierBase::UpdateConstraints()
 	}
 }
 
-TArray< AActor*> UModifierBase::ProcessSingle_Implementation(AActor* Projectile)
+TArray<AProjectileBase*> UModifierBase::ProcessSingle_Implementation(AProjectileBase* Projectile)
 {
-	if (!IsValid(Projectile)) return TArray<AActor*>();
+	if (!IsValid(Projectile)) return TArray<AProjectileBase*>();
 	
 	// Do logic on projectile here
 
-	return TArray<AActor*>({ Projectile });
+	return TArray<AProjectileBase*>({ Projectile });
 }
 
-TArray<AActor*> UModifierBase::ProcessProjectiles(TArray<AActor*> ProjectileArray)
+TArray<AProjectileBase*> UModifierBase::ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray)
 {
-	TArray<AActor*> Intermediary = TArray<AActor*>();
+	TArray<AProjectileBase*> Intermediary = TArray<AProjectileBase*>();
 
-	for (AActor* Projectile: ProjectileArray)
+	for (AProjectileBase* Projectile : ProjectileArray)
 	{
-		
+
 		if (!CheckConstaints()) continue;
 		UpdateConstraints();
 
-		TArray<AActor*> ResultProjectiles = ProcessSingle(Projectile);
+		TArray<AProjectileBase*> ResultProjectiles = ProcessSingle(Projectile);
 		//Sanity checks go here (null safety, what are we modifying?)
 		Intermediary.Append(ResultProjectiles);
 	}

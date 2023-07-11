@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 
 #include "SpreadSpawner.h"
@@ -22,16 +22,16 @@ FVector USpreadSpawner::GetDirectionFromCone()
 	return Direction;
 }
 
-TArray<AActor*> USpreadSpawner::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
+TArray<AProjectileBase*> USpreadSpawner::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
 {
-	TArray<AActor*> Projectiles = TArray<AActor*>();
+	TArray<AProjectileBase*> Projectiles = TArray<AProjectileBase*>();
 	for (int i = 0; i < BulletAmount; i++)
 	{
 		FVector RandDirection = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(Rotation.Vector(), HalfAngle);
 		FQuat RotatedDirection = RandDirection.ToOrientationQuat() * Rotation.Quaternion();
 
 		FVector AdjustedLoaction = Location + Rotation.RotateVector(MuzzleOffset);
-		AActor* Proj = SpawnSingleProjectile(AdjustedLoaction, RandDirection.ToOrientationRotator());
+		AProjectileBase* Proj = SpawnSingleProjectile(AdjustedLoaction, RandDirection.ToOrientationRotator());
 		Projectiles.Add(Proj);
 	}
 	

@@ -1,10 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// By Amos Johan Persson
 #pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "ConstraintBase.h"
+#include "ProjectileBase.h"
 #include "ModifierBase.generated.h"
 
 /**
@@ -33,15 +33,15 @@ protected:
 
 	// Override to add/alter projectile components
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	TArray< AActor*> ProcessSingle(AActor* Projectile);
-	virtual TArray< AActor*> ProcessSingle_Implementation(AActor* Projectile);
+	TArray<AProjectileBase*> ProcessSingle(AProjectileBase* Projectile);
+	virtual TArray<AProjectileBase*> ProcessSingle_Implementation(AProjectileBase* Projectile);
 
 public:
 
 	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 
 	// Not for overriding
-	TArray<AActor*> ProcessProjectiles(TArray<AActor*> ProjectileArray);
+	TArray<AProjectileBase*> ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray);
 
 	UFUNCTION(BlueprintCallable)
 	void AddConstraint(TSubclassOf<UConstraintBase> Constraint);

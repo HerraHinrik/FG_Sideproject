@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 #pragma once
 
@@ -29,5 +29,5 @@ public:
 
 public:
 	
-	virtual TArray<AActor*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation) override;
+	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation) override;
 };
