@@ -66,3 +66,14 @@ void AProjectileBase::ApplyDamageModifier(float Amount)
 		DamageMultiplier = DamageMultiplierCap;
 	}
 }
+
+
+USphereComponent* AProjectileBase::GetCollisionComponent()
+{
+	return CollisionComp;
+}
+
+UProjectileMovementComponent* AProjectileBase::GetMovementComponent()
+{
+	return ProjectileMovement;
+}

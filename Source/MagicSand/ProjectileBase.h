@@ -52,4 +52,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ApplyDamageModifier(float Amount);
 
+
+	UFUNCTION(BlueprintCallable)
+	USphereComponent* GetCollisionComponent();
+
+
+	UFUNCTION(BlueprintCallable)
+	UProjectileMovementComponent* GetMovementComponent();
+
 };
