@@ -39,8 +39,8 @@ protected:
 	UPROPERTY()
 	float Lifetime;
 
-	UPROPERTY(VisibleAnywhere, EditDefaultsOnly)
-	const float LifeSpan = 3.0;
+	UPROPERTY(EditDefaultsOnly)
+	float LifeSpan = 3.0;
 
 
 protected:
