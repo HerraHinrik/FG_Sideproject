@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 #pragma once
 
@@ -32,7 +32,15 @@ protected:
 	UPROPERTY()
 	float DamageMultiplier;
 
+
 	const float DamageMultiplierCap = 2.5;
+
+
+	UPROPERTY()
+	float Lifetime;
+
+	UPROPERTY(VisibleAnywhere, EditDefaultsOnly)
+	const float LifeSpan = 3.0;
 
 
 protected:

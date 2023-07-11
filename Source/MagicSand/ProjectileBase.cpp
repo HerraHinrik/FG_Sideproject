@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Amos Johan Persson
 
 
 #include "ProjectileBase.h"
@@ -33,16 +33,20 @@ AProjectileBase::AProjectileBase()
 
 }
 
-// Called when the game starts or when spawned
+
 void AProjectileBase::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
+
 void AProjectileBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	Lifetime += DeltaTime;
+
+	if (Lifetime >= LifeSpan) Destroy();
+	
 }
 
 float AProjectileBase::CalculateDamage()
