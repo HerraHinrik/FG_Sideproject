@@ -3,6 +3,7 @@
 
 #include "GunComponent.h"
 #include "Loadout.h"
+#include "ProjectileBase.h"
 #include "Camera/CameraComponent.h"
 
 // Sets default values for this component's properties
@@ -104,7 +105,7 @@ void UGunComponent::Fire()
 	}
 
 	// Spawning
-	TArray<AActor*> NewProjectiles = TArray<AActor*>();
+	TArray<AProjectileBase*> NewProjectiles = TArray<AProjectileBase*>();
 
 	auto origen = GetOwner()->FindComponentByClass<UCameraComponent>();
 	FRotator Rotation = origen->GetComponentRotation();
@@ -118,7 +119,7 @@ void UGunComponent::Fire()
 	// Modifiers
 	for (UModifierBase* Modifier : Modifiers)
 	{
-		TArray<AActor*> OutProjectiles = Modifier->ProcessProjectiles(NewProjectiles);
+		TArray<AProjectileBase*> OutProjectiles = Modifier->ProcessProjectiles(NewProjectiles);
 		NewProjectiles = OutProjectiles;
 	}
 }

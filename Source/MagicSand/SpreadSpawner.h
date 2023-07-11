@@ -29,5 +29,5 @@ public:
 
 public:
 	
-	virtual TArray<AActor*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation) override;
+	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation) override;
 };
