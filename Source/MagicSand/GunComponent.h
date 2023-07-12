@@ -10,9 +10,13 @@
 #include "Loadout.h"
 #include "GunComponent.generated.h"
 
+/**
+ * Handles communication between player input and loadouts on the server. Also responsible for building loadouts.
+ */
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGunDelegate);
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UGunComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -42,7 +46,7 @@ public: // Functions
 	UFUNCTION(BlueprintCallable)
 	void RegisterReloadSubscribers(ULoadout* Loadout);
 
-	void SetCurrentLoadout(int Index);
+	void SetCurrentLoadoutByIndex(int Index);
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleLoadout();
@@ -57,5 +61,19 @@ public: // Functions
 	void Reload();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		ULoadout* BuildShotgunLoadout();
+	//virtual ULoadout* BuildShotgunLoadout_Implementation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		ULoadout* BuildDiscLoadout();
+	//virtual ULoadout* BuildDiscLoadout_Implementation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		ULoadout* BuildBoltLoadout();
+	//virtual ULoadout* BuildBoltLoadout_Implementation();
 
 };

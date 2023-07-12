@@ -9,12 +9,14 @@
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// Make empty current loadout
-	CurrentLoadout = CreateDefaultSubobject<ULoadout>(FName(TEXT("DefaultLoadout")));
+	ULoadout* Shotgun = CreateDefaultSubobject<ULoadout>(TEXT("ShotgunLoadout"));
+	ULoadout* BoltAction = CreateDefaultSubobject<ULoadout>(TEXT("BoltActionLoadout"));
+
+	LoadoutArray = TArray<ULoadout*>({ Shotgun, BoltAction });
+	SetCurrentLoadoutByIndex(0);
+	RegisterComponent();
 }
 
 
@@ -29,7 +31,7 @@ void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 	}
 }
 
-void UGunComponent::SetCurrentLoadout(int Index)
+void UGunComponent::SetCurrentLoadoutByIndex(int Index)
 {
 	CurrentLoadout = LoadoutArray[Index];
 	CurrentIndex = Index;
@@ -45,7 +47,7 @@ void UGunComponent::ToggleLoadout()
 	int Index = CurrentIndex;
 	Index ++;
 	Index %= LoadoutArray.Num();
-	SetCurrentLoadout(Index);
+	SetCurrentLoadoutByIndex(Index);
 }
 
 
@@ -53,78 +55,40 @@ void UGunComponent::AddLoadout(ULoadout* Loadout)
 {
 	int32 Index = LoadoutArray.Add(Loadout);
 	RegisterReloadSubscribers(Loadout);
-	SetCurrentLoadout(Index);
-}
-
-// Called every frame
-void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if (!IsValid(CurrentLoadout)) 
-	{
-		return; 
-	}
-
-	TArray<UConstraintBase*> ConstraintsArray = CurrentLoadout->GetConstraints();
-
-	// Cooldowns need tick propagated to them
-	for (UConstraintBase* Constraint : ConstraintsArray)
-	{
-		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
-	}
+	SetCurrentLoadoutByIndex(Index);
 }
 
 void UGunComponent::Fire()
 {
-	// Get gun part arrays
-	TArray<UConstraintBase*> Constraints = CurrentLoadout->GetConstraints();
-	TArray<USpawnerBase*> Spawners = CurrentLoadout->GetSpawners();
-	TArray<UModifierBase*> Modifiers = CurrentLoadout->GetModifiers();
+	UCameraComponent* origin = GetOwner()->FindComponentByClass<UCameraComponent>();
 
-	// Constraints
-	for (UConstraintBase* Constraint : Constraints)
-	{
-		if (Constraint == nullptr) continue;
+	if (!IsValid(origin) || !IsValid(CurrentLoadout)) return;
 
-		if (!Constraint->Evaluate())
-		{
-			UE_LOG(LogTemp, Warning, TEXT("This constraint failed: %s"), *Constraint->GetName())
-			return;
-		}
-	}
+	FRotator Rotation = origin->GetComponentRotation();
+	FVector Location = origin->GetComponentLocation();
 
-	// Update constraints internal logic
-	for (UConstraintBase* Constraint : Constraints)
-	{
-		if (Constraint == nullptr) continue;
-
-		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing: %s"), *Constraint->GetName())
-		Constraint->ProcessFire();
-
-	}
-
-	// Spawning
-	TArray<AProjectileBase*> NewProjectiles = TArray<AProjectileBase*>();
-
-	auto origen = GetOwner()->FindComponentByClass<UCameraComponent>();
-	FRotator Rotation = origen->GetComponentRotation();
-	FVector Location = origen->GetComponentLocation();
-
-	for (USpawnerBase* Spawner : Spawners)
-	{
-		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
-	}
-
-	// Modifiers
-	for (UModifierBase* Modifier : Modifiers)
-	{
-		TArray<AProjectileBase*> OutProjectiles = Modifier->ProcessProjectiles(NewProjectiles);
-		NewProjectiles = OutProjectiles;
-	}
+	CurrentLoadout->Fire(Location, Rotation);
 }
 
 void UGunComponent::Reload()
 {
 	OnReload.Broadcast();
+}
+
+void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!IsValid(CurrentLoadout))
+	{
+		return;
+	}
+
+	CurrentLoadout->Tick(DeltaTime, TickType, ThisTickFunction);
+}
+
+void UGunComponent::BeginPlay()
+{
+	//LoadoutArray[0] = BuildShotgunLoadout();
+	//LoadoutArray[1] = BuildBoltLoadout();
 }

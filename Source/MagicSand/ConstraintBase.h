@@ -54,6 +54,6 @@ public:
 	void OnReload();
 	virtual void OnReload_Implementation();
 
-	// Called by the gun component's component tick. Does not support blueprints
+	// Called through the gun component's component tick. Does not support blueprints
 	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 };

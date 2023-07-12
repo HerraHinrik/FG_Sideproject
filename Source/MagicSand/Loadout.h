@@ -11,13 +11,15 @@
 
 
 /**
- * 
+ * Responsible for all per-weapon logic. Only exists on the server. 
  */
+
 UCLASS(Blueprintable)
 class MAGICSAND_API ULoadout : public UObject
 {
 	GENERATED_BODY()
 
+	ULoadout();
 
 protected:
 
@@ -50,4 +52,9 @@ public:
 	TArray<USpawnerBase*> GetSpawners();
 	TArray<UConstraintBase*> GetConstraints();
 	TArray<UModifierBase*> GetModifiers();
+
+	void Fire(FVector Location, FRotator Rotation);
+
+	// Called by the gun component's component tick. Does not support blueprints
+	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 };
