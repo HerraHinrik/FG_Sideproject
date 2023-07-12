@@ -42,9 +42,9 @@ public: // Properties
 	TArray<ULoadout*> LoadoutArray;
 
 public: // Functions
-
-	UFUNCTION(BlueprintCallable)
 	void RegisterReloadSubscribers(ULoadout* Loadout);
+
+	void ClearReloadSubscribers();
 
 	void SetCurrentLoadoutByIndex(int Index);
 
@@ -60,20 +60,17 @@ public: // Functions
 	UFUNCTION(BlueprintCallable)
 	void Reload();
 
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildShotgunLoadoutIn(ULoadout* TargetLoadout);
+		void BuildShotgunLoadout(ULoadout* Target);
 	//virtual ULoadout* BuildShotgunLoadout_Implementation();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildDiscLoadoutIn(ULoadout* TargetLoadout);
+		void BuildDiscLoadout(ULoadout* Target);
 	//virtual ULoadout* BuildDiscLoadout_Implementation();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildBoltLoadoutIn(ULoadout* TargetLoadout);
+		void BuildBoltLoadout(ULoadout* Target);
 	//virtual ULoadout* BuildBoltLoadout_Implementation();
-
 };

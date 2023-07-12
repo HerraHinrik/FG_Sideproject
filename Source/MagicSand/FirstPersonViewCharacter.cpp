@@ -85,7 +85,7 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::Fire);
 
 
-		//Shoot
+		//Reload
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::Reload);
 
 		//Dash
@@ -150,7 +150,13 @@ void AFirstPersonViewCharacter::Fire(const FInputActionValue& Value)
 
 void AFirstPersonViewCharacter::Reload(const FInputActionValue& Value)
 {
-	if (!IsValid(WeaponComponent)) return;
+	if (!IsValid(WeaponComponent)) 
+	{ 
+		UE_LOG(LogTemp, Warning, TEXT("No Weapon Component, not reloading"))
+		return; 
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Performing reload"))
 	WeaponComponent->Reload();
 }
 

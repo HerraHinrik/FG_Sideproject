@@ -56,5 +56,5 @@ public:
 	void Fire(FVector Location, FRotator Rotation);
 
 	// Called by the gun component's component tick. Does not support blueprints
-	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
+	virtual void Tick(float DeltaTime);
 };

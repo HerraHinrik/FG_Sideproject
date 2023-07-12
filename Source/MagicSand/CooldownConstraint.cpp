@@ -24,9 +24,9 @@ void UCooldownConstraint::OnReload_Implementation()
 	bUsesTick = false;
 }
 
-void UCooldownConstraint::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCooldownConstraint::Tick(float DeltaTime)
 {
-	if (bUsesTick) TimeElapsed += DeltaTime;
+	TimeElapsed += DeltaTime;
 }
 
 void UCooldownConstraint::SetCooldown(float Value)
