@@ -80,11 +80,17 @@ public:
 	void LaunchFromPad(FVector Velocity);
 
 	// Input functions
+	UFUNCTION(BlueprintNativeEvent)
 	void Move(const FInputActionValue& Value);
+	virtual void Move_Implementation(const FInputActionValue& Value);
 
+	UFUNCTION(BlueprintNativeEvent)
 	void Look(const FInputActionValue& Value);
+	virtual void Look_Implementation(const FInputActionValue& Value);
 
+	UFUNCTION(BlueprintNativeEvent)
 	void Dash(const FInputActionValue& Value);
+	virtual void Dash_Implementation(const FInputActionValue& Value);
 
 	void Fire(const FInputActionValue& Value);
 

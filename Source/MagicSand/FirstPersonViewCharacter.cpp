@@ -111,7 +111,7 @@ void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 	LaunchCharacter(Velocity, false, true);
 }
 
-void AFirstPersonViewCharacter::Move(const FInputActionValue& Value)
+void AFirstPersonViewCharacter::Move_Implementation(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -124,7 +124,7 @@ void AFirstPersonViewCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void AFirstPersonViewCharacter::Look(const FInputActionValue& Value)
+void AFirstPersonViewCharacter::Look_Implementation(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
@@ -137,9 +137,9 @@ void AFirstPersonViewCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void AFirstPersonViewCharacter::Dash(const FInputActionValue& Value)
+void AFirstPersonViewCharacter::Dash_Implementation(const FInputActionValue& Value)
 {
-	// I miss Matthias' dash
+	// I miss Mathias' dash
 }
 
 void AFirstPersonViewCharacter::Fire(const FInputActionValue& Value)

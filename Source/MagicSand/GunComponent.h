@@ -65,15 +65,15 @@ public: // Functions
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-		ULoadout* BuildShotgunLoadout();
+		void BuildShotgunLoadoutIn(ULoadout* TargetLoadout);
 	//virtual ULoadout* BuildShotgunLoadout_Implementation();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		ULoadout* BuildDiscLoadout();
+		void BuildDiscLoadoutIn(ULoadout* TargetLoadout);
 	//virtual ULoadout* BuildDiscLoadout_Implementation();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		ULoadout* BuildBoltLoadout();
+		void BuildBoltLoadoutIn(ULoadout* TargetLoadout);
 	//virtual ULoadout* BuildBoltLoadout_Implementation();
 
 };

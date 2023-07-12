@@ -89,6 +89,6 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UGunComponent::BeginPlay()
 {
-	//LoadoutArray[0] = BuildShotgunLoadout();
-	//LoadoutArray[1] = BuildBoltLoadout();
+	//BuildShotgunLoadoutIn(LoadoutArray[0]);
+	//BuildBoltLoadoutIn(LoadoutArray[1]);
 }
