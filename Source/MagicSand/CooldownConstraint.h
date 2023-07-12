@@ -34,7 +34,7 @@ public:
 
 	virtual void OnReload_Implementation() override;
 	
-	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
 	// End Inherited
 
 	UFUNCTION(BlueprintCallable)

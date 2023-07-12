@@ -18,7 +18,7 @@ void UConstraintBase::OnReload_Implementation()
 
 }
 
-void UConstraintBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UConstraintBase::Tick(float DeltaTime)
 {
 
 }

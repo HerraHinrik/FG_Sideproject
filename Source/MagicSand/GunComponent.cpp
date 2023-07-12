@@ -11,16 +11,19 @@ UGunComponent::UGunComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
-	ULoadout* Shotgun = CreateDefaultSubobject<ULoadout>(TEXT("ShotgunLoadout"));
-	ULoadout* BoltAction = CreateDefaultSubobject<ULoadout>(TEXT("BoltActionLoadout"));
+
+	ULoadout* Shotgun = CreateDefaultSubobject<ULoadout>(TEXT("Shotgun"));
+	ULoadout* BoltAction = CreateDefaultSubobject<ULoadout>(TEXT("BoltAction"));
+
+	BuildBoltLoadout(BoltAction);
+	BuildShotgunLoadout(Shotgun);
 
 	LoadoutArray = TArray<ULoadout*>({ Shotgun, BoltAction });
 	SetCurrentLoadoutByIndex(0);
-	RegisterComponent();
+	RegisterReloadSubscribers(CurrentLoadout);
 }
 
 
-// Called when the game starts
 void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 {
 	auto ConstraintsArray = Loadout->GetConstraints();
@@ -29,6 +32,11 @@ void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 		// Empty response function on ConstraintBase allows children to add custom reload response
 		OnReload.AddDynamic(Constraint, &UConstraintBase::OnReload);
 	}
+}
+
+void UGunComponent::ClearReloadSubscribers()
+{
+	OnReload.Clear();
 }
 
 void UGunComponent::SetCurrentLoadoutByIndex(int Index)
@@ -44,10 +52,14 @@ void UGunComponent::ToggleLoadout()
 		return;
 	}
 
+	ClearReloadSubscribers();
+
 	int Index = CurrentIndex;
 	Index ++;
 	Index %= LoadoutArray.Num();
+
 	SetCurrentLoadoutByIndex(Index);
+	RegisterReloadSubscribers(CurrentLoadout);
 }
 
 
@@ -75,20 +87,13 @@ void UGunComponent::Reload()
 	OnReload.Broadcast();
 }
 
-void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UGunComponent::TickComponent(float DeltaTime)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!IsValid(CurrentLoadout))
 	{
 		return;
 	}
 
-	CurrentLoadout->Tick(DeltaTime, TickType, ThisTickFunction);
-}
-
-void UGunComponent::BeginPlay()
-{
-	//BuildShotgunLoadoutIn(LoadoutArray[0]);
-	//BuildBoltLoadoutIn(LoadoutArray[1]);
+	CurrentLoadout->Tick(DeltaTime);
 }

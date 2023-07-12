@@ -61,7 +61,7 @@ void UModifierBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTi
 {
 	for (auto Constraint : ConstraintArray)
 	{
-		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
+		Constraint->Tick(DeltaTime);
 	}
 }
 

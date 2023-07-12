@@ -94,10 +94,10 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	}
 }
 
-void  ULoadout::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void  ULoadout::Tick(float DeltaTime)
 {
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
-		Constraint->Tick(DeltaTime, TickType, ThisTickFunction);
+		Constraint->Tick(DeltaTime);
 	}
 }
