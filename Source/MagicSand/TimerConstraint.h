@@ -23,7 +23,7 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
-	float Duration = 10;
+	float Duration;
 
 	float TimeElapsed = 0;
 
@@ -33,4 +33,6 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 	// End Inherited
+
+	void SetDuration(float NewDuration);
 };

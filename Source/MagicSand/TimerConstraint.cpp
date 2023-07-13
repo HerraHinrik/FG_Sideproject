@@ -19,3 +19,9 @@ void UTimerConstraint::Tick(float DeltaTime)
 	}
 }
 
+
+void UTimerConstraint::SetDuration(float NewDuration)
+{
+	Duration = NewDuration;
+}
+

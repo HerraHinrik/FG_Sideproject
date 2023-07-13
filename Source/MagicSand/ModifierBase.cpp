@@ -7,6 +7,7 @@ UModifierBase::UModifierBase()
 {
 	Timer = CreateDefaultSubobject<UTimerConstraint>(TEXT("DurationTimer"));
 	Timer->OnExpire.AddDynamic(this, &UModifierBase::OnExpire);
+	Timer->SetDuration(LifetimeDuration);
 
 	ConstraintArray = TArray<UConstraintBase*>({ Timer });
 }

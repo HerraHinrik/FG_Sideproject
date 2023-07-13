@@ -40,6 +40,8 @@ private:
 
 
 protected:
+	UPROPERTY(BlueprintReadWrite, EditDefaultOnly)
+	float LifetimeDuration = 10;
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
