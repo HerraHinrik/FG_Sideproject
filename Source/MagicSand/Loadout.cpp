@@ -9,6 +9,28 @@ ULoadout::ULoadout()
 	ModifierArray = TArray<UModifierBase*>();
 }
 
+
+void ULoadout::RemoveSpawner(USpawnerBase* SpawnerObject)
+{
+	//I was here
+}
+
+void ULoadout::RemoveConstraint(UConstraintBase* ConstraintObject)
+{
+
+}
+
+void ULoadout::RemoveModifier(UModifierBase* ModifierObject)
+{
+	ModifierArray.Remove(ModifierObject);
+	ModifierObject->Cleanup();
+}
+
+void ULoadout::SlateModifierForRemoval(UModifierBase* ModifierObject)
+{
+	ExpiredModifiers.AddUnique(ModifierObject);
+}
+
 void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass)
 {
 
@@ -26,8 +48,10 @@ void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 void ULoadout::AddModifier(TSubclassOf<UModifierBase> ModifierClass)
 {
 
-	UModifierBase* SpawnerObject = NewObject<UModifierBase>(this, ModifierClass);
-	ModifierArray.Add(SpawnerObject);
+	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, ModifierClass);
+	ModifierArray.Add(ModifierObject);
+
+	ModifierObject->OnHasExpired.AddDynamic(this, &ULoadout::SlateModifierForRemoval);
 }
 
 
@@ -55,6 +79,13 @@ TArray<UModifierBase*> ULoadout::GetModifiers()
 
 void ULoadout::Fire(FVector Location, FRotator Rotation)
 {
+	//Clear expired modifiers before we process fire
+	for (UModifierBase* Modifier : ExpiredModifiers)
+	{
+		RemoveModifier(Modifier);
+	}
+	ExpiredModifiers.Empty();
+
 	// Constraints
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
@@ -99,5 +130,10 @@ void  ULoadout::Tick(float DeltaTime)
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
 		Constraint->Tick(DeltaTime);
+	}
+
+	for (UModifierBase* Modifier : ModifierArray)
+	{
+		Modifier->Tick(DeltaTime);
 	}
 }

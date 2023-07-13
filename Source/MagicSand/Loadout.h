@@ -19,7 +19,25 @@ class MAGICSAND_API ULoadout : public UObject
 {
 	GENERATED_BODY()
 
+public:
 	ULoadout();
+
+private:
+	TArray<UModifierBase*> ExpiredModifiers;
+
+private:
+
+	UFUNCTION()
+	void RemoveSpawner(USpawnerBase* SpawnerObject);
+
+	UFUNCTION()
+	void RemoveConstraint(UConstraintBase* ConstraintObject);
+
+	UFUNCTION()
+	void RemoveModifier(UModifierBase* ModifierObject);
+
+	UFUNCTION()
+	void SlateModifierForRemoval(UModifierBase* ModifierObject);
 
 protected:
 
@@ -32,8 +50,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 		TArray<UModifierBase*> ModifierArray;
-
-public:
 
 
 public:

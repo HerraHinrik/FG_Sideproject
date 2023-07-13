@@ -5,6 +5,7 @@
 #include "UObject/NoExportTypes.h"
 #include "ConstraintBase.h"
 #include "ProjectileBase.h"
+#include "TimerConstraint.h"
 #include "ModifierBase.generated.h"
 
 /**
@@ -16,18 +17,36 @@
  * 
  * They also support constraints that affect whether or not the modifier performs a change.
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGunModifierDelegate, UModifierBase*, ModifierObject);
+
 UCLASS(Blueprintable)
 class MAGICSAND_API UModifierBase : public UObject
 {
 	GENERATED_BODY()
 
+public:
+	UModifierBase();
+
+	UPROPERTY(BlueprintAssignable);
+	FGunModifierDelegate OnHasExpired;
+
+private:
 	bool CheckConstaints();
 	void UpdateConstraints();
 
+	UFUNCTION()
+	void OnExpire();
+
+
 protected:
+	UPROPERTY(BlueprintReadWrite, EditDefaultOnly)
+	float LifetimeDuration = 10;
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
+
+	UTimerConstraint* Timer;
 
 protected:
 
@@ -37,8 +56,7 @@ protected:
 	virtual TArray<AProjectileBase*> ProcessSingle_Implementation(AProjectileBase* Projectile);
 
 public:
-
-	virtual void Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
+	virtual void Tick(float DeltaTime);
 
 	// Not for overriding
 	TArray<AProjectileBase*> ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray);
@@ -48,4 +66,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ClearConstraints();
+
+	void ClearTimer();
+
+	UFUNCTION()
+	void Cleanup();
 };

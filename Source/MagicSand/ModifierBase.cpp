@@ -3,6 +3,15 @@
 
 #include "ModifierBase.h"
 
+UModifierBase::UModifierBase()
+{
+	Timer = CreateDefaultSubobject<UTimerConstraint>(TEXT("DurationTimer"));
+	Timer->OnExpire.AddDynamic(this, &UModifierBase::OnExpire);
+	Timer->SetDuration(LifetimeDuration);
+
+	ConstraintArray = TArray<UConstraintBase*>({ Timer });
+}
+
 bool UModifierBase::CheckConstaints()
 {
 	for (UConstraintBase* Constraint : ConstraintArray)
@@ -29,6 +38,14 @@ void UModifierBase::UpdateConstraints()
 		Constraint->ProcessFire();
 	}
 }
+
+
+
+void UModifierBase::OnExpire()
+{
+	OnHasExpired.Broadcast(this);
+}
+
 
 TArray<AProjectileBase*> UModifierBase::ProcessSingle_Implementation(AProjectileBase* Projectile)
 {
@@ -57,7 +74,7 @@ TArray<AProjectileBase*> UModifierBase::ProcessProjectiles(TArray<AProjectileBas
 	return Intermediary;
 }
 
-void UModifierBase::Tick(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UModifierBase::Tick(float DeltaTime)
 {
 	for (auto Constraint : ConstraintArray)
 	{
@@ -74,4 +91,18 @@ void UModifierBase::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 void UModifierBase::ClearConstraints()
 {
 	ConstraintArray.Empty();
+}
+
+void UModifierBase::ClearTimer()
+{
+	Timer = nullptr;
+}
+
+
+void UModifierBase::Cleanup()
+{
+	ConditionalBeginDestroy();
+	ClearConstraints();
+	ClearTimer();
+	UE_LOG(LogTemp, Warning, TEXT("Modifier is cleaning up: %s"), *GetName())
 }
