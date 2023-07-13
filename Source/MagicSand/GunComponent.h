@@ -55,6 +55,9 @@ public: // Functions
 	void AddLoadout(ULoadout* Loadout);
 
 	UFUNCTION(BlueprintCallable)
+	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
+
+	UFUNCTION(BlueprintCallable)
 	void Fire();
 
 	UFUNCTION(BlueprintCallable)

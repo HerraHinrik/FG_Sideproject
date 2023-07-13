@@ -69,6 +69,11 @@ void UGunComponent::AddLoadout(ULoadout* Loadout)
 	SetCurrentLoadoutByIndex(Index);
 }
 
+void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> Modifier)
+{
+	CurrentLoadout->AddModifier(Modifier);
+}
+
 void UGunComponent::Fire()
 {
 	UCameraComponent* origin = GetOwner()->FindComponentByClass<UCameraComponent>();
