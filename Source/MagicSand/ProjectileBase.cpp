@@ -81,3 +81,16 @@ UProjectileMovementComponent* AProjectileBase::GetMovementComponent()
 {
 	return ProjectileMovement;
 }
+
+void AProjectileBase::RegisterOnHitComponent(UOnHitComponentBase* OnHitComponent)
+{
+	OnHitComponents.Add(OnHitComponent);
+}
+
+void AProjectileBase::PropagateHitToComponents(AActor* InActor, FVector HitLocation, FVector ImpactNormal)
+{
+	for (auto OnHitComponent : OnHitComponents)
+	{
+		OnHitComponent->ProcessOnHit(InActor, HitLocation, ImpactNormal);
+	}
+}

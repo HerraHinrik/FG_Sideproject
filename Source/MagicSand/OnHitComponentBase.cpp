@@ -33,9 +33,3 @@ void UOnHitComponentBase::TickComponent(float DeltaTime, ELevelTick TickType, FA
 }
 
 
-void UOnHitComponentBase::ProcessOnHit(AActor* InActor)
-{
-	if (IsValid(GetOwner())) {
-		InActor->TakeDamage(BaseDamage, FDamageEvent(), Instigator, GetOwner());
-	}
-}

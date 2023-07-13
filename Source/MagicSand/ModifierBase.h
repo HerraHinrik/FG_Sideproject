@@ -40,7 +40,7 @@ private:
 
 
 protected:
-	UPROPERTY(BlueprintReadWrite, EditDefaultOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	float LifetimeDuration = 10;
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)

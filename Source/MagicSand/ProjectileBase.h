@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "OnHitComponentBase.h"
 #include "ProjectileBase.generated.h"
 
 UCLASS()
@@ -41,6 +42,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 3.0;
 
+	TArray<UOnHitComponentBase*> OnHitComponents;
 
 protected:
 	// Called when the game starts or when spawned
@@ -66,5 +68,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UProjectileMovementComponent* GetMovementComponent();
+
+	UFUNCTION(BlueprintCallable)
+	void RegisterOnHitComponent(UOnHitComponentBase* OnHitComponent);
+
+
+	UFUNCTION(BlueprintCallable)
+	void PropagateHitToComponents(AActor* InActor, FVector HitLocation, FVector ImpactNormal);
 
 };
