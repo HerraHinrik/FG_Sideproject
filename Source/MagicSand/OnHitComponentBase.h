@@ -11,7 +11,7 @@
  * 
  * WORK IN PROGRESS
  */
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UOnHitComponentBase : public UActorComponent
 {
 	GENERATED_BODY()
