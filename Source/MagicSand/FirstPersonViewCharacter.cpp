@@ -94,6 +94,18 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		//Swap weapon
 		EnhancedInputComponent->BindAction(SwapAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::SwapWeapon);
+
+		//Ability one
+		EnhancedInputComponent->BindAction(AbilityActionOne, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityOne);
+
+		//Ability two
+		EnhancedInputComponent->BindAction(AbilityActionTwo, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityTwo);
+
+		//Ability three
+		EnhancedInputComponent->BindAction(AbilityActionThree, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityThree);
+
+		//Ability four
+		EnhancedInputComponent->BindAction(AbilityActionFour, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityFour);
 	}
 }
 
@@ -168,3 +180,23 @@ void AFirstPersonViewCharacter::SwapWeapon(const FInputActionValue& Value)
 	WeaponComponent->ToggleLoadout();
 }
 
+
+void AFirstPersonViewCharacter::UseAbilityOne(const FInputActionValue& Value)
+{
+	WeaponComponent->ApplyModifier(AbilityModifierOne);
+}
+
+void AFirstPersonViewCharacter::UseAbilityTwo(const FInputActionValue& Value)
+{
+	WeaponComponent->ApplyModifier(AbilityModifierTwo);
+}
+
+void AFirstPersonViewCharacter::UseAbilityThree(const FInputActionValue& Value)
+{
+	WeaponComponent->ApplyModifier(AbilityModifierThree);
+}
+
+void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
+{
+	WeaponComponent->ApplyModifier(AbilityModifierFour);
+}

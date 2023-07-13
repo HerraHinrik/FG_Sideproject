@@ -58,6 +58,19 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* SwapAction;
 
+	/** Ability inputs */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* AbilityActionOne;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* AbilityActionTwo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* AbilityActionThree;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* AbilityActionFour;
+
 public:
 	AFirstPersonViewCharacter();
 
@@ -68,6 +81,18 @@ protected:
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UGunComponent> GunComponentBP;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UModifierBase> AbilityModifierOne;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UModifierBase> AbilityModifierTwo;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UModifierBase> AbilityModifierThree;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UModifierBase> AbilityModifierFour;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -98,4 +123,11 @@ public:
 
 	void SwapWeapon(const FInputActionValue& Value);
 
+	void UseAbilityOne(const FInputActionValue& Value);
+
+	void UseAbilityTwo(const FInputActionValue& Value);
+
+	void UseAbilityThree(const FInputActionValue& Value);
+
+	void UseAbilityFour(const FInputActionValue& Value);
 };
