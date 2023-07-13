@@ -26,17 +26,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	float RawDamage;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	float DamageMultiplier;
 
-
+	//Temporary solution
 	const float DamageMultiplierCap = 2.5;
 
-
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	float Lifetime;
 
 	UPROPERTY(EditDefaultsOnly)

@@ -11,7 +11,6 @@ UGunComponent::UGunComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
-
 	ULoadout* Shotgun = CreateDefaultSubobject<ULoadout>(TEXT("Shotgun"));
 	ULoadout* BoltAction = CreateDefaultSubobject<ULoadout>(TEXT("BoltAction"));
 
@@ -87,7 +86,7 @@ void UGunComponent::Reload()
 	OnReload.Broadcast();
 }
 
-void UGunComponent::TickComponent(float DeltaTime)
+void UGunComponent::CustomTick(float DeltaTime)
 {
 
 	if (!IsValid(CurrentLoadout))

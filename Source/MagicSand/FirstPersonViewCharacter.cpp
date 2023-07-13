@@ -61,6 +61,7 @@ void AFirstPersonViewCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	WeaponComponent->CustomTick(DeltaTime);
 }
 
 // Called to bind functionality to input

@@ -23,7 +23,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Cooldown;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	float TimeElapsed = HUGE_VALF;
 
 public:

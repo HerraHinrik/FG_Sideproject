@@ -60,7 +60,7 @@ public: // Functions
 	UFUNCTION(BlueprintCallable)
 	void Reload();
 
-	virtual void TickComponent(float DeltaTime);
+	void CustomTick(float DeltaTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void BuildShotgunLoadout(ULoadout* Target);
