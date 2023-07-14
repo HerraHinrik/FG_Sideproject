@@ -35,12 +35,12 @@ protected: // Properties
 	int CurrentIndex = 0;
 
 protected: // Functions
+	virtual void BeginPlay() override;
 
 public: // Properties
 	TArray<ULoadout*> LoadoutArray;
 
 public: // Functions
-	virtual void BeginPlay() override;
 
 	void RegisterReloadSubscribers(ULoadout* Loadout);
 
