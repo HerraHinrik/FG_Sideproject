@@ -37,11 +37,11 @@ protected: // Properties
 protected: // Functions
 
 public: // Properties
-
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TArray<ULoadout*> LoadoutArray;
 
 public: // Functions
+	virtual void BeginPlay() override;
+
 	void RegisterReloadSubscribers(ULoadout* Loadout);
 
 	void ClearReloadSubscribers();

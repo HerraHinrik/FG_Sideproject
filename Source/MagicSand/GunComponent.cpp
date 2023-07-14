@@ -10,18 +10,20 @@
 UGunComponent::UGunComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	RegisterComponent();
+}
 
-	ULoadout* Shotgun = CreateDefaultSubobject<ULoadout>(TEXT("Shotgun"));
-	ULoadout* BoltAction = CreateDefaultSubobject<ULoadout>(TEXT("BoltAction"));
+void UGunComponent::BeginPlay()
+{
+	ULoadout* Shotgun = NewObject<ULoadout>(this, TEXT("Shotgun"));
+	ULoadout* BoltAction = NewObject<ULoadout>(this, TEXT("Shotgun"));
 
 	BuildBoltLoadout(BoltAction);
 	BuildShotgunLoadout(Shotgun);
 
-	LoadoutArray = TArray<ULoadout*>({ Shotgun, BoltAction });
-	SetCurrentLoadoutByIndex(0);
-	RegisterReloadSubscribers(CurrentLoadout);
+	AddLoadout(BoltAction);
+	AddLoadout(Shotgun);
 }
-
 
 void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)
 {
@@ -64,9 +66,13 @@ void UGunComponent::ToggleLoadout()
 
 void UGunComponent::AddLoadout(ULoadout* Loadout)
 {
-	int32 Index = LoadoutArray.Add(Loadout);
+	ClearReloadSubscribers();
 	RegisterReloadSubscribers(Loadout);
+	Reload();
+
+	int32 Index = LoadoutArray.Add(Loadout);
 	SetCurrentLoadoutByIndex(Index);
+
 }
 
 void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> Modifier)
