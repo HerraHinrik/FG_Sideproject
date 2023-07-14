@@ -73,7 +73,7 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		//Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::JumpEvent);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		//Moving
@@ -122,6 +122,23 @@ void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 {
 	GetCharacterMovement()->StopActiveMovement();
 	LaunchCharacter(Velocity, false, true);
+}
+
+void AFirstPersonViewCharacter::JumpEvent_Implementation(const FInputActionValue& Value)
+{
+	TSet<AActor*> Hits;
+	GetCapsuleComponent()->GetOverlappingActors(Hits);
+
+	for (auto Actor : Hits)
+	{
+		if (Actor->ActorHasTag("JumpPad"))
+		{
+			LaunchFromPad(FVector(0, 0, 1500));
+			break;
+		}
+	}
+
+	Jump();
 }
 
 void AFirstPersonViewCharacter::Move_Implementation(const FInputActionValue& Value)
