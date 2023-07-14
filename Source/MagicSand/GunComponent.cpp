@@ -18,7 +18,7 @@ void UGunComponent::BeginPlay()
 	Super::BeginPlay();
 
 	ULoadout* Shotgun = NewObject<ULoadout>(this, TEXT("Shotgun"));
-	ULoadout* BoltAction = NewObject<ULoadout>(this, TEXT("Shotgun"));
+	ULoadout* BoltAction = NewObject<ULoadout>(this, TEXT("BoltAction"));
 
 	BuildBoltLoadout(BoltAction);
 	BuildShotgunLoadout(Shotgun);
