@@ -133,7 +133,7 @@ void AFirstPersonViewCharacter::JumpEvent_Implementation(const FInputActionValue
 	{
 		if (Actor->ActorHasTag("JumpPad"))
 		{
-			LaunchFromPad(FVector(0, 0, 1200));
+			LaunchFromPad(FVector(0, 0, 1500));
 			break;
 		}
 	}
