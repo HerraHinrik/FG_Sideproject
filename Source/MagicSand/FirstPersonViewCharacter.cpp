@@ -209,3 +209,9 @@ void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 {
 	WeaponComponent->ApplyModifier(AbilityModifierFour);
 }
+
+
+UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()
+{
+	return WeaponComponent;
+}

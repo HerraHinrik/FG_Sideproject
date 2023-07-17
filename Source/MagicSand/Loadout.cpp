@@ -23,7 +23,6 @@ void ULoadout::RemoveConstraint(UConstraintBase* ConstraintObject)
 void ULoadout::RemoveModifier(UModifierBase* ModifierObject)
 {
 	ModifierArray.Remove(ModifierObject);
-	ModifierObject->Cleanup();
 }
 
 void ULoadout::SlateModifierForRemoval(UModifierBase* ModifierObject)
@@ -83,13 +82,14 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	for (UModifierBase* Modifier : ExpiredModifiers)
 	{
 		RemoveModifier(Modifier);
+		Modifier->Cleanup();
 	}
 	ExpiredModifiers.Empty();
 
 	// Constraints
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
-		if (Constraint == nullptr) continue;
+		if (!IsValid(Constraint)) continue;
 
 		if (!Constraint->Evaluate())
 		{
@@ -101,7 +101,7 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	// Update constraints internal logic
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
-		if (Constraint == nullptr) continue;
+		if (!IsValid(Constraint)) continue;
 
 		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing: %s"), *Constraint->GetName())
 			Constraint->ProcessFire();
@@ -114,12 +114,16 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 
 	for (USpawnerBase* Spawner : SpawnerArray)
 	{
+		if (!IsValid(Spawner)) continue;
+
 		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
 	}
 
 	// Modifiers
 	for (UModifierBase* Modifier : ModifierArray)
 	{
+		if (!IsValid(Modifier)) continue;
+
 		TArray<AProjectileBase*> OutProjectiles = Modifier->ProcessProjectiles(NewProjectiles);
 		NewProjectiles = OutProjectiles;
 	}

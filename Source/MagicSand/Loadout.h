@@ -23,6 +23,7 @@ public:
 	ULoadout();
 
 private:
+	UPROPERTY()
 	TArray<UModifierBase*> ExpiredModifiers;
 
 private:

@@ -17,6 +17,8 @@ void UTimerConstraint::Tick(float DeltaTime)
 	if (!Evaluate())
 	{
 		OnExpire.Broadcast();
+		OnExpire.Clear();
+		bUsesTick = false;
 		UE_LOG(LogTemp, Warning, TEXT("Timer ran out in modifier"))
 	}
 }

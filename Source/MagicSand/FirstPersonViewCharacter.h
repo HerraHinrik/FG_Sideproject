@@ -132,4 +132,6 @@ public:
 	void UseAbilityThree(const FInputActionValue& Value);
 
 	void UseAbilityFour(const FInputActionValue& Value);
+
+	UGunComponent* GetWeaponComponenet();
 };

@@ -5,7 +5,7 @@
 
 UConstraintBase::UConstraintBase()
 {
-	bIsCreatedOnRunning = GIsRunning;
+	bUsesTick = GIsRunning;
 }
 
 bool UConstraintBase::Evaluate_Implementation() const
@@ -30,7 +30,7 @@ void UConstraintBase::Tick(float DeltaTime)
 
 bool UConstraintBase::IsTickable() const
 {
-	return bIsCreatedOnRunning && (LastTickFrame != GFrameCounter);
+	return bUsesTick && (LastTickFrame != GFrameCounter);
 }
 
 TStatId UConstraintBase::GetStatId() const

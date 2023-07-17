@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Tickable.h"
 #include "UObject/NoExportTypes.h"
 #include "ConstraintBase.h"
 #include "ProjectileBase.h"
@@ -32,8 +33,8 @@ public:
 	FGunModifierDelegate OnHasExpired;
 
 private:
-	// Tracks that only the instances created during runtime/at launch are ticked
-	bool bIsCreatedOnRunning = false;
+	UPROPERTY()
+	bool bUsesTick = false;
 
 	// Track The last frame number we were ticked.
 	uint32 LastTickFrame = INDEX_NONE;
@@ -53,6 +54,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
 
+	UPROPERTY(VisibleInstanceOnly)
 	UTimerConstraint* Timer;
 
 protected:
