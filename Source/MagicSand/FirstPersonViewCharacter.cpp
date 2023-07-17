@@ -56,14 +56,6 @@ void AFirstPersonViewCharacter::BeginPlay()
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
 }
 
-// Called every frame
-void AFirstPersonViewCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	WeaponComponent->CustomTick(DeltaTime);
-}
-
 // Called to bind functionality to input
 void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

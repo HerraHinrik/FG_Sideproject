@@ -98,14 +98,3 @@ void UGunComponent::Reload()
 {
 	OnReload.Broadcast();
 }
-
-void UGunComponent::CustomTick(float DeltaTime)
-{
-
-	if (!IsValid(CurrentLoadout))
-	{
-		return;
-	}
-
-	CurrentLoadout->Tick(DeltaTime);
-}

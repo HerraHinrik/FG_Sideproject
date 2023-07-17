@@ -14,8 +14,6 @@ class UCooldownConstraint : public UConstraintBase
 {
 	GENERATED_BODY()
 
-	UCooldownConstraint();
-
 protected:
 
 public:

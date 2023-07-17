@@ -10,6 +10,8 @@ bool UTimerConstraint::Evaluate_Implementation() const
 
 void UTimerConstraint::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+
 	TimeElapsed += DeltaTime;
 
 	if (!Evaluate())
@@ -18,7 +20,6 @@ void UTimerConstraint::Tick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("Timer ran out in modifier"))
 	}
 }
-
 
 void UTimerConstraint::SetDuration(float NewDuration)
 {

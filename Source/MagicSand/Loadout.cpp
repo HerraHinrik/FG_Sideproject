@@ -129,11 +129,15 @@ void  ULoadout::Tick(float DeltaTime)
 {
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
+		if (!IsValid(Constraint)) continue;
+
 		Constraint->Tick(DeltaTime);
 	}
 
 	for (UModifierBase* Modifier : ModifierArray)
 	{
+		if (!IsValid(Modifier)) continue;
+
 		Modifier->Tick(DeltaTime);
 	}
 }

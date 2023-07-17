@@ -40,7 +40,7 @@ void AProjectileBase::BeginPlay()
 }
 
 
-void AProjectileBase::Tick(float DeltaTime)
+void AProjectileBase::Tick(float DeltaTime) // make sure this only ticks once per frame + do we need super::tick here?
 {
 	Super::Tick(DeltaTime);
 	Lifetime += DeltaTime;

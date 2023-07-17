@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Tickable.h"
 #include "UObject/NoExportTypes.h"
 #include "Engine/EngineBaseTypes.h"
 #include "ConstraintBase.generated.h"
@@ -25,10 +26,19 @@
  *		- Tick <-- not supported for blueprint overriding right now
  */
 UCLASS(Blueprintable)
-class UConstraintBase : public UObject
+class UConstraintBase : public UObject, public FTickableGameObject
 {
 	GENERATED_BODY()
 	
+public:
+	UConstraintBase();
+
+private:
+	// Tracks that only the instances created during runtime are ticked
+	bool bIsCreatedOnRunning = false; 
+
+	// Track The last frame number we were ticked.
+	uint32 LastTickFrame = INDEX_NONE;
 
 protected:
 	TMap<FName, float> InternalValues;
@@ -54,6 +64,17 @@ public:
 	void OnReload();
 	virtual void OnReload_Implementation();
 
-	// Called through the gun component's component tick. Does not support blueprints
-	virtual void Tick(float DeltaTime);
+	// FTickableGameObject interface
+	virtual void Tick(float DeltaTime) override;
+
+	virtual bool IsTickable() const override;
+
+	virtual TStatId GetStatId() const override;
+
+	virtual ETickableTickType GetTickableTickType() const override;
+
+	virtual bool IsTickableWhenPaused() const;
+
+	virtual bool IsTickableInEditor() const;
+	// FTickableGameObject End
 };

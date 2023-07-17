@@ -78,6 +78,8 @@ void UModifierBase::Tick(float DeltaTime)
 {
 	for (auto Constraint : ConstraintArray)
 	{
+		if (!IsValid(Constraint)) continue;
+
 		Constraint->Tick(DeltaTime);
 	}
 }
@@ -98,7 +100,7 @@ void UModifierBase::ClearTimer()
 	Timer = nullptr;
 }
 
-
+// needs fixing, causes sporadic crashes
 void UModifierBase::Cleanup()
 {
 	ConditionalBeginDestroy();

@@ -63,8 +63,6 @@ public: // Functions
 	UFUNCTION(BlueprintCallable)
 	void Reload();
 
-	void CustomTick(float DeltaTime);
-
 	UFUNCTION(BlueprintImplementableEvent)
 		void BuildShotgunLoadout(ULoadout* Target);
 	//virtual ULoadout* BuildShotgunLoadout_Implementation();
