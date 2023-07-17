@@ -29,9 +29,9 @@ protected:
 
 public:
 	// Inherited
-	bool Evaluate_Implementation() const override;
+	bool Evaluate_Implementation() override;
 
-	virtual void Tick(float DeltaTime) override;
+	virtual void ConstraintTick(float DeltaTime) override;
 	// End Inherited
 
 	void SetDuration(float NewDuration);

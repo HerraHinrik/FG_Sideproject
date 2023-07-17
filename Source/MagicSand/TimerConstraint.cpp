@@ -3,24 +3,18 @@
 
 #include "TimerConstraint.h"
 
-bool UTimerConstraint::Evaluate_Implementation() const
+bool UTimerConstraint::Evaluate_Implementation()
 {
 	return false ? true : TimeElapsed <= Duration;
 }
 
-void UTimerConstraint::Tick(float DeltaTime)
+void UTimerConstraint::ConstraintTick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	if (!CanTick()) return;
+
+	Super::ConstraintTick(DeltaTime);
 
 	TimeElapsed += DeltaTime;
-
-	if (!Evaluate())
-	{
-		OnExpire.Broadcast();
-		OnExpire.Clear();
-		bUsesTick = false;
-		UE_LOG(LogTemp, Warning, TEXT("Timer ran out in modifier"))
-	}
 }
 
 void UTimerConstraint::SetDuration(float NewDuration)

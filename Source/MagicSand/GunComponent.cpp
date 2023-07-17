@@ -10,6 +10,7 @@
 UGunComponent::UGunComponent()
 {
 	RegisterComponent();
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UGunComponent::BeginPlay()
@@ -24,6 +25,18 @@ void UGunComponent::BeginPlay()
 
 	AddLoadout(BoltAction);
 	AddLoadout(Shotgun);
+}
+
+void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	for (ULoadout* Loadout : LoadoutArray)
+	{ 
+		if (!IsValid(Loadout)) continue;
+
+		Loadout->TickLoadout(DeltaTime);
+	}
 }
 
 void UGunComponent::RegisterReloadSubscribers(ULoadout* Loadout)

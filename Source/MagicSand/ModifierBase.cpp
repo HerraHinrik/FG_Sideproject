@@ -5,11 +5,7 @@
 
 UModifierBase::UModifierBase()
 {
-	Timer = CreateDefaultSubobject<UTimerConstraint>(TEXT("DurationTimer"));
-	Timer->SetDuration(LifetimeDuration);
-	Timer->OnExpire.AddDynamic(this, &UModifierBase::OnExpire);
-
-	ConstraintArray = TArray<UConstraintBase*>({ Timer });
+	ConstraintArray = TArray<UConstraintBase*>({ });
 
 	bUsesTick = GIsRunning;
 }
@@ -43,40 +39,15 @@ void UModifierBase::UpdateConstraints()
 	}
 }
 
-void UModifierBase::Tick(float DeltaTime)
+void UModifierBase::ModifierTick(float DeltaTime)
 {
 	LastTickFrame = GFrameCounter;
 }
 
-bool UModifierBase::IsTickable() const
+bool UModifierBase::CanTick() const
 {
 	return bUsesTick && (LastTickFrame != GFrameCounter);
 }
-
-TStatId UModifierBase::GetStatId() const
-{
-	return UObject::GetStatID();
-}
-ETickableTickType UModifierBase::GetTickableTickType() const
-{
-	return ETickableTickType::Conditional;
-}
-
-bool UModifierBase::IsTickableWhenPaused() const
-{
-	return false;
-}
-bool UModifierBase::IsTickableInEditor() const
-{
-	return false;
-}
-
-void UModifierBase::OnExpire()
-{
-	OnHasExpired.Broadcast(this);
-	OnHasExpired.Clear();
-}
-
 
 TArray<AProjectileBase*> UModifierBase::ProcessSingle_Implementation(AProjectileBase* Projectile)
 {
@@ -115,18 +86,4 @@ void UModifierBase::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 void UModifierBase::ClearConstraints()
 {
 	ConstraintArray.Empty();
-}
-
-void UModifierBase::ClearTimer()
-{
-	Timer = nullptr;
-}
-
-// needs fixing, causes sporadic crashes
-void UModifierBase::Cleanup()
-{
-	//ConditionalBeginDestroy();
-	ClearConstraints();
-	ClearTimer();
-	UE_LOG(LogTemp, Warning, TEXT("Modifier is cleaning up: %s"), *GetName())
 }

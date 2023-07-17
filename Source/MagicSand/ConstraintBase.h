@@ -26,7 +26,7 @@
  *		- Tick <-- not supported for blueprint overriding right now
  */
 UCLASS(Blueprintable)
-class UConstraintBase : public UObject, public FTickableGameObject
+class UConstraintBase : public UObject
 {
 	GENERATED_BODY()
 	
@@ -46,8 +46,8 @@ public:
 	// Overrride these to implement logic
 	// Evaluate is the most important -- it returns the boolean that determins if the weapon will fire
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	bool Evaluate() const;
-	virtual bool Evaluate_Implementation() const;
+	bool Evaluate();
+	virtual bool Evaluate_Implementation();
 
 	// For when upkeep needs to happen when the weapon actually fires
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
@@ -59,18 +59,8 @@ public:
 	void OnReload();
 	virtual void OnReload_Implementation();
 
-	// FTickableGameObject interface
-	virtual void Tick(float DeltaTime) override;
+	virtual void ConstraintTick(float DeltaTime);
 
-	virtual bool IsTickable() const override;
-
-	virtual TStatId GetStatId() const override;
-
-	virtual ETickableTickType GetTickableTickType() const override;
-
-	virtual bool IsTickableWhenPaused() const;
-
-	virtual bool IsTickableInEditor() const;
-	// FTickableGameObject End
+	bool CanTick();
 
 };
