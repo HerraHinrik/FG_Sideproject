@@ -10,7 +10,11 @@ UModifierBase::UModifierBase()
 	Timer->SetDuration(LifetimeDuration);
 
 	ConstraintArray = TArray<UConstraintBase*>({ Timer });
+
+	bIsCreatedOnRunning = GIsRunning;
 }
+
+
 
 bool UModifierBase::CheckConstaints()
 {
@@ -39,7 +43,33 @@ void UModifierBase::UpdateConstraints()
 	}
 }
 
+void UModifierBase::Tick(float DeltaTime)
+{
+	LastTickFrame = GFrameCounter;
+}
 
+bool UModifierBase::IsTickable() const
+{
+	return bIsCreatedOnRunning && (LastTickFrame != GFrameCounter);
+}
+
+TStatId UModifierBase::GetStatId() const
+{
+	return UObject::GetStatID();
+}
+ETickableTickType UModifierBase::GetTickableTickType() const
+{
+	return ETickableTickType::Conditional;
+}
+
+bool UModifierBase::IsTickableWhenPaused() const
+{
+	return false;
+}
+bool UModifierBase::IsTickableInEditor() const
+{
+	return false;
+}
 
 void UModifierBase::OnExpire()
 {
@@ -74,15 +104,6 @@ TArray<AProjectileBase*> UModifierBase::ProcessProjectiles(TArray<AProjectileBas
 	return Intermediary;
 }
 
-void UModifierBase::Tick(float DeltaTime)
-{
-	for (auto Constraint : ConstraintArray)
-	{
-		if (!IsValid(Constraint)) continue;
-
-		Constraint->Tick(DeltaTime);
-	}
-}
 
 void UModifierBase::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 {

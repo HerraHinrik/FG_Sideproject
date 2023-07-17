@@ -21,7 +21,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGunModifierDelegate, UModifierBase*, ModifierObject);
 
 UCLASS(Blueprintable)
-class MAGICSAND_API UModifierBase : public UObject
+class MAGICSAND_API UModifierBase : public UObject, public FTickableGameObject
 {
 	GENERATED_BODY()
 
@@ -30,6 +30,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable);
 	FGunModifierDelegate OnHasExpired;
+
+private:
+	// Tracks that only the instances created during runtime/at launch are ticked
+	bool bIsCreatedOnRunning = false;
+
+	// Track The last frame number we were ticked.
+	uint32 LastTickFrame = INDEX_NONE;
 
 private:
 	bool CheckConstaints();
@@ -56,7 +63,19 @@ protected:
 	virtual TArray<AProjectileBase*> ProcessSingle_Implementation(AProjectileBase* Projectile);
 
 public:
-	virtual void Tick(float DeltaTime);
+	// FTickableGameObject interface
+	virtual void Tick(float DeltaTime) override;
+
+	virtual bool IsTickable() const override;
+
+	virtual TStatId GetStatId() const override;
+
+	virtual ETickableTickType GetTickableTickType() const override;
+
+	virtual bool IsTickableWhenPaused() const;
+
+	virtual bool IsTickableInEditor() const;
+	// FTickableGameObject End
 
 	// Not for overriding
 	TArray<AProjectileBase*> ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray);

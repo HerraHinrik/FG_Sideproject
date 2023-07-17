@@ -71,6 +71,5 @@ public:
 
 	void Fire(FVector Location, FRotator Rotation);
 
-	// Called by the gun component's component tick.
-	virtual void Tick(float DeltaTime);
+	//virtual void Tick(float DeltaTime);
 };

@@ -77,4 +77,5 @@ public:
 
 	virtual bool IsTickableInEditor() const;
 	// FTickableGameObject End
+
 };
