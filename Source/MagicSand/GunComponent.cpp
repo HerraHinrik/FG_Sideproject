@@ -9,7 +9,6 @@
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
 	RegisterComponent();
 }
 

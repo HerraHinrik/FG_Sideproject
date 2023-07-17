@@ -6,12 +6,12 @@
 UModifierBase::UModifierBase()
 {
 	Timer = CreateDefaultSubobject<UTimerConstraint>(TEXT("DurationTimer"));
-	Timer->OnExpire.AddDynamic(this, &UModifierBase::OnExpire);
 	Timer->SetDuration(LifetimeDuration);
+	Timer->OnExpire.AddDynamic(this, &UModifierBase::OnExpire);
 
 	ConstraintArray = TArray<UConstraintBase*>({ Timer });
 
-	bIsCreatedOnRunning = GIsRunning;
+	bUsesTick = GIsRunning;
 }
 
 
@@ -50,7 +50,7 @@ void UModifierBase::Tick(float DeltaTime)
 
 bool UModifierBase::IsTickable() const
 {
-	return bIsCreatedOnRunning && (LastTickFrame != GFrameCounter);
+	return bUsesTick && (LastTickFrame != GFrameCounter);
 }
 
 TStatId UModifierBase::GetStatId() const
@@ -74,6 +74,7 @@ bool UModifierBase::IsTickableInEditor() const
 void UModifierBase::OnExpire()
 {
 	OnHasExpired.Broadcast(this);
+	OnHasExpired.Clear();
 }
 
 
@@ -124,7 +125,7 @@ void UModifierBase::ClearTimer()
 // needs fixing, causes sporadic crashes
 void UModifierBase::Cleanup()
 {
-	ConditionalBeginDestroy();
+	//ConditionalBeginDestroy();
 	ClearConstraints();
 	ClearTimer();
 	UE_LOG(LogTemp, Warning, TEXT("Modifier is cleaning up: %s"), *GetName())

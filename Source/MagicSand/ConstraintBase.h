@@ -34,17 +34,12 @@ public:
 	UConstraintBase();
 
 private:
-	// Tracks that only the instances created during runtime are ticked
-	bool bIsCreatedOnRunning = false; 
-
 	// Track The last frame number we were ticked.
 	uint32 LastTickFrame = INDEX_NONE;
 
 protected:
-	TMap<FName, float> InternalValues;
-
 	UPROPERTY(BlueprintReadOnly)
-	bool bUsesTick;
+	bool bUsesTick = false;
 
 public:
 
