@@ -8,6 +8,6 @@ void UHandComponent::AddMultiple(TArray<UCardBase*> NewCards)
 {
 	for (UCardBase* Card : NewCards)
 	{
-		AddCard(Card);
+		Cards.Add(Card);
 	}
 }

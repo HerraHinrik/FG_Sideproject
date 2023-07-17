@@ -32,17 +32,14 @@ void UCardContainerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	// ...
 }
 
-void UCardContainerComponent::AddCard(UCardBase* Card)
+void UCardContainerComponent::AddCard(TSubclassOf<UCardBase> Card)
 {
-	if (!IsValid(Card)) return;
-
-	Cards.Add(Card);
+	auto NewCard = NewObject<UCardBase>(this, Card);
+	Cards.Add(NewCard);
 }
 
 void UCardContainerComponent::RemoveCard(UCardBase* Card)
 {
-	if (!IsValid(Card)) return;
-
 	Cards.Remove(Card);
 }
 
