@@ -14,7 +14,7 @@ int UAmmoConstraint::GetMaxAmmo() const
 	return MaxAmmo;
 }
 
-bool UAmmoConstraint::Evaluate_Implementation() const
+bool UAmmoConstraint::Evaluate_Implementation()
 {
 	if (CurrentAmmo > 0) {
 		return true;

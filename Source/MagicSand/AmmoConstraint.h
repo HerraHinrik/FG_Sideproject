@@ -28,7 +28,7 @@ public:
 public:
 
 	// Inherited
-	virtual bool Evaluate_Implementation() const;
+	virtual bool Evaluate_Implementation();
 
 	virtual void ProcessFire_Implementation() override;
 

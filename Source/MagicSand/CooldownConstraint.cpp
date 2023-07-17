@@ -3,7 +3,7 @@
 
 #include "CooldownConstraint.h"
 
-bool UCooldownConstraint::Evaluate_Implementation() const
+bool UCooldownConstraint::Evaluate_Implementation()
 {
 	return TimeElapsed >= Cooldown;
 }
@@ -20,9 +20,11 @@ void UCooldownConstraint::OnReload_Implementation()
 	bUsesTick = false;
 }
 
-void UCooldownConstraint::Tick(float DeltaTime)
+void UCooldownConstraint::ConstraintTick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	if (!CanTick()) return;
+
+	Super::ConstraintTick(DeltaTime);
 
 	TimeElapsed += DeltaTime;
 }

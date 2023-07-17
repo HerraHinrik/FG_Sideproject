@@ -25,13 +25,13 @@ public:
 
 public:
 	// Inherited
-	bool Evaluate_Implementation() const override;
+	bool Evaluate_Implementation() override;
 
 	virtual void ProcessFire_Implementation() override;
 
 	virtual void OnReload_Implementation() override;
 	
-	virtual void Tick(float DeltaTime) override;
+	virtual void ConstraintTick(float DeltaTime) override;
 	// End Inherited
 
 	UFUNCTION(BlueprintCallable)

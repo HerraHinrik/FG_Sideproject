@@ -42,6 +42,8 @@ public: // Properties
 
 public: // Functions
 
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 	void RegisterReloadSubscribers(ULoadout* Loadout);
 
 	void ClearReloadSubscribers();

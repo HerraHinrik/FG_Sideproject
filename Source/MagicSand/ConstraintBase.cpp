@@ -8,7 +8,7 @@ UConstraintBase::UConstraintBase()
 	bUsesTick = GIsRunning;
 }
 
-bool UConstraintBase::Evaluate_Implementation() const
+bool UConstraintBase::Evaluate_Implementation()
 {
 	return true;
 }
@@ -23,30 +23,13 @@ void UConstraintBase::OnReload_Implementation()
 
 }
 
-void UConstraintBase::Tick(float DeltaTime)
+void UConstraintBase::ConstraintTick(float DeltaTime)
 {
 	LastTickFrame = GFrameCounter;
 }
 
-bool UConstraintBase::IsTickable() const
+bool UConstraintBase::CanTick()
 {
 	return bUsesTick && (LastTickFrame != GFrameCounter);
 }
 
-TStatId UConstraintBase::GetStatId() const
-{
-	return UObject::GetStatID();
-}
-ETickableTickType UConstraintBase::GetTickableTickType() const
-{
-	return ETickableTickType::Conditional;
-}
-
- bool UConstraintBase::IsTickableWhenPaused() const
-{
-	return false;
-}
- bool UConstraintBase::IsTickableInEditor() const
- {
-	 return false;
- }

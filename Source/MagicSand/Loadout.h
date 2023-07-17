@@ -23,8 +23,6 @@ public:
 	ULoadout();
 
 private:
-	UPROPERTY()
-	TArray<UModifierBase*> ExpiredModifiers;
 
 private:
 
@@ -37,19 +35,16 @@ private:
 	UFUNCTION()
 	void RemoveModifier(UModifierBase* ModifierObject);
 
-	UFUNCTION()
-	void SlateModifierForRemoval(UModifierBase* ModifierObject);
-
 protected:
 
 	// Arrays of constructed gun part objects
-	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
+	UPROPERTY(BlueprintReadWrite)
 		TArray<USpawnerBase*> SpawnerArray;
 
-	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
+	UPROPERTY(BlueprintReadWrite)
 		TArray<UConstraintBase*> ConstraintArray;
 
-	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
+	UPROPERTY(BlueprintReadWrite)
 		TArray<UModifierBase*> ModifierArray;
 
 
@@ -66,11 +61,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void Clear();
 
+	UFUNCTION(BlueprintCallable)
 	TArray<USpawnerBase*> GetSpawners();
+
+	UFUNCTION(BlueprintCallable)
 	TArray<UConstraintBase*> GetConstraints();
+
+	UFUNCTION(BlueprintCallable)
 	TArray<UModifierBase*> GetModifiers();
 
 	void Fire(FVector Location, FRotator Rotation);
 
-	//virtual void Tick(float DeltaTime);
+	void TickLoadout(float DeltaTime);
 };
