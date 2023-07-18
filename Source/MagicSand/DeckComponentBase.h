@@ -22,9 +22,9 @@ protected:
 	int CardsMax;
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void Reschuffle();
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void Reshuffle();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	TArray<UCardBase*> DrawCards(int Amount);
 };

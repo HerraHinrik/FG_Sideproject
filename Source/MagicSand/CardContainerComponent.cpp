@@ -38,6 +38,11 @@ void UCardContainerComponent::AddCard(TSubclassOf<UCardBase> Card)
 	Cards.Add(NewCard);
 }
 
+void UCardContainerComponent::AddCardToHand(UCardBase* Card)
+{
+	Cards.Add(Card);
+}
+
 void UCardContainerComponent::RemoveCard(UCardBase* Card)
 {
 	Cards.Remove(Card);

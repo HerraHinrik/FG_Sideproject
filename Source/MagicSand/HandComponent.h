@@ -23,7 +23,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void PlayCard(AFirstPersonViewCharacter* Target);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		bool IsFull();
 
 	UFUNCTION(BlueprintCallable)
