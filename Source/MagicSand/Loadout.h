@@ -50,13 +50,13 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void AddSpawner(TSubclassOf<USpawnerBase> &SpawnerClass);
+		void AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass);
 
 	UFUNCTION(BlueprintCallable)
-		void AddConstraint(TSubclassOf<UConstraintBase> &ConstraintClass);
+		void AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass);
 
 	UFUNCTION(BlueprintCallable)
-		void AddModifier(TSubclassOf<UModifierBase> &ModifierClass);
+		void AddModifier(TSubclassOf<UModifierBase> ModifierClass);
 
 	UFUNCTION(BlueprintCallable)
 		void Clear();
