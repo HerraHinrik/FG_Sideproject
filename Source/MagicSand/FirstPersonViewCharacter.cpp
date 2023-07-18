@@ -55,6 +55,8 @@ void AFirstPersonViewCharacter::BeginPlay()
 
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Weapon comp blueprint name: %s"), *WeaponComponent->GetName())
+
+	WeaponComponent->InitializeGunComponent();
 }
 
 // Called to bind functionality to input

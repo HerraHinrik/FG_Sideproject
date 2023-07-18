@@ -38,24 +38,24 @@ private:
 protected:
 
 	// Arrays of constructed gun part objects
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<USpawnerBase*> SpawnerArray;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<UConstraintBase*> ConstraintArray;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<UModifierBase*> ModifierArray;
 
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		void AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		void AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		void AddModifier(TSubclassOf<UModifierBase> ModifierClass);
 
 	UFUNCTION(BlueprintCallable)

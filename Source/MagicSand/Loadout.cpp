@@ -4,6 +4,9 @@
 
 ULoadout::ULoadout()
 {
+	ConstraintArray.Init(nullptr, 1);
+	ModifierArray.Init(nullptr, 1);
+	SpawnerArray.Init(nullptr, 1);
 }
 
 
@@ -22,26 +25,26 @@ void ULoadout::RemoveModifier(UModifierBase* ModifierObject)
 	ModifierArray.RemoveSingle(ModifierObject);
 }
 
-void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass)
-{
-
-	USpawnerBase* SpawnerObject = NewObject<USpawnerBase>(this, SpawnerClass);
-	SpawnerArray.Emplace(SpawnerObject);
-}
-
-void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
-{
-
-	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, ConstraintClass);
-	ConstraintArray.Emplace(ConstraintObject);
-}
-
-void ULoadout::AddModifier(TSubclassOf<UModifierBase> ModifierClass)
-{
-
-	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, ModifierClass);
-	ModifierArray.Emplace(ModifierObject);
-}
+//void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass)
+//{
+//
+//	USpawnerBase* SpawnerObject = NewObject<USpawnerBase>(this, SpawnerClass);
+//	SpawnerArray.Emplace(SpawnerObject);
+//}
+//
+//void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
+//{
+//
+//	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, ConstraintClass);
+//	ConstraintArray.Emplace(ConstraintObject);
+//}
+//
+//void ULoadout::AddModifier(TSubclassOf<UModifierBase> ModifierClass)
+//{
+//
+//	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, ModifierClass);
+//	ModifierArray.Emplace(ModifierObject);
+//}
 
 
 void ULoadout::Clear()

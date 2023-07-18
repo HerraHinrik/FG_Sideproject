@@ -10,6 +10,23 @@
 #include "Loadout.h"
 #include "GunComponent.generated.h"
 
+
+USTRUCT(BlueprintType)
+struct FWeaponLoadout
+{
+	GENERATED_BODY()
+
+	// Arrays of constructed gun part objects
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<USpawnerBase*> SpawnerArray;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<UConstraintBase*> ConstraintArray;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<UModifierBase*> ModifierArray;
+};
+
 /**
  * Handles communication between player input and loadouts on the server. Also responsible for building loadouts.
  */
@@ -29,22 +46,46 @@ public:	// Constructors and Delegates only
 	FGunDelegate OnReload;
 
 protected: // Properties
-	
-	ULoadout* CurrentLoadout;
-
+	UPROPERTY()
 	int32 CurrentIndex = 0;
+
+	UPROPERTY()
+	TArray<FWeaponLoadout> LoadoutArray;
 
 protected: // Functions
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	USpawnerBase* CreateSpawner(TSubclassOf<USpawnerBase> SpawnerClass);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	UConstraintBase* CreateConstraint(TSubclassOf<UConstraintBase> ConstraintClass);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	UModifierBase* CreateModifier(TSubclassOf<UModifierBase> ModifierClass);
+
+	UFUNCTION(BlueprintCallable)
+	void ClearLoadout(FWeaponLoadout Loadout);
+
+
+	UFUNCTION()
+	void RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, FWeaponLoadout Loadout);
+
+	UFUNCTION()
+	void RemoveConstraintFromLoadout(UConstraintBase* ConstraintObject, FWeaponLoadout Loadout);
+
+	UFUNCTION()
+	void RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWeaponLoadout Loadout);
+
 public: // Properties
-	TArray<ULoadout*> LoadoutArray;
 
 public: // Functions
 
+	void InitializeGunComponent();
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void RegisterReloadSubscribers(ULoadout* Loadout);
+	void RegisterReloadSubscribers(FWeaponLoadout Loadout);
 
 	void ClearReloadSubscribers();
 
@@ -54,10 +95,10 @@ public: // Functions
 	void ToggleLoadout();
 
 	UFUNCTION(BlueprintCallable)
-	void AddLoadout(ULoadout* Loadout);
+	void AddLoadout(FWeaponLoadout Loadout);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyModifier(TSubclassOf<UModifierBase> &Modifier);
+	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
@@ -66,14 +107,11 @@ public: // Functions
 	void Reload();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildShotgunLoadout(ULoadout* Target);
-	//virtual ULoadout* BuildShotgunLoadout_Implementation();
+		FWeaponLoadout BuildShotgunLoadout();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildDiscLoadout(ULoadout* Target);
-	//virtual ULoadout* BuildDiscLoadout_Implementation();
+		FWeaponLoadout BuildDiscLoadout();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BuildBoltLoadout(ULoadout* Target);
-	//virtual ULoadout* BuildBoltLoadout_Implementation();
+		FWeaponLoadout BuildBoltLoadout();
 };

@@ -19,6 +19,10 @@ public:
 	AProjectileBase();
 
 protected:
+	/** Mesh component */
+	UPROPERTY(EditAnywhere, Category = Mesh)
+	UStaticMeshComponent* Mesh;
+
 	/** Sphere collision component */
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	USphereComponent* CollisionComp;
