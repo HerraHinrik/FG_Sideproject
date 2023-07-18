@@ -22,7 +22,7 @@ void UCardBase::PlayCard(AFirstPersonViewCharacter* TargetCharacter)
 	//ApplyPlayerModifier(TargetCharacter);
 }
 
-int UCardBase::GetID()
+int32 UCardBase::GetID()
 {
 	return CardID;
 }

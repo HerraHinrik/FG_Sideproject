@@ -42,12 +42,12 @@ void UAmmoConstraint::Reload()
 	CurrentAmmo = MaxAmmo;
 }
 
-void UAmmoConstraint::SetCurrentAmmo(int Value)
+void UAmmoConstraint::SetCurrentAmmo(uint32 Value)
 {
 	CurrentAmmo = Value;
 }
 
-void UAmmoConstraint::SetMaxAmmo(int Value)
+void UAmmoConstraint::SetMaxAmmo(uint32 Value)
 {
 	MaxAmmo = Value;
 }

@@ -22,7 +22,7 @@ protected:
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int BulletAmount;
+	uint32 BulletAmount;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float HalfAngle;

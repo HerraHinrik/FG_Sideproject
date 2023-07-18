@@ -22,24 +22,24 @@ void ULoadout::RemoveModifier(UModifierBase* ModifierObject)
 	ModifierArray.RemoveSingle(ModifierObject);
 }
 
-void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass)
+void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> &SpawnerClass)
 {
 
-	USpawnerBase* SpawnerObject = NewObject<USpawnerBase>(this, SpawnerClass);
+	USpawnerBase* SpawnerObject = NewObject<USpawnerBase>(this, *SpawnerClass);
 	SpawnerArray.Emplace(SpawnerObject);
 }
 
-void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
+void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> &ConstraintClass)
 {
 
-	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, ConstraintClass);
+	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, *ConstraintClass);
 	ConstraintArray.Emplace(ConstraintObject);
 }
 
-void ULoadout::AddModifier(TSubclassOf<UModifierBase> ModifierClass)
+void ULoadout::AddModifier(TSubclassOf<UModifierBase> &ModifierClass)
 {
 
-	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, ModifierClass);
+	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, *ModifierClass);
 	ModifierArray.Emplace(ModifierObject);
 }
 
@@ -73,7 +73,6 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	{
 		if (!IsValid(Constraint)) continue;
 
-		//Constraint is valid yet is crashing
 		UE_LOG(LogTemp, Warning, TEXT("Constraint is evaluating: %s"), *Constraint->GetName())
 
 		if (!Constraint->Evaluate())
@@ -116,9 +115,11 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 
 void ULoadout::TickLoadout(float DeltaTime)
 {
+
 	for (UConstraintBase* Constraint : ConstraintArray)
 	{
 		if (!IsValid(Constraint)) continue;
+		
 		
 		Constraint->ConstraintTick(DeltaTime);
 	}

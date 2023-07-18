@@ -4,7 +4,7 @@
 #include "HandComponent.h"
 
 
-void UHandComponent::AddMultiple(TArray<UCardBase*> NewCards)
+void UHandComponent::AddMultiple(TArray<UCardBase*> &NewCards)
 {
 	for (UCardBase* Card : NewCards)
 	{

@@ -162,7 +162,7 @@ void AFirstPersonViewCharacter::Look_Implementation(const FInputActionValue& Val
 
 void AFirstPersonViewCharacter::Dash_Implementation(const FInputActionValue& Value)
 {
-	// I miss Mathias' dash
+	
 }
 
 void AFirstPersonViewCharacter::Fire(const FInputActionValue& Value)

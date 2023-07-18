@@ -17,7 +17,7 @@ class MAGICSAND_API UHandComponent : public UCardContainerComponent
 
 protected:
 	UPROPERTY()
-	TArray<int> CardIDs;
+	TArray<uint32> CardIDs;
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
@@ -27,5 +27,5 @@ public:
 		bool IsFull();
 
 	UFUNCTION(BlueprintCallable)
-		void AddMultiple(TArray<UCardBase*> NewCards);
+		void AddMultiple(TArray<UCardBase*> &NewCards);
 };

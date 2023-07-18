@@ -32,7 +32,7 @@ protected: // Properties
 	
 	ULoadout* CurrentLoadout;
 
-	int CurrentIndex = 0;
+	uint32 CurrentIndex = 0;
 
 protected: // Functions
 	virtual void BeginPlay() override;
@@ -48,7 +48,7 @@ public: // Functions
 
 	void ClearReloadSubscribers();
 
-	void SetCurrentLoadoutByIndex(int Index);
+	void SetCurrentLoadoutByIndex(uint32 Index);
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleLoadout();
@@ -57,7 +57,7 @@ public: // Functions
 	void AddLoadout(ULoadout* Loadout);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
+	void ApplyModifier(TSubclassOf<UModifierBase> &Modifier);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();

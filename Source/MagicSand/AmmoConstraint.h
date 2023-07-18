@@ -18,10 +18,10 @@ class UAmmoConstraint : public UConstraintBase
 protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int MaxAmmo;
+	uint32 MaxAmmo;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	int CurrentAmmo;
+	uint32 CurrentAmmo;
 
 public:
 
@@ -46,9 +46,9 @@ public:
 	void Reload();
 
 	UFUNCTION(BlueprintCallable)
-	void SetCurrentAmmo(int Value);
+	void SetCurrentAmmo(uint32 Value);
 
 	UFUNCTION(BlueprintCallable)
-	void SetMaxAmmo(int Value);
+	void SetMaxAmmo(uint32 Value);
 
 };

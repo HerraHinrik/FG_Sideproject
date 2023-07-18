@@ -19,7 +19,7 @@ class MAGICSAND_API UCardBase : public UObject
 
 protected:
 	UPROPERTY()
-	int CardID;
+	uint32 CardID;
 
 	TSubclassOf<UModifierBase> WeaponModifier;
 	// Usomeclass playermodifier
@@ -33,5 +33,5 @@ public:
 	void PlayCard(AFirstPersonViewCharacter* TargetCharacter);
 
 	UFUNCTION(BlueprintCallable)
-	int GetID();
+	uint32 GetID();
 };

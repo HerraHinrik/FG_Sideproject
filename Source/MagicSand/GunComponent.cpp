@@ -9,8 +9,8 @@
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
 {
-	RegisterComponent();
 	PrimaryComponentTick.bCanEverTick = true;
+	CurrentLoadout = nullptr;
 }
 
 void UGunComponent::BeginPlay()
@@ -30,6 +30,8 @@ void UGunComponent::BeginPlay()
 void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+
 
 	for (ULoadout* Loadout : LoadoutArray)
 	{ 
@@ -54,7 +56,7 @@ void UGunComponent::ClearReloadSubscribers()
 	OnReload.Clear();
 }
 
-void UGunComponent::SetCurrentLoadoutByIndex(int Index)
+void UGunComponent::SetCurrentLoadoutByIndex(uint32 Index)
 {
 	CurrentLoadout = LoadoutArray[Index];
 	CurrentIndex = Index;
@@ -69,7 +71,7 @@ void UGunComponent::ToggleLoadout()
 
 	ClearReloadSubscribers();
 
-	int Index = CurrentIndex;
+	uint32 Index = CurrentIndex;
 	Index ++;
 	Index %= LoadoutArray.Num();
 
@@ -84,12 +86,12 @@ void UGunComponent::AddLoadout(ULoadout* Loadout)
 	RegisterReloadSubscribers(Loadout);
 	Reload();
 
-	int32 Index = LoadoutArray.Add(Loadout);
+	uint32 Index = LoadoutArray.Add(Loadout);
 	SetCurrentLoadoutByIndex(Index);
 
 }
 
-void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> Modifier)
+void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> &Modifier)
 {
 	CurrentLoadout->AddModifier(Modifier);
 }
