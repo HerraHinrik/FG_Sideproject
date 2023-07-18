@@ -34,4 +34,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetID();
+
+	UFUNCTION(BlueprintCallable)
+	AFirstPersonViewCharacter* GetPlayer();
 };
