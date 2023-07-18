@@ -10,6 +10,7 @@
 UGunComponent::UGunComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	RegisterComponent();
 }
 
 void UGunComponent::BeginPlay()
@@ -59,15 +60,24 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 		for (UConstraintBase* Constraint : Loadout.ConstraintArray)
 		{
-			if (!IsValid(Constraint)) continue;
+			if (!IsValid(Constraint))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Found invalid constraint in: %d"), CurrentIndex)
 
+				continue;
+			}
 
 			Constraint->ConstraintTick(DeltaTime);
 		}
 
 		for (UModifierBase* Modifier : Loadout.ModifierArray)
 		{
-			if (!IsValid(Modifier)) continue;
+			if (!IsValid(Modifier))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Found invalid modifier in: %d"), CurrentIndex)
+
+				continue;
+			}
 
 			Modifier->ModifierTick(DeltaTime);
 		}
@@ -165,7 +175,6 @@ void UGunComponent::Fire()
 
 		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing fire: %s"), *Constraint->GetName())
 			Constraint->ProcessFire();
-
 	}
 
 	// Spawning

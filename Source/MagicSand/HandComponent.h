@@ -16,8 +16,6 @@ class MAGICSAND_API UHandComponent : public UCardContainerComponent
 	
 
 protected:
-	UPROPERTY()
-	TArray<int32> CardIDs;
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)

@@ -10,8 +10,6 @@ bool UTimerConstraint::Evaluate_Implementation()
 
 void UTimerConstraint::ConstraintTick(float DeltaTime)
 {
-	if (!CanTick()) return;
-
 	Super::ConstraintTick(DeltaTime);
 
 	TimeElapsed += DeltaTime;

@@ -22,8 +22,6 @@ void UCooldownConstraint::OnReload_Implementation()
 
 void UCooldownConstraint::ConstraintTick(float DeltaTime)
 {
-	if (!CanTick()) return;
-
 	Super::ConstraintTick(DeltaTime);
 
 	TimeElapsed += DeltaTime;

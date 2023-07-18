@@ -104,7 +104,7 @@ public:
 
 	// Input functions
 	UFUNCTION(BlueprintNativeEvent)
-		void JumpEvent(const FInputActionValue& Value);
+	void JumpEvent(const FInputActionValue& Value);
 	virtual void JumpEvent_Implementation(const FInputActionValue& Value);
 
 	UFUNCTION(BlueprintNativeEvent)

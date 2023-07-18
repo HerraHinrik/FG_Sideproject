@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "UObject/NoExportTypes.h"
+#include "FirstPersonViewCharacter.h"
+#include "GameFramework/Character.h"
 #include "CardBase.h"
 #include "CardContainerComponent.generated.h"
 
@@ -21,6 +23,10 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TArray<UCardBase*> Cards;
 
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	TArray<UCardBase*> Discard;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -37,4 +43,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveCard(UCardBase* Card);
+
+	UFUNCTION(BlueprintCallable)
+	AFirstPersonViewCharacter* GetPlayer();
 };

@@ -61,6 +61,4 @@ public:
 
 	virtual void ConstraintTick(float DeltaTime);
 
-	bool CanTick();
-
 };
