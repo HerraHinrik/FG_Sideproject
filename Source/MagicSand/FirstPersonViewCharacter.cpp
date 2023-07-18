@@ -39,6 +39,9 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	//create initial hand component
 	HandComponent = CreateDefaultSubobject<UHandComponent>(TEXT("Hand"));
 
+	//create initial deck component
+	DeckComponent = CreateDefaultSubobject<UDeckComponentBase>(TEXT("Deck"));
+
 }
 
 // Called when the game starts or when spawned
@@ -62,12 +65,17 @@ void AFirstPersonViewCharacter::BeginPlay()
 
 	WeaponComponent->InitializeGunComponent();
 
-
 	//Use BP for hand component
 	HandComponent = NewObject<UHandComponent>(this, HandComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Hand comp blueprint name: %s"), *HandComponent->GetName())
 
-	HandComponent->InitializeHandComponent();
+	HandComponent->InitializeCardComponent();
+
+	//Use BP for deck component
+	DeckComponent = NewObject<UDeckComponentBase>(this, DeckComponentBP);
+	UE_LOG(LogTemp, Warning, TEXT("Deck comp blueprint name: %s"), *DeckComponent->GetName())
+
+	DeckComponent->InitializeCardComponent();
 }
 
 // Called to bind functionality to input
@@ -90,7 +98,6 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		//Shoot
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::Fire);
-
 
 		//Reload
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::Reload);

@@ -45,4 +45,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	ACharacter* GetPlayer();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void InitializeCardComponent();
 };
