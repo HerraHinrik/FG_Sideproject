@@ -4,15 +4,12 @@
 
 ULoadout::ULoadout()
 {
-	SpawnerArray = TArray<USpawnerBase*>();
-	ConstraintArray = TArray<UConstraintBase*>();
-	ModifierArray = TArray<UModifierBase*>();
 }
 
 
 void ULoadout::RemoveSpawner(USpawnerBase* SpawnerObject)
 {
-	//I was here
+
 }
 
 void ULoadout::RemoveConstraint(UConstraintBase* ConstraintObject)
@@ -22,28 +19,28 @@ void ULoadout::RemoveConstraint(UConstraintBase* ConstraintObject)
 
 void ULoadout::RemoveModifier(UModifierBase* ModifierObject)
 {
-	ModifierArray.Remove(ModifierObject);
+	ModifierArray.RemoveSingle(ModifierObject);
 }
 
 void ULoadout::AddSpawner(TSubclassOf<USpawnerBase> SpawnerClass)
 {
 
 	USpawnerBase* SpawnerObject = NewObject<USpawnerBase>(this, SpawnerClass);
-	SpawnerArray.Add(SpawnerObject);
+	SpawnerArray.Emplace(SpawnerObject);
 }
 
 void ULoadout::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 {
 
 	UConstraintBase* ConstraintObject = NewObject<UConstraintBase>(this, ConstraintClass);
-	ConstraintArray.Add(ConstraintObject);
+	ConstraintArray.Emplace(ConstraintObject);
 }
 
 void ULoadout::AddModifier(TSubclassOf<UModifierBase> ModifierClass)
 {
 
 	UModifierBase* ModifierObject = NewObject<UModifierBase>(this, ModifierClass);
-	ModifierArray.Add(ModifierObject);
+	ModifierArray.Emplace(ModifierObject);
 }
 
 
@@ -76,10 +73,13 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	{
 		if (!IsValid(Constraint)) continue;
 
+		//Constraint is valid yet is crashing
+		UE_LOG(LogTemp, Warning, TEXT("Constraint is evaluating: %s"), *Constraint->GetName())
+
 		if (!Constraint->Evaluate())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("This constraint failed: %s"), *Constraint->GetName())
-				return;
+			return;
 		}
 	}
 
@@ -88,8 +88,8 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	{
 		if (!IsValid(Constraint)) continue;
 
-		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing: %s"), *Constraint->GetName())
-			Constraint->ProcessFire();
+		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing fire: %s"), *Constraint->GetName())
+		Constraint->ProcessFire();
 
 	}
 

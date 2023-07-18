@@ -35,7 +35,7 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 
 	//create initial gun component
 	WeaponComponent = CreateDefaultSubobject<UGunComponent>(TEXT("Weapon"));
-
+ 
 }
 
 // Called when the game starts or when spawned
@@ -54,6 +54,7 @@ void AFirstPersonViewCharacter::BeginPlay()
 	}
 
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
+	UE_LOG(LogTemp, Warning, TEXT("Weapon comp blueprint name: %s"), *WeaponComponent->GetName())
 }
 
 // Called to bind functionality to input
@@ -103,12 +104,12 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 
 
-void AFirstPersonViewCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(AFirstPersonViewCharacter, WeaponComponent);
-}
+//void AFirstPersonViewCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const
+//{
+//	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+//
+//	DOREPLIFETIME(AFirstPersonViewCharacter, WeaponComponent);
+//}
 
 void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 {

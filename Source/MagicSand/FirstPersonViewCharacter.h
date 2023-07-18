@@ -24,7 +24,7 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	GENERATED_BODY()
 
 
-	UPROPERTY(Replicated, EditDefaultsOnly)
+	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
 		UGunComponent* WeaponComponent;
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -97,7 +97,7 @@ public:
 public:	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
+	//virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
 
 	UFUNCTION(BlueprintCallable)
 	void LaunchFromPad(FVector Velocity);
