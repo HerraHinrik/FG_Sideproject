@@ -13,13 +13,12 @@ UCLASS()
 class MAGICSAND_API UHandComponent : public UCardContainerComponent
 {
 	GENERATED_BODY()
-	
 
 protected:
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-		void PlayCard(AFirstPersonViewCharacter* Target);
+		void PlayCard(int32 CardIndex, AFirstPersonViewCharacter* Target);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		bool IsFull();
