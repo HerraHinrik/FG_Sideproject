@@ -35,7 +35,7 @@ public:
 
 private:
 	// Track The last frame number we were ticked.
-	uint32 LastTickFrame = INDEX_NONE;
+	int32 LastTickFrame = INDEX_NONE;
 
 protected:
 	UPROPERTY(BlueprintReadOnly)

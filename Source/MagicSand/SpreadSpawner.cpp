@@ -25,7 +25,7 @@ FVector USpreadSpawner::GetDirectionFromCone()
 TArray<AProjectileBase*> USpreadSpawner::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
 {
 	TArray<AProjectileBase*> Projectiles = TArray<AProjectileBase*>();
-	for (uint32 i = 0; i < BulletAmount; i++)
+	for (int32 i = 0; i < BulletAmount; i++)
 	{
 		FVector RandDirection = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(Rotation.Vector(), HalfAngle);
 		FQuat RotatedDirection = RandDirection.ToOrientationQuat() * Rotation.Quaternion();

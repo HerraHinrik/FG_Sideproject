@@ -16,15 +16,15 @@ class MAGICSAND_API UDeckComponentBase : public UCardContainerComponent
 	
 protected:
 	UPROPERTY()
-	uint32 CardsLeft;
+	int32 CardsLeft;
 
 	UPROPERTY()
-	uint32 CardsMax;
+	int32 CardsMax;
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void Reshuffle();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	TArray<UCardBase*> DrawCards(uint32 Amount);
+	TArray<UCardBase*> DrawCards(int32 Amount);
 };

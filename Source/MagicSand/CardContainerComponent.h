@@ -30,7 +30,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	void AddCard(TSubclassOf<UCardBase> &Card);
+	void AddCard(TSubclassOf<UCardBase> Card);
 
 	UFUNCTION(BlueprintCallable)
 	void AddCardToHand(UCardBase* Card);

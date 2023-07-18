@@ -56,7 +56,7 @@ void UGunComponent::ClearReloadSubscribers()
 	OnReload.Clear();
 }
 
-void UGunComponent::SetCurrentLoadoutByIndex(uint32 Index)
+void UGunComponent::SetCurrentLoadoutByIndex(int32 Index)
 {
 	CurrentLoadout = LoadoutArray[Index];
 	CurrentIndex = Index;
@@ -71,7 +71,7 @@ void UGunComponent::ToggleLoadout()
 
 	ClearReloadSubscribers();
 
-	uint32 Index = CurrentIndex;
+	int32 Index = CurrentIndex;
 	Index ++;
 	Index %= LoadoutArray.Num();
 
@@ -86,7 +86,7 @@ void UGunComponent::AddLoadout(ULoadout* Loadout)
 	RegisterReloadSubscribers(Loadout);
 	Reload();
 
-	uint32 Index = LoadoutArray.Add(Loadout);
+	int32 Index = LoadoutArray.Add(Loadout);
 	SetCurrentLoadoutByIndex(Index);
 
 }

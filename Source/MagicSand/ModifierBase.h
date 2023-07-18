@@ -34,7 +34,7 @@ private:
 	bool bUsesTick = false;
 
 	// Track The last frame number we were ticked.
-	uint32 LastTickFrame = INDEX_NONE;
+	int32 LastTickFrame = INDEX_NONE;
 
 private:
 	bool CheckConstaints();

@@ -32,7 +32,7 @@ void UCardContainerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	// ...
 }
 
-void UCardContainerComponent::AddCard(TSubclassOf<UCardBase> &Card)
+void UCardContainerComponent::AddCard(TSubclassOf<UCardBase> Card)
 {
 	auto NewCard = NewObject<UCardBase>(this, Card);
 	Cards.Add(NewCard);
