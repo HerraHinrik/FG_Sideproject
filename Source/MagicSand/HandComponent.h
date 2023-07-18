@@ -25,4 +25,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void AddMultiple(TArray<UCardBase*> &NewCards);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void InitializeHandComponent();
 };

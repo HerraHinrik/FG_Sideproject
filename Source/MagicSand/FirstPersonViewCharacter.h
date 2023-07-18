@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
 #include "InputAction.h"
+#include "HandComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GunComponent.h"
@@ -26,6 +27,9 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
 		UGunComponent* WeaponComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Cards)
+		UHandComponent* HandComponent;
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* Mesh1P;
@@ -81,6 +85,9 @@ protected:
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UGunComponent> GunComponentBP;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UHandComponent> HandComponentBP;
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UModifierBase> AbilityModifierOne;

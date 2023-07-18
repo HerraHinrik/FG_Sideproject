@@ -35,7 +35,10 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 
 	//create initial gun component
 	WeaponComponent = CreateDefaultSubobject<UGunComponent>(TEXT("Weapon"));
- 
+
+	//create initial hand component
+	HandComponent = CreateDefaultSubobject<UHandComponent>(TEXT("Hand"));
+
 }
 
 // Called when the game starts or when spawned
@@ -53,10 +56,18 @@ void AFirstPersonViewCharacter::BeginPlay()
 		}
 	}
 
+	//Use BP for weapon component
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Weapon comp blueprint name: %s"), *WeaponComponent->GetName())
 
 	WeaponComponent->InitializeGunComponent();
+
+
+	//Use BP for hand component
+	HandComponent = NewObject<UHandComponent>(this, HandComponentBP);
+	UE_LOG(LogTemp, Warning, TEXT("Hand comp blueprint name: %s"), *HandComponent->GetName())
+
+	HandComponent->InitializeHandComponent();
 }
 
 // Called to bind functionality to input

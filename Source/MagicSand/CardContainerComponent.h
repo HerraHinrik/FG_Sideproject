@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "FirstPersonViewCharacter.h"
 #include "GameFramework/Character.h"
 #include "CardBase.h"
 #include "CardContainerComponent.generated.h"
@@ -45,5 +44,5 @@ public:
 	void RemoveCard(UCardBase* Card);
 
 	UFUNCTION(BlueprintCallable)
-	AFirstPersonViewCharacter* GetPlayer();
+	ACharacter* GetPlayer();
 };

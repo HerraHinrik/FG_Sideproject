@@ -18,11 +18,14 @@ class MAGICSAND_API UCardBase : public UObject
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	int32 CardID;
 
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UModifierBase> WeaponModifier;
-	// Usomeclass playermodifier
+
+	//UPROPERTY(EditDefaultsOnly)
+	//	TSubclassOf<USOMEMODIFIER> PlayerModifier;
 
 protected:
 	void ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter);
