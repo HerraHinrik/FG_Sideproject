@@ -42,8 +42,10 @@ void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWe
 	Loadout.ModifierArray.Remove(ModifierObject);
 }
 
-void UGunComponent::InitializeGunComponent()
+void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
 {
+	PlayerStats = PlayerStatsComponent;
+
 	FWeaponLoadout Shotgun = BuildShotgunLoadout();
 	FWeaponLoadout BoltAction = BuildBoltLoadout();
 
@@ -144,6 +146,7 @@ void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> ModifierClass)
 void UGunComponent::Fire()
 {
 	UCameraComponent* origin = GetOwner()->FindComponentByClass<UCameraComponent>();
+	FPlayerStatBlock CurrentStats = PlayerStats->GetCurrentModifications();
 
 	if (!IsValid(origin)) return;
 
@@ -184,7 +187,7 @@ void UGunComponent::Fire()
 	{
 		if (!IsValid(Spawner)) continue;
 
-		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
+		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation, CurrentStats.DamageFlat, CurrentStats.DamageMultiplier));
 	}
 
 	// Modifiers
@@ -200,4 +203,28 @@ void UGunComponent::Fire()
 void UGunComponent::Reload()
 {
 	OnReload.Broadcast();
+}
+
+TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
+{
+	TArray<FModifierUIData> Results;
+
+	TArray<UModifierBase*> Modifiers = LoadoutArray[CurrentIndex].ModifierArray;
+	for (auto Modifier : Modifiers)
+	{
+		if (!IsValid(Modifier))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
+			continue;
+		}
+
+		FModifierUIData Info = FModifierUIData();
+		Info.IconID = Modifier->GetIconID();
+		Info.DurationLeft = Modifier->GetDurationLeft();
+		Info.DurationMax = Modifier->GetDurationMax();
+
+		Results.Add(Info);
+	}
+
+	return Results;
 }

@@ -68,10 +68,6 @@ public:
 	void SetRawDamage(float Amount);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyDamageModifier(float Amount);
-
-
-	UFUNCTION(BlueprintCallable)
 	USphereComponent* GetCollisionComponent();
 
 
@@ -81,8 +77,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RegisterOnHitComponent(UOnHitComponentBase* OnHitComponent);
 
-
 	UFUNCTION(BlueprintCallable)
 	void PropagateHitToComponents(AActor* InActor, FVector HitLocation, FVector ImpactNormal);
 
+	UFUNCTION(BlueprintCallable)
+	void AddToRawDamage(int32 Amount);
+
+	UFUNCTION(BlueprintCallable)
+	void AddToDamageMultiplier(float Amount);
 };

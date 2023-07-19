@@ -2,12 +2,11 @@
 
 
 #include "ModifierBase.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UModifierBase::UModifierBase()
 {
 	ConstraintArray = TArray<UConstraintBase*>({ });
-
-	bUsesTick = GIsRunning;
 }
 
 
@@ -42,11 +41,12 @@ void UModifierBase::UpdateConstraints()
 void UModifierBase::ModifierTick(float DeltaTime)
 {
 	LastTickFrame = GFrameCounter;
-}
+	ExpiredDuration += DeltaTime;
 
-bool UModifierBase::CanTick() const
-{
-	return bUsesTick && (LastTickFrame != GFrameCounter);
+	if (ExpiredDuration >= LifetimeDuration)
+	{
+		OnExpire.Broadcast(this);
+	}
 }
 
 TArray<AProjectileBase*> UModifierBase::ProcessSingle_Implementation(AProjectileBase* Projectile)
@@ -86,4 +86,20 @@ void UModifierBase::AddConstraint(TSubclassOf<UConstraintBase> ConstraintClass)
 void UModifierBase::ClearConstraints()
 {
 	ConstraintArray.Empty();
+}
+
+int32 UModifierBase::GetIconID()
+{
+	return IconID;
+}
+
+float UModifierBase::GetDurationLeft()
+{
+	float TimeLeft = LifetimeDuration - ExpiredDuration;
+	return UKismetMathLibrary::Max(0, TimeLeft);
+}
+
+float UModifierBase::GetDurationMax()
+{
+	return LifetimeDuration;
 }

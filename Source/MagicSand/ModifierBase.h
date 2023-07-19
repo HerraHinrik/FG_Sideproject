@@ -2,7 +2,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Tickable.h"
 #include "UObject/NoExportTypes.h"
 #include "ConstraintBase.h"
 #include "ProjectileBase.h"
@@ -29,12 +28,8 @@ class MAGICSAND_API UModifierBase : public UObject
 public:
 	UModifierBase();
 
-private:
-	UPROPERTY()
-	bool bUsesTick = false;
-
-	// Track The last frame number we were ticked.
-	int32 LastTickFrame = INDEX_NONE;
+	UPROPERTY(BlueprintAssignable);
+	FGunModifierDelegate OnExpire;
 
 private:
 	bool CheckConstaints();
@@ -42,10 +37,20 @@ private:
 
 protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
-	float LifetimeDuration = 10;
+	float LifetimeDuration;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	int32 IconID;
 
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
+
+	// Track The last frame number we were ticked.
+	UPROPERTY()
+		int32 LastTickFrame = INDEX_NONE;
+
+	UPROPERTY(BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
+		float ExpiredDuration = 0;
 
 protected:
 
@@ -54,10 +59,9 @@ protected:
 	TArray<AProjectileBase*> ProcessSingle(AProjectileBase* Projectile);
 	virtual TArray<AProjectileBase*> ProcessSingle_Implementation(AProjectileBase* Projectile);
 
+
 public:
 	virtual void ModifierTick(float DeltaTime);
-
-	bool CanTick() const;
 
 	// Not for overriding
 	TArray<AProjectileBase*> ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray);
@@ -67,4 +71,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ClearConstraints();
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetIconID();
+
+	UFUNCTION(BlueprintCallable)
+	float GetDurationLeft();
+
+	UFUNCTION(BlueprintCallable)
+	float GetDurationMax();
 };
