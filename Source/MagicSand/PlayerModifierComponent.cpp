@@ -23,7 +23,7 @@ void UPlayerModifierComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UPlayerModifierComponent::OnTakeDamage);
 	
 }
 
@@ -53,6 +53,13 @@ void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
 	ModifierArray.Remove(Modifier);
 }
 
+void UPlayerModifierComponent::OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	FPlayerStatBlock HealthChange;
+	HealthChange.Health = Damage;
+
+	ApplyModifications(HealthChange);
+}
 
 // Called every frame
 void UPlayerModifierComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -39,4 +39,13 @@ struct FPlayerStatBlock
 
 	UPROPERTY()
 	float Health;
+
+	FPlayerStatBlock()
+	{
+		SpeedMultiplier = 0;
+		DamageMultiplier = 0;
+		DamageFlat = 0;
+		Armor = 0;
+		Health = 0;
+	}
 };
