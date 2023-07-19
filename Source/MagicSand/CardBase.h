@@ -18,10 +18,10 @@ class MAGICSAND_API UCardBase : public UObject
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	int32 CardID;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TSubclassOf<UModifierBase> WeaponModifier;
 
 	//UPROPERTY(EditDefaultsOnly)
@@ -37,5 +37,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetID();
-
 };
