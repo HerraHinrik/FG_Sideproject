@@ -42,8 +42,10 @@ void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWe
 	Loadout.ModifierArray.Remove(ModifierObject);
 }
 
-void UGunComponent::InitializeGunComponent()
+void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
 {
+	PlayerStats = PlayerStatsComponent;
+
 	FWeaponLoadout Shotgun = BuildShotgunLoadout();
 	FWeaponLoadout BoltAction = BuildBoltLoadout();
 
@@ -144,6 +146,7 @@ void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> ModifierClass)
 void UGunComponent::Fire()
 {
 	UCameraComponent* origin = GetOwner()->FindComponentByClass<UCameraComponent>();
+	FPlayerStatBlock CurrentStats = PlayerStats->GetCurrentModifications();
 
 	if (!IsValid(origin)) return;
 
@@ -184,7 +187,7 @@ void UGunComponent::Fire()
 	{
 		if (!IsValid(Spawner)) continue;
 
-		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
+		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation, CurrentStats.DamageFlat, CurrentStats.DamageMultiplier));
 	}
 
 	// Modifiers

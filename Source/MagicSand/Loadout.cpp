@@ -103,7 +103,7 @@ void ULoadout::Fire(FVector Location, FRotator Rotation)
 	{
 		if (!IsValid(Spawner)) continue;
 
-		NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
+		//NewProjectiles.Append(Spawner->SpawnProjectiles(Location, Rotation));
 	}
 
 	// Modifiers

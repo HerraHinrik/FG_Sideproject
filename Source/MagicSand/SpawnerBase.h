@@ -45,13 +45,13 @@ protected:
 	);
 
 	UFUNCTION(BlueprintCallable)
-	AProjectileBase* SpawnSingleProjectile(FVector Location, FRotator Rotation);
+	AProjectileBase* SpawnSingleProjectile(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost);
 
 public:
 
 	// Override this for custom spawning
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	TArray<AProjectileBase*> SpawnProjectiles(FVector Location, FRotator Rotation);
-	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation);
+	TArray<AProjectileBase*> SpawnProjectiles(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost);
+	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost);
 	
 };

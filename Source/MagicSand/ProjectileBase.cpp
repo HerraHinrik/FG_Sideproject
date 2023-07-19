@@ -57,18 +57,6 @@ void AProjectileBase::SetRawDamage(float Amount)
 	RawDamage = Amount;
 }
 
-void AProjectileBase::ApplyDamageModifier(float Amount)
-{
-	//Amount needs to be in decimal form for x% increased or negative for x% decreased
-	DamageMultiplier += Amount;
-
-	if (DamageMultiplier >= DamageMultiplierCap)
-	{
-		DamageMultiplier = DamageMultiplierCap;
-	}
-}
-
-
 USphereComponent* AProjectileBase::GetCollisionComponent()
 {
 	return CollisionComp;
@@ -89,5 +77,22 @@ void AProjectileBase::PropagateHitToComponents(AActor* InActor, FVector HitLocat
 	for (auto OnHitComponent : OnHitComponents)
 	{
 		OnHitComponent->ProcessOnHit(InActor, HitLocation, ImpactNormal);
+	}
+}
+
+
+void AProjectileBase::AddToRawDamage(int32 Amount)
+{
+	RawDamage += Amount;
+}
+
+void AProjectileBase::AddToDamageMultiplier(float Amount)
+{
+	//Amount needs to be in decimal form for x% increased or negative for x% decreased
+	DamageMultiplier += Amount;
+
+	if (DamageMultiplier >= DamageMultiplierCap)
+	{
+		DamageMultiplier = DamageMultiplierCap;
 	}
 }

@@ -9,6 +9,7 @@
 #include "ModifierBase.h"
 #include "Loadout.h"
 #include "ModifierStructs.h"
+#include "PlayerModifierComponent.h"
 #include "GunComponent.generated.h"
 
 USTRUCT(BlueprintType)
@@ -52,6 +53,10 @@ protected: // Properties
 	UPROPERTY()
 	TArray<FWeaponLoadout> LoadoutArray;
 
+
+	UPROPERTY()
+	UPlayerModifierComponent* PlayerStats;
+
 protected: // Functions
 	virtual void BeginPlay() override;
 
@@ -81,15 +86,13 @@ public: // Properties
 
 public: // Functions
 
-	void InitializeGunComponent();
+	void InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent);
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void RegisterReloadSubscribers(FWeaponLoadout Loadout);
 
 	void ClearReloadSubscribers();
-
-	void SetCurrentLoadoutByIndex(int32 Index);
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleLoadout();

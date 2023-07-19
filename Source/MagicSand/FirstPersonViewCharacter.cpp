@@ -66,7 +66,7 @@ void AFirstPersonViewCharacter::BeginPlay()
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Weapon comp blueprint name: %s"), *WeaponComponent->GetName())
 
-	WeaponComponent->InitializeGunComponent();
+	WeaponComponent->InitializeGunComponent(PlayerModifierComponent);
 
 	//Use BP for hand component
 	HandComponent = NewObject<UHandComponent>(this, HandComponentBP);

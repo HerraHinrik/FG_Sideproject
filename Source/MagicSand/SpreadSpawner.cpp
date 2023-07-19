@@ -22,7 +22,7 @@ FVector USpreadSpawner::GetDirectionFromCone()
 	return Direction;
 }
 
-TArray<AProjectileBase*> USpreadSpawner::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
+TArray<AProjectileBase*> USpreadSpawner::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost)
 {
 	TArray<AProjectileBase*> Projectiles = TArray<AProjectileBase*>();
 	for (int32 i = 0; i < BulletAmount; i++)
@@ -31,7 +31,7 @@ TArray<AProjectileBase*> USpreadSpawner::SpawnProjectiles_Implementation(FVector
 		FQuat RotatedDirection = RandDirection.ToOrientationQuat() * Rotation.Quaternion();
 
 		FVector AdjustedLoaction = Location + Rotation.RotateVector(MuzzleOffset);
-		AProjectileBase* Proj = SpawnSingleProjectile(AdjustedLoaction, RandDirection.ToOrientationRotator());
+		AProjectileBase* Proj = SpawnSingleProjectile(AdjustedLoaction, RandDirection.ToOrientationRotator(), RawDamageBoost, DamagePercentageBoost);
 		Projectiles.Add(Proj);
 	}
 	
