@@ -22,20 +22,24 @@ AProjectileBase* USpawnerBase::SpawnProjectile(
 	return Projectile;
 }
 
-AProjectileBase* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator Rotation)
+AProjectileBase* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost)
 {
 	FActorSpawnParameters Params = FActorSpawnParameters();
 	Params.SpawnCollisionHandlingOverride = SpawnActorCollisionHandlingMethod;
+	
+	AProjectileBase* Projectile = SpawnProjectile(ProjectileClass, &Location, &Rotation, Params);
+	Projectile->AddToRawDamage(RawDamageBoost);
+	Projectile->AddToDamageMultiplier(DamagePercentageBoost);
 
-	return SpawnProjectile(ProjectileClass, &Location, &Rotation, Params);
+	return Projectile;
 }
 
-TArray<AProjectileBase*> USpawnerBase::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation)
+TArray<AProjectileBase*> USpawnerBase::SpawnProjectiles_Implementation(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost)
 {
 	TArray<AProjectileBase*> Projectiles = TArray<AProjectileBase*>();
 
 	FVector AdjustedLoaction = Location + Rotation.RotateVector(MuzzleOffset);
-	Projectiles.Add(SpawnSingleProjectile(AdjustedLoaction, Rotation));
+	Projectiles.Add(SpawnSingleProjectile(AdjustedLoaction, Rotation, RawDamageBoost, DamagePercentageBoost));
 
 	return Projectiles;
 }
