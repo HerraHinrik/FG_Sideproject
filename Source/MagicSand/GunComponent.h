@@ -8,8 +8,8 @@
 #include "ConstraintBase.h"
 #include "ModifierBase.h"
 #include "Loadout.h"
+#include "ModifierStructs.h"
 #include "GunComponent.generated.h"
-
 
 USTRUCT(BlueprintType)
 struct FWeaponLoadout
@@ -33,7 +33,7 @@ struct FWeaponLoadout
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGunDelegate);
 
-UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MAGICSAND_API UGunComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -107,11 +107,15 @@ public: // Functions
 	void Reload();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		FWeaponLoadout BuildShotgunLoadout();
+	FWeaponLoadout BuildShotgunLoadout();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		FWeaponLoadout BuildDiscLoadout();
+	FWeaponLoadout BuildDiscLoadout();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		FWeaponLoadout BuildBoltLoadout();
+	FWeaponLoadout BuildBoltLoadout();
+
+	// UI facing interface
+	UFUNCTION(BlueprintCallable)
+	TArray<FModifierUIData> GetActiveModifierData();
 };

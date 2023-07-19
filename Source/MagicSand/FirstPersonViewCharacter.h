@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GunComponent.h"
+#include "PlayerModifierComponent.h"
 #include "FirstPersonViewCharacter.generated.h"
 
 class UInputComponent;
@@ -28,6 +29,9 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
 		UGunComponent* WeaponComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Stats)
+		UPlayerModifierComponent* PlayerModifierComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Cards)
 		UHandComponent* HandComponent;
@@ -93,7 +97,6 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UHandComponent> HandComponentBP;
 
-
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UDeckComponentBase> DeckComponentBP;
 
@@ -148,5 +151,15 @@ public:
 
 	void UseAbilityFour(const FInputActionValue& Value);
 
+	UFUNCTION(BlueprintCallable)
 	UGunComponent* GetWeaponComponenet();
+
+	UFUNCTION(BlueprintCallable)
+	UPlayerModifierComponent* GetPlayerModifierComponenet();
+
+	UFUNCTION(BlueprintCallable)
+	UHandComponent* GetHandComponenet();
+
+	UFUNCTION(BlueprintCallable)
+	UDeckComponentBase* GetDeckComponenet();
 };

@@ -34,13 +34,16 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
 	//create initial gun component
-	WeaponComponent = CreateDefaultSubobject<UGunComponent>(TEXT("Weapon"));
+	WeaponComponent = CreateDefaultSubobject<UGunComponent>(TEXT("WeaponComp"));
 
 	//create initial hand component
-	HandComponent = CreateDefaultSubobject<UHandComponent>(TEXT("Hand"));
+	HandComponent = CreateDefaultSubobject<UHandComponent>(TEXT("HandComp"));
 
 	//create initial deck component
-	DeckComponent = CreateDefaultSubobject<UDeckComponentBase>(TEXT("Deck"));
+	DeckComponent = CreateDefaultSubobject<UDeckComponentBase>(TEXT("DeckComp"));
+
+	//create initial gun component
+	PlayerModifierComponent = CreateDefaultSubobject<UPlayerModifierComponent>(TEXT("PlayerModifierComp"));
 
 }
 
@@ -235,4 +238,19 @@ void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()
 {
 	return WeaponComponent;
+}
+
+UPlayerModifierComponent* AFirstPersonViewCharacter::GetPlayerModifierComponenet()
+{
+	return PlayerModifierComponent;
+}
+
+UHandComponent* AFirstPersonViewCharacter::GetHandComponenet()
+{
+	return HandComponent;
+}
+
+UDeckComponentBase* AFirstPersonViewCharacter::GetDeckComponenet()
+{
+	return DeckComponent;
 }

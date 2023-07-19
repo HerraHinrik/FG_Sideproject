@@ -201,3 +201,27 @@ void UGunComponent::Reload()
 {
 	OnReload.Broadcast();
 }
+
+TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
+{
+	TArray<FModifierUIData> Results;
+
+	TArray<UModifierBase*> Modifiers = LoadoutArray[CurrentIndex].ModifierArray;
+	for (auto Modifier : Modifiers)
+	{
+		if (!IsValid(Modifier))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
+			continue;
+		}
+
+		FModifierUIData Info = FModifierUIData();
+		Info.IconID = Modifier->GetIconID();
+		Info.DurationLeft = Modifier->GetDurationLeft();
+		Info.DurationMax = Modifier->GetDurationMax();
+
+		Results.Add(Info);
+	}
+
+	return Results;
+}
