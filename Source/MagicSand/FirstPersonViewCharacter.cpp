@@ -206,6 +206,7 @@ void AFirstPersonViewCharacter::Reload(const FInputActionValue& Value)
 	WeaponComponent->Reload();
 }
 
+
 void AFirstPersonViewCharacter::SwapWeapon(const FInputActionValue& Value)
 {
 	if (!IsValid(WeaponComponent)) return;
@@ -233,7 +234,6 @@ void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 {
 	WeaponComponent->ApplyModifier(AbilityModifierFour);
 }
-
 
 UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()
 {

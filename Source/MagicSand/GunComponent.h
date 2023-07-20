@@ -53,7 +53,6 @@ protected: // Properties
 	UPROPERTY()
 	TArray<FWeaponLoadout> LoadoutArray;
 
-
 	UPROPERTY()
 	UPlayerModifierComponent* PlayerStats;
 
@@ -69,9 +68,22 @@ protected: // Functions
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	UModifierBase* CreateModifier(TSubclassOf<UModifierBase> ModifierClass);
 
-	UFUNCTION(BlueprintCallable)
-	void ClearLoadout(FWeaponLoadout Loadout);
+	UFUNCTION(BlueprintImplementableEvent)
+	FWeaponLoadout BuildShotgunLoadout();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	FWeaponLoadout BuildDiscLoadout();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	FWeaponLoadout BuildBoltLoadout();
+
+	void AddLoadout(FWeaponLoadout Loadout);
+
+	void EmptyLoadout(FWeaponLoadout Loadout);
+
+	void RegisterReloadSubscribers(FWeaponLoadout Loadout);
+
+	void ClearReloadSubscribers();
 
 	UFUNCTION()
 	void RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, FWeaponLoadout Loadout);
@@ -82,41 +94,22 @@ protected: // Functions
 	UFUNCTION()
 	void RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWeaponLoadout Loadout);
 
+	void CreateWeaponLoadouts();
+
 public: // Properties
 
 public: // Functions
-
 	void InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent);
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void RegisterReloadSubscribers(FWeaponLoadout Loadout);
-
-	void ClearReloadSubscribers();
-
-	UFUNCTION(BlueprintCallable)
 	void ToggleLoadout();
 
-	UFUNCTION(BlueprintCallable)
-	void AddLoadout(FWeaponLoadout Loadout);
-
-	UFUNCTION(BlueprintCallable)
 	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
 
-	UFUNCTION(BlueprintCallable)
 	void Fire();
 
-	UFUNCTION(BlueprintCallable)
 	void Reload();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	FWeaponLoadout BuildShotgunLoadout();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	FWeaponLoadout BuildDiscLoadout();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	FWeaponLoadout BuildBoltLoadout();
 
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)
