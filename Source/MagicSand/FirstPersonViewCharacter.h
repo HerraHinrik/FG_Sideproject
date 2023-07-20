@@ -137,18 +137,25 @@ public:
 	void Dash(const FInputActionValue& Value);
 	virtual void Dash_Implementation(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void Fire(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void Reload(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void SwapWeapon(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void UseAbilityOne(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void UseAbilityTwo(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void UseAbilityThree(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void UseAbilityFour(const FInputActionValue& Value);
 
 	UFUNCTION(BlueprintCallable)

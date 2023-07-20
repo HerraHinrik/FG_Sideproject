@@ -19,13 +19,58 @@ void UGunComponent::BeginPlay()
 
 }
 
-void UGunComponent::ClearLoadout(FWeaponLoadout Loadout)
+void UGunComponent::AddLoadout(FWeaponLoadout Loadout)
+{
+	ClearReloadSubscribers();
+	RegisterReloadSubscribers(Loadout);
+	Reload();
+
+	int32 Index = LoadoutArray.Add(Loadout);
+	CurrentIndex = Index;
+}
+
+//bool UGunComponent::AddLoadout_Validate(FWeaponLoadout Loadout)
+//{
+//	return true;
+//}
+
+void UGunComponent::EmptyLoadout(FWeaponLoadout Loadout)
 {
 	Loadout.ConstraintArray.Empty();
 	Loadout.ModifierArray.Empty();
 	Loadout.SpawnerArray.Empty();
 }
 
+void UGunComponent::RegisterReloadSubscribers(FWeaponLoadout Loadout)
+{
+	auto Constraints = Loadout.ConstraintArray;
+	for (auto Constraint : Constraints)
+	{
+		if (!IsValid(Constraint))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found invalid constraint in: %d"), CurrentIndex)
+				continue;
+		}
+
+		// Empty response function on ConstraintBase allows children to add custom reload response
+		OnReload.AddDynamic(Constraint, &UConstraintBase::OnReload);
+	}
+}
+
+//bool UGunComponent::RegisterReloadSubscribers_Validate(FWeaponLoadout Loadout)
+//{
+//	return true;
+//}
+
+void UGunComponent::ClearReloadSubscribers()
+{
+	OnReload.Clear();
+}
+
+//bool UGunComponent::ClearReloadSubscribers_Validate()
+//{
+//	return true;
+//}
 
 void UGunComponent::RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, FWeaponLoadout Loadout)
 {
@@ -42,16 +87,35 @@ void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWe
 	Loadout.ModifierArray.Remove(ModifierObject);
 }
 
-void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
-{
-	PlayerStats = PlayerStatsComponent;
 
+void UGunComponent::CreateWeaponLoadouts()
+{
 	FWeaponLoadout Shotgun = BuildShotgunLoadout();
 	FWeaponLoadout BoltAction = BuildBoltLoadout();
 
 	AddLoadout(BoltAction);
 	AddLoadout(Shotgun);
 }
+
+//bool UGunComponent::CreateWeaponLoadouts_Validate()
+//{
+//	return true;
+//}
+
+void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
+{
+	SetNetAddressable();
+	SetIsReplicated(true);
+
+	PlayerStats = PlayerStatsComponent;
+
+	CreateWeaponLoadouts();
+}
+
+//bool UGunComponent::InitializeGunComponent_Validate(UPlayerModifierComponent* PlayerStatsComponent)
+//{
+//	return true;
+//}
 
 void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -86,28 +150,6 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	}
 }
 
-void UGunComponent::RegisterReloadSubscribers(FWeaponLoadout Loadout)
-{
-	auto Constraints = Loadout.ConstraintArray;
-	for (auto Constraint : Constraints)
-	{
-		if (!IsValid(Constraint))
-		{
-			UE_LOG(LogTemp,Warning, TEXT("Found invalid constraint in: %d"), CurrentIndex)
-			continue;
-		}
-
-		// Empty response function on ConstraintBase allows children to add custom reload response
-		OnReload.AddDynamic(Constraint, &UConstraintBase::OnReload);
-	}
-}
-
-void UGunComponent::ClearReloadSubscribers()
-{
-	OnReload.Clear();
-}
-
-
 void UGunComponent::ToggleLoadout()
 {
 	if (LoadoutArray.IsEmpty())
@@ -125,23 +167,21 @@ void UGunComponent::ToggleLoadout()
 	RegisterReloadSubscribers(LoadoutArray[CurrentIndex]);
 }
 
-
-void UGunComponent::AddLoadout(FWeaponLoadout Loadout)
-{
-	ClearReloadSubscribers();
-	RegisterReloadSubscribers(Loadout);
-	Reload();
-
-	int32 Index = LoadoutArray.Add(Loadout);
-	CurrentIndex = Index;
-
-}
+//bool UGunComponent::ToggleLoadout_Validate()
+//{
+//	return true;
+//}
 
 void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> ModifierClass)
 {
 	UModifierBase* NewModifier = CreateModifier(ModifierClass);
 	LoadoutArray[CurrentIndex].ModifierArray.Add(NewModifier);
 }
+
+//bool UGunComponent::ApplyModifier_Validate(TSubclassOf<UModifierBase> ModifierClass)
+//{
+//	return true;
+//}
 
 void UGunComponent::Fire()
 {
@@ -200,10 +240,20 @@ void UGunComponent::Fire()
 	}
 }
 
+//bool UGunComponent::Fire_Validate()
+//{
+//	return true;
+//}
+
 void UGunComponent::Reload()
 {
 	OnReload.Broadcast();
 }
+
+//bool UGunComponent::Reload_Validate()
+//{
+//	return true;
+//}
 
 TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 {
