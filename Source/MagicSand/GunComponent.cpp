@@ -104,12 +104,12 @@ bool UGunComponent::CreateWeaponLoadouts_Validate()
 
 void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
 {
-	SetNetAddressable();
-	SetIsReplicated(true);
-
 	PlayerStats = PlayerStatsComponent;
 
 	CreateWeaponLoadouts();
+
+	SetNetAddressable();
+	SetIsReplicated(true);
 }
 
 //bool UGunComponent::InitializeGunComponent_Validate(UPlayerModifierComponent* PlayerStatsComponent)

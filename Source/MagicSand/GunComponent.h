@@ -108,16 +108,16 @@ public: // Functions
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(Server, unreliable, WithValidation)
+	UFUNCTION(Server, reliable, WithValidation)
 	void ToggleLoadout();
 
-	UFUNCTION(Server, unreliable, WithValidation)
+	UFUNCTION(Server, reliable, WithValidation)
 	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
 
-	UFUNCTION(Server, unreliable, WithValidation)
+	UFUNCTION(Server, reliable, WithValidation)
 	void Fire();
 
-	UFUNCTION(Server, unreliable, WithValidation)
+	UFUNCTION(Server, reliable, WithValidation)
 	void Reload();
 
 	// UI facing interface
