@@ -240,7 +240,7 @@ UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()
 	return WeaponComponent;
 }
 
-UPlayerModifierComponent* AFirstPersonViewCharacter::GetPlayerModifierComponenet()
+UPlayerModifierComponent* AFirstPersonViewCharacter::GetPlayerModifierComponent()
 {
 	return PlayerModifierComponent;
 }

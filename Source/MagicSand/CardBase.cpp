@@ -15,11 +15,21 @@ void UCardBase::ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter)
 	Weapon->ApplyModifier(WeaponModifier);
 
 }
+void UCardBase::ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter)
+{
+	if (!IsValid(TargetCharacter)) return;
+
+	UPlayerModifierComponent* PlayerStats = TargetCharacter->GetPlayerModifierComponent();
+
+	if (!IsValid(PlayerStats)) return;
+
+	PlayerStats->ApplyPlayerModifier(PlayerModifier);
+}
 
 void UCardBase::PlayCard(AFirstPersonViewCharacter* TargetCharacter)
 {
 	ApplyWeaponModifier(TargetCharacter);
-	//ApplyPlayerModifier(TargetCharacter);
+	ApplyPlayerModifier(TargetCharacter);
 }
 
 int32 UCardBase::GetID()

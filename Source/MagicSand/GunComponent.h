@@ -77,12 +77,16 @@ protected: // Functions
 	UFUNCTION(BlueprintImplementableEvent)
 	FWeaponLoadout BuildBoltLoadout();
 
+	UFUNCTION()
 	void AddLoadout(FWeaponLoadout Loadout);
 
+	UFUNCTION()
 	void EmptyLoadout(FWeaponLoadout Loadout);
 
+	UFUNCTION()
 	void RegisterReloadSubscribers(FWeaponLoadout Loadout);
 
+	UFUNCTION()
 	void ClearReloadSubscribers();
 
 	UFUNCTION()
@@ -94,6 +98,7 @@ protected: // Functions
 	UFUNCTION()
 	void RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWeaponLoadout Loadout);
 
+	UFUNCTION(Server, reliable, WithValidation)
 	void CreateWeaponLoadouts();
 
 public: // Properties
@@ -103,12 +108,16 @@ public: // Functions
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(Server, unreliable, WithValidation)
 	void ToggleLoadout();
 
+	UFUNCTION(Server, unreliable, WithValidation)
 	void ApplyModifier(TSubclassOf<UModifierBase> Modifier);
 
+	UFUNCTION(Server, unreliable, WithValidation)
 	void Fire();
 
+	UFUNCTION(Server, unreliable, WithValidation)
 	void Reload();
 
 	// UI facing interface

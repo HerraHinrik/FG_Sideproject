@@ -88,7 +88,7 @@ void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWe
 }
 
 
-void UGunComponent::CreateWeaponLoadouts()
+void UGunComponent::CreateWeaponLoadouts_Implementation()
 {
 	FWeaponLoadout Shotgun = BuildShotgunLoadout();
 	FWeaponLoadout BoltAction = BuildBoltLoadout();
@@ -97,10 +97,10 @@ void UGunComponent::CreateWeaponLoadouts()
 	AddLoadout(Shotgun);
 }
 
-//bool UGunComponent::CreateWeaponLoadouts_Validate()
-//{
-//	return true;
-//}
+bool UGunComponent::CreateWeaponLoadouts_Validate()
+{
+	return true;
+}
 
 void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent)
 {
@@ -150,7 +150,7 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	}
 }
 
-void UGunComponent::ToggleLoadout()
+void UGunComponent::ToggleLoadout_Implementation()
 {
 	if (LoadoutArray.IsEmpty())
 	{
@@ -167,23 +167,23 @@ void UGunComponent::ToggleLoadout()
 	RegisterReloadSubscribers(LoadoutArray[CurrentIndex]);
 }
 
-//bool UGunComponent::ToggleLoadout_Validate()
-//{
-//	return true;
-//}
+bool UGunComponent::ToggleLoadout_Validate()
+{
+	return true;
+}
 
-void UGunComponent::ApplyModifier(TSubclassOf<UModifierBase> ModifierClass)
+void UGunComponent::ApplyModifier_Implementation(TSubclassOf<UModifierBase> ModifierClass)
 {
 	UModifierBase* NewModifier = CreateModifier(ModifierClass);
 	LoadoutArray[CurrentIndex].ModifierArray.Add(NewModifier);
 }
 
-//bool UGunComponent::ApplyModifier_Validate(TSubclassOf<UModifierBase> ModifierClass)
-//{
-//	return true;
-//}
+bool UGunComponent::ApplyModifier_Validate(TSubclassOf<UModifierBase> ModifierClass)
+{
+	return true;
+}
 
-void UGunComponent::Fire()
+void UGunComponent::Fire_Implementation()
 {
 	UCameraComponent* origin = GetOwner()->FindComponentByClass<UCameraComponent>();
 	FPlayerStatBlock CurrentStats = PlayerStats->GetCurrentModifications();
@@ -240,20 +240,20 @@ void UGunComponent::Fire()
 	}
 }
 
-//bool UGunComponent::Fire_Validate()
-//{
-//	return true;
-//}
+bool UGunComponent::Fire_Validate()
+{
+	return true;
+}
 
-void UGunComponent::Reload()
+void UGunComponent::Reload_Implementation()
 {
 	OnReload.Broadcast();
 }
 
-//bool UGunComponent::Reload_Validate()
-//{
-//	return true;
-//}
+bool UGunComponent::Reload_Validate()
+{
+	return true;
+}
 
 TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 {

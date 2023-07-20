@@ -7,13 +7,13 @@
 #include "ModifierStructs.h"
 #include "PlayerModifier.generated.h"
 
-/**
- * 
- */
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegate, UPlayerModifier*, ModifierObject);
 
-UCLASS()
+/**
+ *
+ */
+UCLASS(BlueprintType, Blueprintable)
 class MAGICSAND_API UPlayerModifier : public UObject
 {
 	GENERATED_BODY()
@@ -23,31 +23,31 @@ public:
 	FPlayerModifierDelegate OnExpire;
 	
 protected:
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock StatModifications;
 
-	UPROPERTY(BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float ExpiredDuration = 0;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float LifetimeDuration;
 
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	int32 IconID;
 
 public:
 	void TickModifier(float DeltaTime);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	FPlayerStatBlock GetStatModifications();
 
 
 	UFUNCTION(BlueprintCallable)
-		int32 GetIconID();
+	int32 GetIconID();
 
 	UFUNCTION(BlueprintCallable)
-		float GetDurationLeft();
+	float GetDurationLeft();
 
 	UFUNCTION(BlueprintCallable)
-		float GetDurationMax();
+	float GetDurationMax();
 };

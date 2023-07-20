@@ -162,7 +162,7 @@ public:
 	UGunComponent* GetWeaponComponenet();
 
 	UFUNCTION(BlueprintCallable)
-	UPlayerModifierComponent* GetPlayerModifierComponenet();
+	UPlayerModifierComponent* GetPlayerModifierComponent();
 
 	UFUNCTION(BlueprintCallable)
 	UHandComponent* GetHandComponenet();

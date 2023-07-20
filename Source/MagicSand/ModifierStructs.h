@@ -25,19 +25,19 @@ struct FPlayerStatBlock
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float SpeedMultiplier;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float DamageMultiplier;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	int32 DamageFlat;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	int32 Armor;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float Health;
 
 	FPlayerStatBlock()

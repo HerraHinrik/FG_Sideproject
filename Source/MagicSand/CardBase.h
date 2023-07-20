@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "PlayerModifier.h"
 #include "CardBase.generated.h"
 
 class AFirstPersonViewCharacter;
@@ -24,12 +25,12 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TSubclassOf<UModifierBase> WeaponModifier;
 
-	//UPROPERTY(EditDefaultsOnly)
-	//	TSubclassOf<USOMEMODIFIER> PlayerModifier;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UPlayerModifier> PlayerModifier;
 
 protected:
 	void ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter);
-	//void ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter);
+	void ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter);
 
 public:
 	UFUNCTION(BlueprintCallable)

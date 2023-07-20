@@ -91,13 +91,13 @@ FPlayerStatBlock UPlayerModifierComponent::GetCurrentModifications()
 	return ValidatedModifications;
 }
 
-void UPlayerModifierComponent::ApplyPlayerModifier(UPlayerModifier* Modifier)
+void UPlayerModifierComponent::ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier)
 {
 	FName UniqueName = MakeUniqueObjectName(this, UPlayerModifier::StaticClass());
-	UPlayerModifier* NewModifier = DuplicateObject<UPlayerModifier>(Modifier, this, UniqueName);
+	UPlayerModifier* NewModifier = NewObject<UPlayerModifier>(this, UniqueName);
 	ModifierArray.Add(NewModifier);
 
-	ApplyModifications(Modifier->GetStatModifications());
+	ApplyModifications(NewModifier->GetStatModifications());
 	NewModifier->OnExpire.AddDynamic(this, &UPlayerModifierComponent::RemovePlayerModifier);
 }
 

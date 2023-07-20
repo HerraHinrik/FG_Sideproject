@@ -60,7 +60,7 @@ public:
 	FPlayerStatBlock GetCurrentModifications();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyPlayerModifier(UPlayerModifier* Modifier);
+	void ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier);
 
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)
