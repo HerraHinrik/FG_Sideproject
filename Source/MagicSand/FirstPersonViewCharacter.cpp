@@ -216,22 +216,22 @@ void AFirstPersonViewCharacter::SwapWeapon(const FInputActionValue& Value)
 
 void AFirstPersonViewCharacter::UseAbilityOne(const FInputActionValue& Value)
 {
-	WeaponComponent->ApplyModifier(AbilityModifierOne);
+	HandComponent->PlayCard(0, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityTwo(const FInputActionValue& Value)
 {
-	WeaponComponent->ApplyModifier(AbilityModifierTwo);
+	HandComponent->PlayCard(1, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityThree(const FInputActionValue& Value)
 {
-	WeaponComponent->ApplyModifier(AbilityModifierThree);
+	HandComponent->PlayCard(2, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 {
-	WeaponComponent->ApplyModifier(AbilityModifierFour);
+	HandComponent->PlayCard(3, this);
 }
 
 
