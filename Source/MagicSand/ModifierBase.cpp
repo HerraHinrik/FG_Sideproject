@@ -38,16 +38,18 @@ void UModifierBase::UpdateConstraints()
 	}
 }
 
-void UModifierBase::ModifierTick(float DeltaTime)
-{
-	LastTickFrame = GFrameCounter;
-	ExpiredDuration += DeltaTime;
-
-	if (ExpiredDuration >= LifetimeDuration)
-	{
-		OnExpire.Broadcast(this);
-	}
-}
+//void UModifierBase::ModifierTick(float DeltaTime)
+//{
+//	LastTickFrame = GFrameCounter;
+//	ExpiredDuration += DeltaTime;
+//
+//
+//	if (ExpiredDuration >= LifetimeDuration)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("Modifier expired. %s"), LoadoutIndex)
+//		OnExpire.Broadcast(Modifier);
+//	}
+//}
 
 TArray<AProjectileBase*> UModifierBase::ProcessSingle_Implementation(AProjectileBase* Projectile)
 {
@@ -93,11 +95,11 @@ int32 UModifierBase::GetIconID()
 	return IconID;
 }
 
-float UModifierBase::GetDurationLeft()
-{
-	float TimeLeft = LifetimeDuration - ExpiredDuration;
-	return UKismetMathLibrary::Max(0, TimeLeft);
-}
+//float UModifierBase::GetDurationLeft()
+//{
+//	float TimeLeft = LifetimeDuration - ExpiredDuration;
+//	return UKismetMathLibrary::Max(0, TimeLeft);
+//}
 
 float UModifierBase::GetDurationMax()
 {

@@ -18,7 +18,7 @@
  * They also support constraints that affect whether or not the modifier performs a change.
  */
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGunModifierDelegate, UModifierBase*, ModifierObject);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGunModifierDelegate, TSharedPtr<UModifierBase>, ModifierObject);
 
 UCLASS(Blueprintable)
 class MAGICSAND_API UModifierBase : public UObject
@@ -28,8 +28,8 @@ class MAGICSAND_API UModifierBase : public UObject
 public:
 	UModifierBase();
 
-	UPROPERTY(BlueprintAssignable);
-	FGunModifierDelegate OnExpire;
+	/*UPROPERTY(BlueprintAssignable);
+	FGunModifierDelegate OnExpire;*/
 
 private:
 	bool CheckConstaints();
@@ -45,10 +45,6 @@ protected:
 	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	TArray<UConstraintBase*> ConstraintArray;
 
-	// Track The last frame number we were ticked.
-	UPROPERTY()
-		int32 LastTickFrame = INDEX_NONE;
-
 	UPROPERTY(BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
 		float ExpiredDuration = 0;
 
@@ -61,7 +57,7 @@ protected:
 
 
 public:
-	virtual void ModifierTick(float DeltaTime);
+	//virtual void ModifierTick(float DeltaTime);
 
 	// Not for overriding
 	TArray<AProjectileBase*> ProcessProjectiles(TArray<AProjectileBase*> ProjectileArray);
@@ -75,8 +71,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetIconID();
 
-	UFUNCTION(BlueprintCallable)
-	float GetDurationLeft();
+	//UFUNCTION(BlueprintCallable)
+	//float GetDurationLeft();
 
 	UFUNCTION(BlueprintCallable)
 	float GetDurationMax();

@@ -131,6 +131,6 @@ void ULoadout::TickLoadout(float DeltaTime)
 	{
 		if (!IsValid(Modifier)) continue;
 		
-		Modifier->ModifierTick(DeltaTime);
+		//Modifier->ModifierTick(DeltaTime);
 	}
 }

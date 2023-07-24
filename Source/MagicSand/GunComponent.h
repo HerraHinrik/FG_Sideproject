@@ -26,6 +26,12 @@ struct FWeaponLoadout
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	TArray<UModifierBase*> ModifierArray;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<float> ModifierDurations;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<UModifierBase*> ExpiredModifiers;
 };
 
 /**
@@ -90,13 +96,13 @@ protected: // Functions
 	void ClearReloadSubscribers();
 
 	UFUNCTION()
-	void RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, FWeaponLoadout Loadout);
+	void RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, int32 Index);
 
 	UFUNCTION()
-	void RemoveConstraintFromLoadout(UConstraintBase* ConstraintObject, FWeaponLoadout Loadout);
+	void RemoveConstraintFromLoadout(UConstraintBase* ConstraintObject, int32 Index);
 
 	UFUNCTION()
-	void RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWeaponLoadout Loadout);
+	void RemoveModifierFromLoadout(UModifierBase* ModifierObject, int32 Index);
 
 	UFUNCTION(Server, reliable, WithValidation)
 	void CreateWeaponLoadouts();

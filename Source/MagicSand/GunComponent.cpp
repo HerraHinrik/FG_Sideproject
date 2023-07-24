@@ -16,7 +16,6 @@ UGunComponent::UGunComponent()
 void UGunComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void UGunComponent::AddLoadout(FWeaponLoadout Loadout)
@@ -72,21 +71,25 @@ void UGunComponent::ClearReloadSubscribers()
 //	return true;
 //}
 
-void UGunComponent::RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, FWeaponLoadout Loadout)
+void UGunComponent::RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, int32 Index)
 {
+	auto Loadout = LoadoutArray[Index];
 	Loadout.SpawnerArray.Remove(SpawnerObject);
 }
 
-void UGunComponent::RemoveConstraintFromLoadout(UConstraintBase* ConstraintObject, FWeaponLoadout Loadout)
+void UGunComponent::RemoveConstraintFromLoadout(UConstraintBase* ConstraintObject, int32 Index)
 {
+	auto Loadout = LoadoutArray[Index];
 	Loadout.ConstraintArray.Remove(ConstraintObject);
 }
 
-void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, FWeaponLoadout Loadout)
+void UGunComponent::RemoveModifierFromLoadout(UModifierBase* ModifierObject, int32 Index)
 {
-	Loadout.ModifierArray.Remove(ModifierObject);
-}
+	auto Loadout = LoadoutArray[Index];
+	int32 Amount = Loadout.ModifierArray.Remove(ModifierObject);
 
+	UE_LOG(LogTemp, Warning, TEXT("Destroyed %d modifiers."), Amount)
+}
 
 void UGunComponent::CreateWeaponLoadouts_Implementation()
 {
@@ -121,10 +124,13 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	for (FWeaponLoadout Loadout : LoadoutArray)
+	for (FWeaponLoadout& Loadout : LoadoutArray)
 	{ 
+		TArray<UConstraintBase*> &Constraints = Loadout.ConstraintArray;
+		TArray<UModifierBase*> &Modifiers = Loadout.ModifierArray;
+		TArray<float> &Durations = Loadout.ModifierDurations;
 
-		for (UConstraintBase* Constraint : Loadout.ConstraintArray)
+		for (UConstraintBase* Constraint : Constraints)
 		{
 			if (!IsValid(Constraint))
 			{
@@ -136,17 +142,40 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 			Constraint->ConstraintTick(DeltaTime);
 		}
 
-		for (UModifierBase* Modifier : Loadout.ModifierArray)
+		for (int i = 0; i < Modifiers.Num(); i++)
 		{
-			if (!IsValid(Modifier))
+			if (!IsValid(Modifiers[i]))
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Found invalid modifier in: %d"), CurrentIndex)
 
 				continue;
 			}
 
-			Modifier->ModifierTick(DeltaTime);
+			if (!Durations.IsValidIndex(i))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Found invalid duration index in: %d"), CurrentIndex)
+
+					continue;
+			}
+
+			Durations[i] += DeltaTime;
+
+			if (Durations[i] >= Modifiers[i]->GetDurationMax())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Expired modifier is added to list"))
+				Loadout.ExpiredModifiers.Add(Modifiers[i]);
+			}
 		}
+		
+		for (UModifierBase* Modifier : Loadout.ExpiredModifiers)
+		{
+			int32 Index = Modifiers.IndexOfByKey(Modifier);
+
+			Loadout.ModifierArray.RemoveAt(Index);
+			Loadout.ModifierDurations.RemoveAt(Index);
+		}
+
+		Loadout.ExpiredModifiers.Empty();
 	}
 }
 
@@ -175,7 +204,9 @@ bool UGunComponent::ToggleLoadout_Validate()
 void UGunComponent::ApplyModifier_Implementation(TSubclassOf<UModifierBase> ModifierClass)
 {
 	UModifierBase* NewModifier = CreateModifier(ModifierClass);
-	LoadoutArray[CurrentIndex].ModifierArray.Add(NewModifier);
+	FWeaponLoadout& Loadout = LoadoutArray[CurrentIndex];
+	Loadout.ModifierArray.Add(NewModifier);
+	Loadout.ModifierDurations.Add(0);
 }
 
 bool UGunComponent::ApplyModifier_Validate(TSubclassOf<UModifierBase> ModifierClass)
@@ -259,9 +290,13 @@ TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 {
 	TArray<FModifierUIData> Results;
 
-	TArray<UModifierBase*> Modifiers = LoadoutArray[CurrentIndex].ModifierArray;
-	for (auto Modifier : Modifiers)
+	FWeaponLoadout Loadout = LoadoutArray[CurrentIndex];
+	TArray<UModifierBase*> Modifiers = Loadout.ModifierArray;
+
+	for (int32 i = 0; i < Modifiers.Num(); i++)
 	{
+		auto Modifier = Modifiers[i];
+
 		if (!IsValid(Modifier))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
@@ -270,8 +305,8 @@ TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 
 		FModifierUIData Info = FModifierUIData();
 		Info.IconID = Modifier->GetIconID();
-		Info.DurationLeft = Modifier->GetDurationLeft();
 		Info.DurationMax = Modifier->GetDurationMax();
+		Info.DurationLeft = Info.DurationMax - Loadout.ModifierDurations[i];
 
 		Results.Add(Info);
 	}

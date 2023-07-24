@@ -11,13 +11,13 @@ struct FModifierUIData
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	int32 IconID;
+	int32 IconID = 0;
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	float DurationLeft;
+	float DurationLeft = 0;
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	float DurationMax;
+	float DurationMax = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -26,17 +26,17 @@ struct FPlayerStatBlock
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	float SpeedMultiplier;
+	float SpeedMultiplier = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	float DamageMultiplier;
+	float DamageMultiplier = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	int32 DamageFlat;
+	int32 DamageFlat = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	int32 Armor;
+	int32 Armor = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	float Health;
+	float Health = 0;
 };
