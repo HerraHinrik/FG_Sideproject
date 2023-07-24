@@ -20,9 +20,7 @@ public:
 	// Sets default values for this component's properties
 	UOnHitComponentBase();
 protected:
-
-	float BaseDamage;
-
+	UPROPERTY()
 	AController* Instigator;
 
 protected:

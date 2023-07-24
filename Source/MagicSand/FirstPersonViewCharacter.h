@@ -39,7 +39,7 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Cards , meta = (AllowPrivateAccess = "true"))
 		UDeckComponentBase* DeckComponent;
 	
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		USkeletalMeshComponent* Mesh1P;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "PlayerModifierComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -17,14 +16,12 @@ UPlayerModifierComponent::UPlayerModifierComponent()
 	ActiveModifications.Health = MaxModifications.Health;
 }
 
-
 // Called when the game starts
 void UPlayerModifierComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UPlayerModifierComponent::OnTakeDamage);
-	
 }
 
 void UPlayerModifierComponent::ApplyModifications(FPlayerStatBlock StatChanges)
@@ -35,7 +32,6 @@ void UPlayerModifierComponent::ApplyModifications(FPlayerStatBlock StatChanges)
 	ActiveModifications.SpeedMultiplier += StatChanges.SpeedMultiplier;
 	ActiveModifications.Health += StatChanges.Health;
 }
-
 
 void UPlayerModifierComponent::CleanUpModifications(FPlayerStatBlock StatChanges)
 {
@@ -51,6 +47,7 @@ void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
 	FPlayerStatBlock StatChanges = Modifier->GetStatModifications();
 	CleanUpModifications(StatChanges);
 	ModifierArray.Remove(Modifier);
+	OnRemoveModifier.Broadcast(Modifier);
 }
 
 void UPlayerModifierComponent::OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
@@ -99,6 +96,7 @@ void UPlayerModifierComponent::ApplyPlayerModifier(TSubclassOf<UPlayerModifier> 
 
 	ApplyModifications(NewModifier->GetStatModifications());
 	NewModifier->OnExpire.AddDynamic(this, &UPlayerModifierComponent::RemovePlayerModifier);
+	OnApplyModifier.Broadcast(NewModifier);
 }
 
 TArray<FModifierUIData> UPlayerModifierComponent::GetActiveModifierData()

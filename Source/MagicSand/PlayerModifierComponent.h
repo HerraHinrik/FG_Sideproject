@@ -30,10 +30,10 @@ protected:
 	UPROPERTY()
 	FPlayerStatBlock ActiveModifications;
 
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MaxModifications;;
 
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 		FPlayerStatBlock MinModifications;
 
 protected:

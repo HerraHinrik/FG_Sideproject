@@ -6,7 +6,7 @@
 
 void UCardBase::ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter)
 {
-	if (!IsValid(TargetCharacter)) return;
+	if (!IsValid(TargetCharacter) || !IsValid(WeaponModifier)) return;
 
 	UGunComponent* Weapon = TargetCharacter->GetWeaponComponenet();
 
@@ -17,7 +17,7 @@ void UCardBase::ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter)
 }
 void UCardBase::ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter)
 {
-	if (!IsValid(TargetCharacter)) return;
+	if (!IsValid(TargetCharacter) || !IsValid(PlayerModifier)) return;
 
 	UPlayerModifierComponent* PlayerStats = TargetCharacter->GetPlayerModifierComponent();
 

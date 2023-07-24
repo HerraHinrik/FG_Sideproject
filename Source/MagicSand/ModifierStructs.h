@@ -39,13 +39,4 @@ struct FPlayerStatBlock
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float Health;
-
-	/*FPlayerStatBlock()
-	{
-		SpeedMultiplier = 0;
-		DamageMultiplier = 0;
-		DamageFlat = 0;
-		Armor = 0;
-		Health = 0;
-	}*/
 };
