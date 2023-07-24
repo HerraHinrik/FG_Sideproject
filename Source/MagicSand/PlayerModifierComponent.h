@@ -31,10 +31,10 @@ protected:
 	FPlayerStatBlock ActiveModifications;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	FPlayerStatBlock MaxModifications;;
+	FPlayerStatBlock MaxModifications;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-		FPlayerStatBlock MinModifications;
+	FPlayerStatBlock MinModifications;
 
 protected:
 	// Called when the game starts
@@ -65,5 +65,4 @@ public:
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)
 	TArray<FModifierUIData> GetActiveModifierData();
-
 };

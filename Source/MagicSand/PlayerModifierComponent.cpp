@@ -13,7 +13,7 @@ UPlayerModifierComponent::UPlayerModifierComponent()
 	ActiveModifications.DamageFlat = 0;
 	ActiveModifications.DamageMultiplier = 0;
 	ActiveModifications.SpeedMultiplier = 0;
-	ActiveModifications.Health = MaxModifications.Health;
+	ActiveModifications.Health = 0;
 }
 
 // Called when the game starts
@@ -22,6 +22,8 @@ void UPlayerModifierComponent::BeginPlay()
 	Super::BeginPlay();
 
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UPlayerModifierComponent::OnTakeDamage);
+
+	ActiveModifications.Health = MaxModifications.Health;
 }
 
 void UPlayerModifierComponent::ApplyModifications(FPlayerStatBlock StatChanges)
