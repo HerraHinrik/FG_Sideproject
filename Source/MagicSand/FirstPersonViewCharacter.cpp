@@ -79,6 +79,13 @@ void AFirstPersonViewCharacter::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Deck comp blueprint name: %s"), *DeckComponent->GetName())
 
 	DeckComponent->InitializeCardComponent();
+
+	LocalClientSetUp();
+}
+
+void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
+{
+	SetUpHUD();
 }
 
 // Called to bind functionality to input

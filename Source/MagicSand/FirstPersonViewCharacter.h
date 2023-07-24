@@ -90,6 +90,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION(Client, reliable)
+	void LocalClientSetUp();
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UGunComponent> GunComponentBP;
@@ -116,6 +119,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetUpHUD();
 
 	UFUNCTION(BlueprintCallable)
 	void LaunchFromPad(FVector Velocity);
