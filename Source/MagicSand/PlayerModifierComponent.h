@@ -8,7 +8,7 @@
 #include "PlayerModifierComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
 {
 	GENERATED_BODY()
