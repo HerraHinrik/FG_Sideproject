@@ -27,16 +27,16 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	GENERATED_BODY()
 
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 		UGunComponent* WeaponComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Stats)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Stats, meta = (AllowPrivateAccess = "true"))
 		UPlayerModifierComponent* PlayerModifierComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Cards)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Cards, meta = (AllowPrivateAccess = "true"))
 		UHandComponent* HandComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Cards)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Cards , meta = (AllowPrivateAccess = "true"))
 		UDeckComponentBase* DeckComponent;
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
