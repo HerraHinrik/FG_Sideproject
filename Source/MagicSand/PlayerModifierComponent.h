@@ -49,7 +49,7 @@ protected:
 	UFUNCTION()
 	void RemovePlayerModifier(UPlayerModifier* Modifier);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
 public:	
