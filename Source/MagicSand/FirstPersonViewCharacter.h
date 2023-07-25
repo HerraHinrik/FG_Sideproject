@@ -109,18 +109,6 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UDeckComponentBase> DeckComponentBP;
 
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierOne;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierTwo;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierThree;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierFour;
-
 public:	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
