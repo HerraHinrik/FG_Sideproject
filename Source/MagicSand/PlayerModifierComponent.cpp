@@ -2,6 +2,7 @@
 
 #include "PlayerModifierComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UPlayerModifierComponent::UPlayerModifierComponent()
@@ -14,6 +15,9 @@ UPlayerModifierComponent::UPlayerModifierComponent()
 	ActiveModifications.DamageMultiplier = 0;
 	ActiveModifications.SpeedMultiplier = 0;
 	ActiveModifications.Health = 0;
+
+	SetNetAddressable();
+	SetIsReplicated(true);
 }
 
 // Called when the game starts
@@ -26,7 +30,7 @@ void UPlayerModifierComponent::BeginPlay()
 	ActiveModifications.Health = MaxModifications.Health;
 }
 
-void UPlayerModifierComponent::ApplyModifications(FPlayerStatBlock StatChanges)
+void UPlayerModifierComponent::ApplyModifications_Implementation(FPlayerStatBlock StatChanges)
 {
 	ActiveModifications.Armor += StatChanges.Armor;
 	ActiveModifications.DamageFlat += StatChanges.DamageFlat;
@@ -35,13 +39,23 @@ void UPlayerModifierComponent::ApplyModifications(FPlayerStatBlock StatChanges)
 	ActiveModifications.Health += StatChanges.Health;
 }
 
-void UPlayerModifierComponent::CleanUpModifications(FPlayerStatBlock StatChanges)
+bool UPlayerModifierComponent::ApplyModifications_Validate(FPlayerStatBlock StatChanges)
+{
+	return true;
+}
+
+void UPlayerModifierComponent::CleanUpModifications_Implementation(FPlayerStatBlock StatChanges)
 {
 	ActiveModifications.Armor -= StatChanges.Armor;
 	ActiveModifications.DamageFlat -= StatChanges.DamageFlat;
 	ActiveModifications.DamageMultiplier -= StatChanges.DamageMultiplier;
 	ActiveModifications.SpeedMultiplier -= StatChanges.SpeedMultiplier;
 	ActiveModifications.Health -= StatChanges.Health;
+}
+
+bool UPlayerModifierComponent::CleanUpModifications_Validate(FPlayerStatBlock StatChanges)
+{
+	return true;
 }
 
 void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
@@ -117,9 +131,16 @@ TArray<FModifierUIData> UPlayerModifierComponent::GetActiveModifierData()
 		Info.IconID = Modifier->GetIconID();
 		Info.DurationLeft = Modifier->GetDurationLeft();
 		Info.DurationMax = Modifier->GetDurationMax();
-
 		Results.Add(Info);
 	}
 
 	return Results;
+}
+
+void UPlayerModifierComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// Here we list the variables we want to replicate
+	DOREPLIFETIME(UPlayerModifierComponent, ActiveModifications);
 }

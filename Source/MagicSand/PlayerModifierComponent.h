@@ -27,7 +27,7 @@ protected:
 	UPROPERTY()
 	TArray<UPlayerModifier*> ModifierArray;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	FPlayerStatBlock ActiveModifications;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
@@ -40,10 +40,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
+	UFUNCTION(Server, reliable, WithValidation)
 	void ApplyModifications(FPlayerStatBlock StatChanges);
 
-	UFUNCTION()
+	UFUNCTION(Server, reliable, WithValidation)
 	void CleanUpModifications(FPlayerStatBlock StatChanges);
 
 	UFUNCTION()
