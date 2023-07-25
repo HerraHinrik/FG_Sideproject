@@ -22,6 +22,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void PlayCard(int32 CardIndex, AFirstPersonViewCharacter* Target);
 
-	UFUNCTION(BlueprintImplementableEvent)
-		bool AddCardsToEmptySlots(TArray<UCardBase*>& Hand, UCardBase* Card);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		bool AddCardsToEmptySlots(const TArray<UCardBase*>& Hand, UCardBase* Card);
 };

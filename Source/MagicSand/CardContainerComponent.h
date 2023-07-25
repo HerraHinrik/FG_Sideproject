@@ -42,12 +42,6 @@ public:
 	void AddCard(TSubclassOf<UCardBase> Card);
 
 	UFUNCTION(BlueprintCallable)
-	void AddCardToHand(UCardBase* Card);
-
-	UFUNCTION(BlueprintCallable)
-	void RemoveCard(UCardBase* Card);
-
-	UFUNCTION(BlueprintCallable)
 	ACharacter* GetPlayer();
 
 	UFUNCTION(BlueprintImplementableEvent)
