@@ -15,11 +15,6 @@ class MAGICSAND_API UDeckComponentBase : public UCardContainerComponent
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY()
-	int32 CardsLeft;
-
-	UPROPERTY()
-	int32 CardsMax;
 
 public:
 
@@ -29,4 +24,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	TArray<UCardBase*> DrawCards(int32 Amount);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void RepopulateDeck();
 };

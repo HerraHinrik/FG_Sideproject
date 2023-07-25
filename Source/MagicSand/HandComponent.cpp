@@ -2,12 +2,3 @@
 
 
 #include "HandComponent.h"
-
-
-void UHandComponent::AddMultiple(TArray<UCardBase*> &NewCards)
-{
-	for (UCardBase* Card : NewCards)
-	{
-		Cards.Add(Card);
-	}
-}

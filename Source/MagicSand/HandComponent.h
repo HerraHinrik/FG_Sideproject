@@ -16,14 +16,11 @@ class MAGICSAND_API UHandComponent : public UCardContainerComponent
 
 protected:
 
+
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void PlayCard(int32 CardIndex, AFirstPersonViewCharacter* Target);
 
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-		bool IsFull();
-
-	UFUNCTION(BlueprintCallable)
-		void AddMultiple(TArray<UCardBase*> &NewCards);
-
+	UFUNCTION(BlueprintImplementableEvent)
+		bool AddCardsToEmptySlots(const TArray<UCardBase*>& Hand, UCardBase* Card);
 };
