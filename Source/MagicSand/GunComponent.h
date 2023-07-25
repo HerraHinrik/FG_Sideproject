@@ -9,6 +9,7 @@
 #include "ModifierBase.h"
 #include "Loadout.h"
 #include "ModifierStructs.h"
+#include "Components/Widget.h"
 #include "PlayerModifierComponent.h"
 #include "GunComponent.generated.h"
 
@@ -108,6 +109,9 @@ protected: // Functions
 	void CreateWeaponLoadouts();
 
 public: // Properties
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+		UWidget* HUDWidget;
 
 public: // Functions
 	void InitializeGunComponent(UPlayerModifierComponent* PlayerStatsComponent);

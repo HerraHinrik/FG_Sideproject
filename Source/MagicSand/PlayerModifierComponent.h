@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PlayerModifier.h"
+#include "Components/Widget.h"
 #include "PlayerModifierComponent.generated.h"
 
 
@@ -27,7 +28,7 @@ protected:
 	UPROPERTY()
 	TArray<UPlayerModifier*> ModifierArray;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	FPlayerStatBlock ActiveModifications;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
@@ -40,10 +41,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
+	UFUNCTION(Server, reliable, WithValidation)
 	void ApplyModifications(FPlayerStatBlock StatChanges);
 
-	UFUNCTION()
+	UFUNCTION(Server, reliable, WithValidation)
 	void CleanUpModifications(FPlayerStatBlock StatChanges);
 
 	UFUNCTION()
@@ -51,6 +52,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+		UWidget* HUDWidget;
 
 public:	
 	// Called every frame
