@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "GameFramework/Character.h"
 #include "CardBase.h"
+#include "Components/Widget.h"
 #include "CardContainerComponent.generated.h"
 
 
@@ -22,13 +23,16 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TArray<UCardBase*> Cards;
 
-
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TArray<UCardBase*> Discard;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UWidget* HUDWidget;
 
 public:	
 	// Called every frame

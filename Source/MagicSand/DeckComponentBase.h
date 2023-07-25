@@ -22,6 +22,8 @@ protected:
 	int32 CardsMax;
 
 public:
+
+public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void Reshuffle();
 

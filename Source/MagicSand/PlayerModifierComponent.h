@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PlayerModifier.h"
+#include "Components/Widget.h"
 #include "PlayerModifierComponent.generated.h"
 
 
@@ -51,6 +52,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+		UWidget* HUDWidget;
 
 public:	
 	// Called every frame
