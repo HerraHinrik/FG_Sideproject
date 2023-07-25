@@ -66,12 +66,17 @@ void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
 	OnRemoveModifier.Broadcast(Modifier);
 }
 
-void UPlayerModifierComponent::OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
 	FPlayerStatBlock HealthChange;
 	HealthChange.Health = Damage;
 
 	ApplyModifications(HealthChange);
+}
+
+bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	return true;
 }
 
 // Called every frame
