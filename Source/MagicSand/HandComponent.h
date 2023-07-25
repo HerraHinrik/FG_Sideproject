@@ -15,7 +15,8 @@ class MAGICSAND_API UHandComponent : public UCardContainerComponent
 	GENERATED_BODY()
 
 protected:
-
+	UPROPERTY(BlueprintReadWrite)
+	bool CardAdded;
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
