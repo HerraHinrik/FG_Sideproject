@@ -49,7 +49,7 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 
 	//movement tracking
-	InitialSpeed = GetCharacterMovement()->GetMaxSpeed();
+	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 }
 
