@@ -83,6 +83,9 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* AbilityActionFour;
 
+	UPROPERTY()
+	float InitialSpeed;
+
 public:
 	AFirstPersonViewCharacter();
 
@@ -92,6 +95,9 @@ protected:
 
 	UFUNCTION(Client, reliable)
 	void LocalClientSetUp();
+
+	UFUNCTION()
+	void UpdateMovement(UPlayerModifier* Modifier);
 
 public:
 	UPROPERTY(EditDefaultsOnly)
