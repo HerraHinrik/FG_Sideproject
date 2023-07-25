@@ -19,9 +19,9 @@ protected:
 	bool CardAdded;
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void PlayCard(int32 CardIndex, AFirstPersonViewCharacter* Target);
 
 	UFUNCTION(BlueprintImplementableEvent)
-		bool AddCardsToEmptySlots(const TArray<UCardBase*>& Hand, UCardBase* Card);
+		bool AddCardsToEmptySlots(TArray<UCardBase*>& Hand, UCardBase* Card);
 };
