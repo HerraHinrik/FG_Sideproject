@@ -83,6 +83,9 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* AbilityActionFour;
 
+	UPROPERTY()
+	float InitialSpeed;
+
 public:
 	AFirstPersonViewCharacter();
 
@@ -93,6 +96,9 @@ protected:
 	UFUNCTION(Client, reliable)
 	void LocalClientSetUp();
 
+	UFUNCTION()
+	void UpdateMovement(UPlayerModifier* Modifier);
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UGunComponent> GunComponentBP;
@@ -102,18 +108,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UDeckComponentBase> DeckComponentBP;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierOne;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierTwo;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierThree;
-
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UModifierBase> AbilityModifierFour;
 
 public:	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

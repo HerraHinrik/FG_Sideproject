@@ -45,6 +45,12 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	//create initial gun component
 	PlayerModifierComponent = CreateDefaultSubobject<UPlayerModifierComponent>(TEXT("PlayerModifierComp"));
 
+	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
+	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
+
+	//movement tracking
+	InitialSpeed = GetCharacterMovement()->GetMaxSpeed();
+
 }
 
 // Called when the game starts or when spawned
@@ -86,6 +92,21 @@ void AFirstPersonViewCharacter::BeginPlay()
 void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
 {
 	SetUpHUD();
+}
+
+void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
+{
+	auto Movement = GetCharacterMovement();
+	auto StatComponent = GetPlayerModifierComponent();
+
+	if (!IsValid(Movement) || !IsValid(StatComponent)) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attempting to update movement without required components."))
+		return; 
+	}
+
+	float SpeedAdjustment = StatComponent->GetCurrentModifications().SpeedMultiplier;
+	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment );
 }
 
 // Called to bind functionality to input
