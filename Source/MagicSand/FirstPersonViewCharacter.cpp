@@ -10,6 +10,7 @@
 #include "InputAction.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "MagicSandGameModeBase.h"
 
 AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 {
@@ -107,11 +108,37 @@ void AFirstPersonViewCharacter::UpdateMovement(FPlayerStatBlock StatChanges)
 	FPlayerStatBlock StatAdjustments = PlayerModifierComponent->GetCurrentModifications();
 	float SpeedAdjustment = StatAdjustments.SpeedMultiplier;
 	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment);
-
-	//UE_LOG()
 }
 
-// Called to bind functionality to input
+// Respawning and destroying players
+void AFirstPersonViewCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->GetOnPlayerDied().Broadcast(this);
+		}
+	}
+}
+
+void AFirstPersonViewCharacter::CallRestartPlayer()
+{
+	AController* CortollerRef = GetController();
+
+	Destroy();
+
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->RestartPlayer(CortollerRef);
+		}
+	}
+}
+
 void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

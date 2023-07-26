@@ -72,9 +72,25 @@ void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor,
 	HealthChange.Health = -Damage;
 
 	ApplyModifications(HealthChange);
+	CheckHealth();
 }
 
 bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	return true;
+}
+
+void UPlayerModifierComponent::CheckHealth_Implementation()
+{
+	if (ActiveModifications.Health >= MinModifications.Health)
+	{
+
+		OnOutOfHealth.Broadcast();
+
+	}
+}
+
+bool UPlayerModifierComponent::CheckHealth_Validate()
 {
 	return true;
 }

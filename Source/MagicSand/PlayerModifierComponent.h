@@ -8,6 +8,9 @@
 #include "ModifierStructs.h"
 #include "PlayerModifierComponent.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerStatusDelegate);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegate, FPlayerStatBlock, Modifier);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -18,6 +21,9 @@ class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UPlayerModifierComponent();
+
+	UPROPERTY(BlueprintAssignable);
+	FPlayerStatusDelegate OnOutOfHealth;
 
 	UPROPERTY(BlueprintAssignable);
 	FPlayerModifierDelegate OnApplyModifier;
@@ -56,6 +62,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Server, reliable, WithValidation)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+	UFUNCTION(BlueprintCallable, Server, reliable, WithValidation)
+	void CheckHealth();
 
 public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)

@@ -99,6 +99,14 @@ protected:
 	UFUNCTION()
 	void UpdateMovement(FPlayerStatBlock StatChanges);
 
+	// Respawning players
+	UFUNCTION()
+	virtual void Destroyed();
+
+	UFUNCTION()
+	void CallRestartPlayer();
+	//
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UGunComponent> GunComponentBP;
