@@ -10,11 +10,11 @@ UPlayerModifierComponent::UPlayerModifierComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	RegisterComponent();
 
-	ActiveModifications.Armor = 0;
-	ActiveModifications.DamageFlat = 0;
-	ActiveModifications.DamageMultiplier = 0;
-	ActiveModifications.SpeedMultiplier = 0;
-	ActiveModifications.Health = 0;
+	//ActiveModifications.Armor = 0;
+	//ActiveModifications.DamageFlat = 0;
+	//ActiveModifications.DamageMultiplier = 0;
+	//ActiveModifications.SpeedMultiplier = 0;
+	//ActiveModifications.Health = 0;
 
 	SetNetAddressable();
 	SetIsReplicated(true);
@@ -58,23 +58,39 @@ bool UPlayerModifierComponent::CleanUpModifications_Validate(FPlayerStatBlock St
 	return true;
 }
 
-void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
+void UPlayerModifierComponent::RemovePlayerModifier(FPlayerModifier Modifier)
 {
-	FPlayerStatBlock StatChanges = Modifier->GetStatModifications();
+	FPlayerStatBlock StatChanges = Modifier.StatModifications;
 	CleanUpModifications(StatChanges);
 	ModifierArray.Remove(Modifier);
-	OnRemoveModifier.Broadcast(Modifier);
+	OnRemoveModifier.Broadcast(Modifier.StatModifications);
 }
 
 void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
 	FPlayerStatBlock HealthChange;
-	HealthChange.Health = Damage;
+	HealthChange.Health = -Damage;
 
 	ApplyModifications(HealthChange);
+	CheckHealth();
 }
 
 bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	return true;
+}
+
+void UPlayerModifierComponent::CheckHealth_Implementation()
+{
+	if (ActiveModifications.Health >= MinModifications.Health)
+	{
+
+		OnOutOfHealth.Broadcast();
+
+	}
+}
+
+bool UPlayerModifierComponent::CheckHealth_Validate()
 {
 	return true;
 }
@@ -84,58 +100,60 @@ void UPlayerModifierComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	for (UPlayerModifier* Modifier : ModifierArray)
+	for (FPlayerModifier Modifier : ModifierArray)
 	{
-		if (!IsValid(Modifier))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Found invalid player modifier during tick."))
-			continue;
-		}
 
-		Modifier->TickModifier(DeltaTime);
+		Modifier.ExpiredLifespan += DeltaTime;
+
+		if (Modifier.ExpiredLifespan >= Modifier.MaxLifespan)
+		{
+			ExpiredModifiers.Add(Modifier);
+		}
 	}
+
+	for (FPlayerModifier Modifier : ExpiredModifiers)
+	{
+		ModifierArray.Remove(Modifier);
+	}
+
+	ExpiredModifiers.Empty();
 }
 
 
 FPlayerStatBlock UPlayerModifierComponent::GetCurrentModifications()
 {
 	FPlayerStatBlock ValidatedModifications = FPlayerStatBlock();
+
 	ValidatedModifications.Armor = UKismetMathLibrary::Clamp(ActiveModifications.Armor, MinModifications.Armor, MaxModifications.Armor);
 	ValidatedModifications.DamageFlat = UKismetMathLibrary::Clamp(ActiveModifications.DamageFlat, MinModifications.DamageFlat, MaxModifications.DamageFlat);
 	ValidatedModifications.DamageMultiplier = UKismetMathLibrary::Clamp(ActiveModifications.DamageMultiplier, MinModifications.DamageMultiplier, MaxModifications.DamageMultiplier);
 	ValidatedModifications.SpeedMultiplier = UKismetMathLibrary::Clamp(ActiveModifications.SpeedMultiplier, MinModifications.SpeedMultiplier, MaxModifications.SpeedMultiplier);
-	ValidatedModifications.Health = UKismetMathLibrary::Clamp(ActiveModifications.Health, MinModifications.Health, MaxModifications.Health);
+
+	ValidatedModifications.Health = UKismetMathLibrary::Max(ActiveModifications.Health, MinModifications.Health);
 
 	return ValidatedModifications;
 }
 
-void UPlayerModifierComponent::ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier)
+void UPlayerModifierComponent::ApplyPlayerModifier(FPlayerModifier Modifier)
 {
-	FName UniqueName = MakeUniqueObjectName(this, UPlayerModifier::StaticClass());
-	UPlayerModifier* NewModifier = NewObject<UPlayerModifier>(this, UniqueName);
-	ModifierArray.Add(NewModifier);
+	// Means modifier will be tracked and removed
+	if (Modifier.ResetOnEnd == true) ModifierArray.Add(Modifier);
 
-	ApplyModifications(NewModifier->GetStatModifications());
-	NewModifier->OnExpire.AddDynamic(this, &UPlayerModifierComponent::RemovePlayerModifier);
-	OnApplyModifier.Broadcast(NewModifier);
+	ApplyModifications(Modifier.StatModifications);
+	OnApplyModifier.Broadcast(Modifier.StatModifications);
 }
 
 TArray<FModifierUIData> UPlayerModifierComponent::GetActiveModifierData()
 {
 	TArray<FModifierUIData> Results;
 
-	for (UPlayerModifier* Modifier : ModifierArray)
+	for (FPlayerModifier Modifier : ModifierArray)
 	{
-		if (!IsValid(Modifier))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
-				continue;
-		}
 
 		FModifierUIData Info = FModifierUIData();
-		Info.IconID = Modifier->GetIconID();
-		Info.DurationLeft = Modifier->GetDurationLeft();
-		Info.DurationMax = Modifier->GetDurationMax();
+		Info.IconID = Modifier.IconID;
+		Info.DurationLeft = Modifier.MaxLifespan - Modifier.ExpiredLifespan;
+		Info.DurationMax = Modifier.MaxLifespan;
 		Results.Add(Info);
 	}
 
@@ -146,6 +164,7 @@ void UPlayerModifierComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// Here we list the variables we want to replicate
 	DOREPLIFETIME(UPlayerModifierComponent, ActiveModifications);
+	DOREPLIFETIME(UPlayerModifierComponent, MinModifications);
+	DOREPLIFETIME(UPlayerModifierComponent, MaxModifications);
 }

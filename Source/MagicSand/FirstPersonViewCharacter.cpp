@@ -10,6 +10,7 @@
 #include "InputAction.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "MagicSandGameModeBase.h"
 
 AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 {
@@ -48,8 +49,6 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 
-	//movement tracking
-	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 }
 
@@ -87,6 +86,9 @@ void AFirstPersonViewCharacter::BeginPlay()
 	DeckComponent->InitializeCardComponent();
 
 	LocalClientSetUp();
+
+	//movement tracking
+	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
@@ -94,22 +96,49 @@ void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
 	SetUpHUD();
 }
 
-void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
+void AFirstPersonViewCharacter::UpdateMovement(FPlayerStatBlock StatChanges)
 {
 	auto Movement = GetCharacterMovement();
-	auto StatComponent = GetPlayerModifierComponent();
 
-	if (!IsValid(Movement) || !IsValid(StatComponent)) 
+	if (!IsValid(Movement) || !IsValid(PlayerModifierComponent))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Attempting to update movement without required components."))
 		return; 
 	}
-
-	float SpeedAdjustment = StatComponent->GetCurrentModifications().SpeedMultiplier;
-	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment );
+	FPlayerStatBlock StatAdjustments = PlayerModifierComponent->GetCurrentModifications();
+	float SpeedAdjustment = StatAdjustments.SpeedMultiplier;
+	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment);
 }
 
-// Called to bind functionality to input
+// Respawning and destroying players
+void AFirstPersonViewCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->GetOnPlayerDied().Broadcast(this);
+		}
+	}
+}
+
+void AFirstPersonViewCharacter::CallRestartPlayer()
+{
+	AController* CortollerRef = GetController();
+
+	Destroy();
+
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->RestartPlayer(CortollerRef);
+		}
+	}
+}
+
 void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
