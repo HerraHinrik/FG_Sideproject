@@ -97,15 +97,7 @@ protected:
 	void LocalClientSetUp();
 
 	UFUNCTION()
-	void UpdateMovement(FPlayerStatBlock StatChanges);
-
-	// Respawning players
-	UFUNCTION()
-	virtual void Destroyed();
-
-	UFUNCTION()
-	void CallRestartPlayer();
-	//
+	void UpdateMovement(UPlayerModifier* Modifier);
 
 public:
 	UPROPERTY(EditDefaultsOnly)

@@ -35,7 +35,6 @@ void UCardContainerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 void UCardContainerComponent::AddCard(TSubclassOf<UCardBase> Card)
 {
 	auto NewCard = NewObject<UCardBase>(this, Card);
-	auto Modifier = NewCard->GetPlayerModifier();
 	Cards.Add(NewCard);
 }
 

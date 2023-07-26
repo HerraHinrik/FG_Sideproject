@@ -4,14 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PlayerModifier.h"
 #include "Components/Widget.h"
-#include "ModifierStructs.h"
 #include "PlayerModifierComponent.generated.h"
 
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerStatusDelegate);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegate, FPlayerStatBlock, Modifier);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
@@ -23,9 +19,6 @@ public:
 	UPlayerModifierComponent();
 
 	UPROPERTY(BlueprintAssignable);
-	FPlayerStatusDelegate OnOutOfHealth;
-
-	UPROPERTY(BlueprintAssignable);
 	FPlayerModifierDelegate OnApplyModifier;
 
 	UPROPERTY(BlueprintAssignable);
@@ -33,18 +26,15 @@ public:
 
 protected:
 	UPROPERTY()
-	TArray<FPlayerModifier> ModifierArray;
-
-	UPROPERTY()
-	TArray<FPlayerModifier> ExpiredModifiers;
+	TArray<UPlayerModifier*> ModifierArray;
 
 	UPROPERTY(Replicated)
 	FPlayerStatBlock ActiveModifications;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MaxModifications;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MinModifications;
 
 protected:
@@ -58,13 +48,10 @@ protected:
 	void CleanUpModifications(FPlayerStatBlock StatChanges);
 
 	UFUNCTION()
-	void RemovePlayerModifier(FPlayerModifier Modifier);
+	void RemovePlayerModifier(UPlayerModifier* Modifier);
 
 	UFUNCTION(BlueprintCallable, Server, reliable, WithValidation)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
-
-	UFUNCTION(BlueprintCallable, Server, reliable, WithValidation)
-	void CheckHealth();
 
 public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
@@ -78,7 +65,7 @@ public:
 	FPlayerStatBlock GetCurrentModifications();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyPlayerModifier(FPlayerModifier Modifier);
+	void ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier);
 
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)

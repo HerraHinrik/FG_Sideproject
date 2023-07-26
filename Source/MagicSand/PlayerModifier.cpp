@@ -4,7 +4,7 @@
 #include "Kismet/KismetMathLibrary.h"
 
 
-void UPlayerModifierOld::TickModifier(float DeltaTime)
+void UPlayerModifier::TickModifier(float DeltaTime)
 {
 	ExpiredDuration += DeltaTime;
 
@@ -14,24 +14,24 @@ void UPlayerModifierOld::TickModifier(float DeltaTime)
 	}
 }
 
-FPlayerStatBlock UPlayerModifierOld::GetStatModifications()
+FPlayerStatBlock UPlayerModifier::GetStatModifications()
 {
 	return StatModifications;
 }
 
 
-int32 UPlayerModifierOld::GetIconID()
+int32 UPlayerModifier::GetIconID()
 {
 	return IconID;
 }
 
-float UPlayerModifierOld::GetDurationLeft()
+float UPlayerModifier::GetDurationLeft()
 {
 	float TimeLeft = LifetimeDuration - ExpiredDuration;
 	return UKismetMathLibrary::Max(0, TimeLeft);
 }
 
-float UPlayerModifierOld::GetDurationMax()
+float UPlayerModifier::GetDurationMax()
 {
 	return LifetimeDuration;
 }
