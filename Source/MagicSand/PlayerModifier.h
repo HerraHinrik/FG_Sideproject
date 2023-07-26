@@ -8,19 +8,19 @@
 #include "PlayerModifier.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegate, UPlayerModifier*, ModifierObject);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegateDeprecated, UPlayerModifierOld*, ModifierObject);
 
 /**
  *
  */
 UCLASS(BlueprintType, Blueprintable)
-class MAGICSAND_API UPlayerModifier : public UObject
+class MAGICSAND_API UPlayerModifierOld : public UObject
 {
 	GENERATED_BODY()
 public:
 
 	UPROPERTY(BlueprintAssignable);
-	FPlayerModifierDelegate OnExpire;
+	FPlayerModifierDelegateDeprecated OnExpire;
 	
 protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))

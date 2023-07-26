@@ -48,8 +48,6 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 
-	//movement tracking
-	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 }
 
@@ -87,6 +85,9 @@ void AFirstPersonViewCharacter::BeginPlay()
 	DeckComponent->InitializeCardComponent();
 
 	LocalClientSetUp();
+
+	//movement tracking
+	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
@@ -94,19 +95,20 @@ void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
 	SetUpHUD();
 }
 
-void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
+void AFirstPersonViewCharacter::UpdateMovement(FPlayerStatBlock StatChanges)
 {
 	auto Movement = GetCharacterMovement();
-	auto StatComponent = GetPlayerModifierComponent();
 
-	if (!IsValid(Movement) || !IsValid(StatComponent)) 
+	if (!IsValid(Movement) || !IsValid(PlayerModifierComponent))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Attempting to update movement without required components."))
 		return; 
 	}
+	FPlayerStatBlock StatAdjustments = PlayerModifierComponent->GetCurrentModifications();
+	float SpeedAdjustment = StatAdjustments.SpeedMultiplier;
+	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment);
 
-	float SpeedAdjustment = StatComponent->GetCurrentModifications().SpeedMultiplier;
-	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment );
+	//UE_LOG()
 }
 
 // Called to bind functionality to input

@@ -35,8 +35,45 @@ struct FPlayerStatBlock
 	int32 DamageFlat = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	int32 Armor = 0;
+	float Armor = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	float Health = 0;
+
+	inline bool operator==(const FPlayerStatBlock& other) const
+	{
+		if (SpeedMultiplier != other.SpeedMultiplier) return false;
+		if (DamageMultiplier != other.DamageMultiplier) return false;
+		if (DamageFlat != other.DamageFlat) return false;
+		if (Armor != other.Armor) return false;
+		if (Health != other.Health) return false;
+
+		return true;
+	}
+};
+
+USTRUCT(BlueprintType)
+struct FPlayerModifier
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	FPlayerStatBlock StatModifications;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	float MaxLifespan = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	float ExpiredLifespan = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	bool ResetOnEnd = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	int32 IconID = 0;
+
+	inline bool operator==(const FPlayerModifier& other) const
+	{
+		return StatModifications == other.StatModifications && ExpiredLifespan == other.ExpiredLifespan;
+	}
 };

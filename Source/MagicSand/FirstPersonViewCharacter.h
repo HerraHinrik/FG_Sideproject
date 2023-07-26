@@ -97,7 +97,7 @@ protected:
 	void LocalClientSetUp();
 
 	UFUNCTION()
-	void UpdateMovement(UPlayerModifier* Modifier);
+	void UpdateMovement(FPlayerStatBlock StatChanges);
 
 public:
 	UPROPERTY(EditDefaultsOnly)
