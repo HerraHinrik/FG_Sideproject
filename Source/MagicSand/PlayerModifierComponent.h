@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PlayerModifier.h"
 #include "Components/Widget.h"
+#include "ModifierStructs.h"
 #include "PlayerModifierComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerModifierDelegate, FPlayerStatBlock, Modifier);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
@@ -26,15 +27,18 @@ public:
 
 protected:
 	UPROPERTY()
-	TArray<UPlayerModifier*> ModifierArray;
+	TArray<FPlayerModifier> ModifierArray;
+
+	UPROPERTY()
+	TArray<FPlayerModifier> ExpiredModifiers;
 
 	UPROPERTY(Replicated)
 	FPlayerStatBlock ActiveModifications;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MaxModifications;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MinModifications;
 
 protected:
@@ -48,7 +52,7 @@ protected:
 	void CleanUpModifications(FPlayerStatBlock StatChanges);
 
 	UFUNCTION()
-	void RemovePlayerModifier(UPlayerModifier* Modifier);
+	void RemovePlayerModifier(FPlayerModifier Modifier);
 
 	UFUNCTION(BlueprintCallable, Server, reliable, WithValidation)
 	void OnTakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
@@ -65,7 +69,7 @@ public:
 	FPlayerStatBlock GetCurrentModifications();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier);
+	void ApplyPlayerModifier(FPlayerModifier Modifier);
 
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)
