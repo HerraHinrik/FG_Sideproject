@@ -15,7 +15,6 @@ class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UPlayerModifierComponent();
 
 	UPROPERTY(BlueprintAssignable);
@@ -25,16 +24,24 @@ public:
 	FPlayerModifierDelegate OnRemoveModifier;
 
 protected:
+	// Tracking modifiers
 	UPROPERTY()
 	TArray<UPlayerModifier*> ModifierArray;
 
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<float> ModifierDurations;
+
+	UPROPERTY()
+	TArray<UPlayerModifier*> ExpiredModifiers;
+
+	// Tracking and validating stat changes
 	UPROPERTY(Replicated)
 	FPlayerStatBlock ActiveModifications;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MaxModifications;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock MinModifications;
 
 protected:
@@ -65,7 +72,7 @@ public:
 	FPlayerStatBlock GetCurrentModifications();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyPlayerModifier(TSubclassOf<UPlayerModifier> Modifier);
+	void ApplyPlayerModifier(TSubclassOf<UPlayerModifier> ModifierClass);
 
 	// UI facing interface
 	UFUNCTION(BlueprintCallable)

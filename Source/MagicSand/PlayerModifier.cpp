@@ -6,12 +6,18 @@
 
 void UPlayerModifier::TickModifier(float DeltaTime)
 {
-	ExpiredDuration += DeltaTime;
+	
+}
 
-	if (ExpiredDuration >= LifetimeDuration)
-	{
-		OnExpire.Broadcast(this);
-	}
+void UPlayerModifier::InitializeStatValues()
+{
+	StatModifications = FPlayerStatBlock();
+
+	StatModifications.Armor = Armor;
+	StatModifications.DamageFlat = DamageFlat;
+	StatModifications.DamageMultiplier = DamageMultiplier;
+	StatModifications.Health = Health;
+	StatModifications.SpeedMultiplier = SpeedMultiplier;
 }
 
 FPlayerStatBlock UPlayerModifier::GetStatModifications()
@@ -34,4 +40,9 @@ float UPlayerModifier::GetDurationLeft()
 float UPlayerModifier::GetDurationMax()
 {
 	return LifetimeDuration;
+}
+
+bool UPlayerModifier::ResetsOnExpire()
+{
+	return ResetOnExpire;
 }

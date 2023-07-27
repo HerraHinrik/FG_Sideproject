@@ -47,10 +47,6 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 
 	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
-
-	//movement tracking
-	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
-
 }
 
 // Called when the game starts or when spawned
@@ -87,6 +83,9 @@ void AFirstPersonViewCharacter::BeginPlay()
 	DeckComponent->InitializeCardComponent();
 
 	LocalClientSetUp();
+
+	// For speed adjustment purposes
+	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()

@@ -162,7 +162,7 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 			if (Durations[i] >= Modifiers[i]->GetDurationMax())
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Expired modifier is added to list"))
+				UE_LOG(LogTemp, Warning, TEXT("Expired weapon modifier is added to list"))
 				Loadout.ExpiredModifiers.Add(Modifiers[i]);
 			}
 		}

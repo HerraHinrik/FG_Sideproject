@@ -19,12 +19,30 @@ class MAGICSAND_API UPlayerModifier : public UObject
 	GENERATED_BODY()
 public:
 
-	UPROPERTY(BlueprintAssignable);
-	FPlayerModifierDelegate OnExpire;
 	
 protected:
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FPlayerStatBlock StatModifications;
+
+	// Initial stat values
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+		float SpeedMultiplier;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+		float DamageMultiplier;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+		int32 DamageFlat;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+		int32 Armor;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+		float Health;
+	//
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	bool ResetOnExpire;
 
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float ExpiredDuration = 0;
@@ -36,11 +54,13 @@ protected:
 	int32 IconID;
 
 public:
-	void TickModifier(float DeltaTime);
+	virtual void TickModifier(float DeltaTime);
+
+	UFUNCTION(BlueprintCallable)
+	void InitializeStatValues();
 
 	UFUNCTION(BlueprintCallable)
 	FPlayerStatBlock GetStatModifications();
-
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetIconID();
@@ -50,4 +70,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float GetDurationMax();
+
+	UFUNCTION(BlueprintCallable)
+		bool ResetsOnExpire();
 };

@@ -33,6 +33,7 @@ protected:
 	void ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter);
 
 public:
+
 	UFUNCTION(BlueprintCallable)
 	void PlayCard(AFirstPersonViewCharacter* TargetCharacter);
 
