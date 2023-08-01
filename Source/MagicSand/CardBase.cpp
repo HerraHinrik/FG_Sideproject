@@ -4,7 +4,7 @@
 #include "FirstPersonViewCharacter.h"
 
 
-void UCardBase::ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter)
+void UCardBase::ApplyWeaponModifier_Implementation(AFirstPersonViewCharacter* TargetCharacter)
 {
 	if (!IsValid(TargetCharacter) || !IsValid(WeaponModifier)) return;
 
@@ -15,7 +15,7 @@ void UCardBase::ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter)
 	Weapon->ApplyModifier(WeaponModifier);
 
 }
-void UCardBase::ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter)
+void UCardBase::ApplyPlayerModifier_Implementation(AFirstPersonViewCharacter* TargetCharacter)
 {
 	if (!IsValid(TargetCharacter) || !IsValid(PlayerModifier)) return;
 
