@@ -29,8 +29,15 @@ protected:
 	TSubclassOf<UPlayerModifier> PlayerModifier;
 
 protected:
+
+	// Override these for custom effects
+	UFUNCTION(BlueprintNativeEvent)
 	void ApplyWeaponModifier(AFirstPersonViewCharacter* TargetCharacter);
+	virtual void ApplyWeaponModifier_Implementation(AFirstPersonViewCharacter* TargetCharacter);
+
+	UFUNCTION(BlueprintNativeEvent)
 	void ApplyPlayerModifier(AFirstPersonViewCharacter* TargetCharacter);
+	virtual void ApplyPlayerModifier_Implementation(AFirstPersonViewCharacter* TargetCharacter);
 
 public:
 
