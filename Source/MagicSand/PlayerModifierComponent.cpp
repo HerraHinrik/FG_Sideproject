@@ -66,6 +66,7 @@ void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor,
 	HealthChange.Health = Damage;
 
 	ApplyModifications(HealthChange);
+	OnApplyModifier.Broadcast(nullptr);
 }
 
 bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
