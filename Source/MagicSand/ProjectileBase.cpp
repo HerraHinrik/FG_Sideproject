@@ -27,7 +27,6 @@ AProjectileBase::AProjectileBase()
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
-
 }
 
 

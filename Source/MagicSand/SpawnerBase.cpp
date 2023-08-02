@@ -30,6 +30,7 @@ AProjectileBase* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator 
 	AProjectileBase* Projectile = SpawnProjectile(ProjectileClass, &Location, &Rotation, Params);
 	Projectile->AddToRawDamage(RawDamageBoost);
 	Projectile->AddToDamageMultiplier(DamagePercentageBoost);
+	Projectile->SetInstigator(InstigatingCharacter);
 
 	return Projectile;
 }

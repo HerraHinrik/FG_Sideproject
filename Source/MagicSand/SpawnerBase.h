@@ -7,6 +7,7 @@
 #include "ProjectileBase.h"
 #include "SpawnerBase.generated.h"
 
+
 /**
  * Spawners represent a strategy for spawning actors. Intended use case is spawning projectiles when a gun is fired.
  * 
@@ -25,6 +26,9 @@ public:
 	USpawnerBase();
 
 protected:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	APawn* InstigatingCharacter;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<class AProjectileBase> ProjectileClass;

@@ -57,7 +57,7 @@ void UPlayerModifierComponent::RemovePlayerModifier(UPlayerModifier* Modifier)
 	FPlayerStatBlock StatChanges = Modifier->GetStatModifications();
 	CleanUpModifications(StatChanges);
 	ModifierArray.Remove(Modifier);
-	OnRemoveModifier.Broadcast(Modifier);
+	BroadcastModifierDelegate(OnRemoveModifier, Modifier);
 }
 
 void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
@@ -66,7 +66,9 @@ void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor,
 	HealthChange.Health = Damage;
 
 	ApplyModifications(HealthChange);
-	OnApplyModifier.Broadcast(nullptr);
+	BroadcastModifierDelegate(OnApplyModifier, nullptr);
+	UE_LOG(LogTemp, Warning, TEXT("%s took damage"), *DamagedActor->GetName())
+	UE_LOG(LogTemp, Warning, TEXT("%f health left"), GetCurrentModifications().Health)
 }
 
 bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
@@ -114,6 +116,11 @@ void UPlayerModifierComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	ExpiredModifiers.Empty();
 }
 
+void UPlayerModifierComponent::BroadcastModifierDelegate_Implementation(const FPlayerModifierDelegate& Event, UPlayerModifier* Modifier)
+{
+	Event.Broadcast(Modifier);
+}
+
 FPlayerStatBlock UPlayerModifierComponent::GetCurrentModifications()
 {
 	FPlayerStatBlock ValidatedModifications = FPlayerStatBlock();
@@ -141,7 +148,7 @@ void UPlayerModifierComponent::ApplyPlayerModifier(TSubclassOf<UPlayerModifier> 
 	}
 
 	ApplyModifications(NewModifier->GetStatModifications());
-	OnApplyModifier.Broadcast(NewModifier);
+	BroadcastModifierDelegate(OnApplyModifier, NewModifier);
 }
 
 TArray<FModifierUIData> UPlayerModifierComponent::GetActiveModifierData()

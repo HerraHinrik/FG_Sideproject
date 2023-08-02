@@ -68,6 +68,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(NetMulticast, reliable)
+	void BroadcastModifierDelegate(const FPlayerModifierDelegate & Event, UPlayerModifier* Modifier);
+
 	UFUNCTION(BlueprintCallable)
 	FPlayerStatBlock GetCurrentModifications();
 
