@@ -82,7 +82,8 @@ void AFirstPersonViewCharacter::BeginPlay()
 
 	DeckComponent->InitializeCardComponent();
 
-	LocalClientSetUp();
+	if ( HasLocalNetOwner() )
+		LocalClientSetUp();
 
 	// For speed adjustment purposes
 	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;

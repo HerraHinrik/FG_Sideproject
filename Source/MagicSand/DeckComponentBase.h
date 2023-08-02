@@ -19,6 +19,15 @@ protected:
 public:
 
 public:
+	UFUNCTION(Server, reliable, WithValidation, BlueprintCallable)
+	void ServerReshuffle();
+
+	UFUNCTION(Server, reliable, WithValidation, BlueprintCallable)
+	void ServerDrawCards(int32 Amount);
+
+	UFUNCTION(Server, reliable, WithValidation, BlueprintCallable)
+	void ServerRepopulateDeck();
+
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void Reshuffle();
 
