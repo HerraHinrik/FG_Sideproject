@@ -20,10 +20,10 @@ public:
 	UCardContainerComponent();
 
 protected:
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly)
 	TArray<UCardBase*> Cards;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly)
 	TArray<UCardBase*> Discard;
 
 protected:
@@ -38,11 +38,17 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(Server, reliable, WithValidation, BlueprintCallable)
 	void AddCard(TSubclassOf<UCardBase> Card);
 
 	UFUNCTION(BlueprintCallable)
 	ACharacter* GetPlayer();
+
+	UFUNCTION()
+	void MakeNetAddressable();
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void ServerInitializeCardComponent();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void InitializeCardComponent();

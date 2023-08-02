@@ -74,16 +74,20 @@ void AFirstPersonViewCharacter::BeginPlay()
 	HandComponent = NewObject<UHandComponent>(this, HandComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Hand comp blueprint name: %s"), *HandComponent->GetName())
 
-	HandComponent->InitializeCardComponent();
+	HandComponent->SetNetAddressable();
+	HandComponent->ServerInitializeCardComponent();
 
 	//Use BP for deck component
 	DeckComponent = NewObject<UDeckComponentBase>(this, DeckComponentBP);
 	UE_LOG(LogTemp, Warning, TEXT("Deck comp blueprint name: %s"), *DeckComponent->GetName())
 
-	DeckComponent->InitializeCardComponent();
+	DeckComponent->SetNetAddressable();
+	DeckComponent->ServerInitializeCardComponent();
 
-	if ( HasLocalNetOwner() )
+	if (HasLocalNetOwner())
+	{
 		LocalClientSetUp();
+	}
 
 	// For speed adjustment purposes
 	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
@@ -168,6 +172,12 @@ void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 	LaunchCharacter(Velocity, false, true);
 }
 
+
+void AFirstPersonViewCharacter::DrawCards(int Amount)
+{
+	DeckComponent->ServerDrawCards(Amount);
+}
+
 void AFirstPersonViewCharacter::JumpEvent_Implementation(const FInputActionValue& Value)
 {
 	TSet<AActor*> Hits;
@@ -245,22 +255,22 @@ void AFirstPersonViewCharacter::SwapWeapon(const FInputActionValue& Value)
 
 void AFirstPersonViewCharacter::UseAbilityOne(const FInputActionValue& Value)
 {
-	HandComponent->PlayCard(0, this);
+	HandComponent->ServerPlayCard(0, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityTwo(const FInputActionValue& Value)
 {
-	HandComponent->PlayCard(1, this);
+	HandComponent->ServerPlayCard(1, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityThree(const FInputActionValue& Value)
 {
-	HandComponent->PlayCard(2, this);
+	HandComponent->ServerPlayCard(2, this);
 }
 
 void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 {
-	HandComponent->PlayCard(3, this);
+	HandComponent->ServerPlayCard(3, this);
 }
 
 UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()

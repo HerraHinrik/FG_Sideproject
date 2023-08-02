@@ -5,6 +5,7 @@
 #include "Loadout.h"
 #include "ProjectileBase.h"
 #include "Camera/CameraComponent.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UGunComponent::UGunComponent()
@@ -28,10 +29,6 @@ void UGunComponent::AddLoadout(FWeaponLoadout Loadout)
 	CurrentIndex = Index;
 }
 
-//bool UGunComponent::AddLoadout_Validate(FWeaponLoadout Loadout)
-//{
-//	return true;
-//}
 
 void UGunComponent::EmptyLoadout(FWeaponLoadout Loadout)
 {
@@ -56,20 +53,13 @@ void UGunComponent::RegisterReloadSubscribers(FWeaponLoadout Loadout)
 	}
 }
 
-//bool UGunComponent::RegisterReloadSubscribers_Validate(FWeaponLoadout Loadout)
-//{
-//	return true;
-//}
+
 
 void UGunComponent::ClearReloadSubscribers()
 {
 	OnReload.Clear();
 }
 
-//bool UGunComponent::ClearReloadSubscribers_Validate()
-//{
-//	return true;
-//}
 
 void UGunComponent::RemoveSpawnerFromLoadout(USpawnerBase* SpawnerObject, int32 Index)
 {
@@ -114,11 +104,6 @@ void UGunComponent::InitializeGunComponent(UPlayerModifierComponent* PlayerStats
 	SetNetAddressable();
 	SetIsReplicated(true);
 }
-
-//bool UGunComponent::InitializeGunComponent_Validate(UPlayerModifierComponent* PlayerStatsComponent)
-//{
-//	return true;
-//}
 
 void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -312,4 +297,12 @@ TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 	}
 
 	return Results;
+}
+
+void UGunComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// Here we list the variables we want to replicate
+	DOREPLIFETIME(UGunComponent, LoadoutArray);
 }

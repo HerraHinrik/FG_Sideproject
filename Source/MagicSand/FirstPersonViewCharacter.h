@@ -120,6 +120,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LaunchFromPad(FVector Velocity);
 
+	UFUNCTION(BlueprintCallable)
+	void DrawCards(int Amount);
+
 	// Input functions
 	UFUNCTION(BlueprintNativeEvent)
 	void JumpEvent(const FInputActionValue& Value);
@@ -157,6 +160,8 @@ public:
 
 	UFUNCTION()
 	void UseAbilityFour(const FInputActionValue& Value);
+
+	// Getters
 
 	UFUNCTION(BlueprintCallable)
 	UGunComponent* GetWeaponComponenet();

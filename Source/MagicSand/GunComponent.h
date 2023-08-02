@@ -57,7 +57,7 @@ protected: // Properties
 	UPROPERTY()
 	int32 CurrentIndex = 0;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	TArray<FWeaponLoadout> LoadoutArray;
 
 	UPROPERTY()
