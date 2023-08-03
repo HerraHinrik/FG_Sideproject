@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
+#include "GameFramework/PlayerStart.h"
 #include "FirstPersonViewCharacter.h"
 #include "MagicSandGameModeBase.generated.h"
 
@@ -13,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDiedSignature, ACharacter*,
  * 
  */
 UCLASS()
-class MAGICSAND_API AMagicSandGameModeBase : public AGameModeBase
+class MAGICSAND_API AMagicSandGameModeBase : public AGameMode
 {
 	GENERATED_BODY()
 
@@ -23,11 +24,26 @@ protected:
     UPROPERTY()
     FOnPlayerDiedSignature OnPlayerDied;
 
+    /** number of teams */
+    int32 NumTeams;
+
+    /** best team */
+    int32 WinnerTeam;
+
 protected:
+    /** select best spawn point for player */
+    virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+
     virtual void BeginPlay() override;
 
     UFUNCTION()
     virtual void PlayerDied(ACharacter* Character);
+
+    /** check team constraints */
+    virtual bool IsSpawnpointAllowed(APlayerStart* SpawnPoint, AController* Player) const;
+
+    /** pick team with least players in or random when it's equal */
+    int32 ChooseTeam(APlayerState* ForPlayerState) const;
 
 public:
     virtual void RestartPlayer(AController* NewPlayer) override;
