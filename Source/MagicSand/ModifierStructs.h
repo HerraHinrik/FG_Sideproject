@@ -32,6 +32,9 @@ struct FPlayerStatBlock
 	float DamageMultiplier = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	float DamageReductionMultiplier = 1; // not fully supported, fix later
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	int32 DamageFlat = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
