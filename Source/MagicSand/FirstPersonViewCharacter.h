@@ -11,7 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GunComponent.h"
-#include "PlayerModifierComponent.h"
+//#include "PlayerModifierComponent.h"
 #include "FirstPersonViewCharacter.generated.h"
 
 class UInputComponent;
@@ -20,6 +20,7 @@ class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
+class UPlayerModifierComponent;
 
 UCLASS()
 class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
@@ -93,11 +94,15 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION(Client, reliable)
+	UFUNCTION(NetMulticast, reliable)
 	void LocalClientSetUp();
 
 	UFUNCTION()
 	void UpdateMovement(UPlayerModifier* Modifier);
+
+	//Called when our Actor is destroyed during Gameplay.
+	virtual void Destroyed();
+
 
 public:
 	UPROPERTY(EditDefaultsOnly)
@@ -113,6 +118,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
+
+	//Call Gamemode class to Restart Player Character.
+	void CallRestartPlayer();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetUpHUD();

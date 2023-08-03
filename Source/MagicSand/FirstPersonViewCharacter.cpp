@@ -10,6 +10,7 @@
 #include "InputAction.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "MagicSandGameModeBase.h"
 
 AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 {
@@ -113,6 +114,21 @@ void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
 	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment );
 }
 
+void AFirstPersonViewCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	// Example to bind to OnPlayerDied event in GameMode. 
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->GetOnPlayerDied().Broadcast(this);
+		}
+	}
+}
+
+
 // Called to bind functionality to input
 void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -158,6 +174,23 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 }
 
 
+void AFirstPersonViewCharacter::CallRestartPlayer()
+{
+	//Get a reference to the Pawn Controller.
+	AController* CortollerRef = GetController();
+
+	//Destroy the Player.
+	Destroy();
+
+	//Get the World and GameMode in the world to invoke its restart player function.
+	if (UWorld* World = GetWorld())
+	{
+		if (AMagicSandGameModeBase* GameMode = Cast<AMagicSandGameModeBase>(World->GetAuthGameMode()))
+		{
+			GameMode->RestartPlayer(CortollerRef);
+		}
+	}
+}
 
 //void AFirstPersonViewCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const
 //{

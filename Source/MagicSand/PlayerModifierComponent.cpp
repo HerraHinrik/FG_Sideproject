@@ -2,6 +2,7 @@
 
 #include "PlayerModifierComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "FirstPersonViewCharacter.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
@@ -31,6 +32,18 @@ void UPlayerModifierComponent::ApplyModifications_Implementation(FPlayerStatBloc
 	ActiveModifications.DamageMultiplier += StatChanges.DamageMultiplier;
 	ActiveModifications.SpeedMultiplier += StatChanges.SpeedMultiplier;
 	ActiveModifications.Health += StatChanges.Health;
+
+	if (ActiveModifications.Health <= MinModifications.Health)
+	{
+		auto Character = Cast<AFirstPersonViewCharacter>(GetOwner());
+
+		if (!IsValid(Character))
+		{
+			return;
+		}
+
+		Character->CallRestartPlayer();
+	}
 }
 
 bool UPlayerModifierComponent::ApplyModifications_Validate(FPlayerStatBlock StatChanges)
