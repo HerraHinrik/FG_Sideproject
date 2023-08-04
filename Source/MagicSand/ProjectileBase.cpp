@@ -56,6 +56,11 @@ void AProjectileBase::SetRawDamage(float Amount)
 	RawDamage = Amount;
 }
 
+void AProjectileBase::SetTeamNumber(int32 Team)
+{
+	TeamNumber = Team;
+}
+
 USphereComponent* AProjectileBase::GetCollisionComponent()
 {
 	return CollisionComp;

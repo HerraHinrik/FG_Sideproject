@@ -30,7 +30,7 @@ AProjectileBase* USpawnerBase::SpawnSingleProjectile(FVector Location, FRotator 
 	AProjectileBase* Projectile = SpawnProjectile(ProjectileClass, &Location, &Rotation, Params);
 	Projectile->AddToRawDamage(RawDamageBoost);
 	Projectile->AddToDamageMultiplier(DamagePercentageBoost);
-	Projectile->SetInstigator(InstigatingCharacter);
+	Projectile->SetTeamNumber(TeamNumber);
 
 	return Projectile;
 }
@@ -43,4 +43,9 @@ TArray<AProjectileBase*> USpawnerBase::SpawnProjectiles_Implementation(FVector L
 	Projectiles.Add(SpawnSingleProjectile(AdjustedLoaction, Rotation, RawDamageBoost, DamagePercentageBoost));
 
 	return Projectiles;
+}
+
+void USpawnerBase::SetTeamNumber(int32 Team)
+{
+	TeamNumber = Team;
 }
