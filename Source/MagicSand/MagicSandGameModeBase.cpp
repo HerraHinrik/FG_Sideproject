@@ -2,9 +2,27 @@
 
 #include "MagicSandGameModeBase.h"
 #include "MagicSandPlayerState.h"
+#include "GameFramework/GameState.h"
 #include "Engine/PlayerStartPIE.h"
 #include "EngineUtils.h"
 #include "TeamSpawnPoint.h"
+
+AMagicSandGameModeBase::AMagicSandGameModeBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	NumTeams = 2;
+	//bDelayedStart = true;
+}
+void AMagicSandGameModeBase::PostLogin(APlayerController* NewPlayer)
+{
+	// Place player on a team before Super (VoIP team based init, findplayerstart, etc)
+	AMagicSandPlayerState* NewPlayerState = CastChecked<AMagicSandPlayerState>(NewPlayer->PlayerState);
+	const int32 TeamNum = ChooseTeam(NewPlayerState);
+	NewPlayerState->SetTeamNum(TeamNum);
+
+	UE_LOG(LogTemp, Warning, TEXT("Player team: %d"), TeamNum)
+
+	Super::PostLogin(NewPlayer);
+}
 
 AActor* AMagicSandGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 {
@@ -83,5 +101,40 @@ bool AMagicSandGameModeBase::IsSpawnpointAllowed(APlayerStart* SpawnPoint, ACont
 
 int32 AMagicSandGameModeBase::ChooseTeam(APlayerState* ForPlayerState) const
 {
-	return 0; //implement later
+	TArray<int32> TeamBalance;
+	TeamBalance.AddZeroed(NumTeams);
+
+	// get current team balance
+	for (int32 i = 0; i < GameState->PlayerArray.Num(); i++)
+	{
+		AMagicSandPlayerState const* const TestPlayerState = Cast<AMagicSandPlayerState>(GameState->PlayerArray[i]);
+		if (TestPlayerState && TestPlayerState != ForPlayerState && TeamBalance.IsValidIndex(TestPlayerState->GetTeamNum()))
+		{
+			TeamBalance[TestPlayerState->GetTeamNum()]++;
+		}
+	}
+
+	// find least populated one
+	int32 BestTeamScore = TeamBalance[0];
+	for (int32 i = 1; i < TeamBalance.Num(); i++)
+	{
+		if (BestTeamScore > TeamBalance[i])
+		{
+			BestTeamScore = TeamBalance[i];
+		}
+	}
+
+	// there could be more than one...
+	TArray<int32> BestTeams;
+	for (int32 i = 0; i < TeamBalance.Num(); i++)
+	{
+		if (TeamBalance[i] == BestTeamScore)
+		{
+			BestTeams.Add(i);
+		}
+	}
+
+	// get random from best list
+	const int32 RandomBestTeam = BestTeams[FMath::RandHelper(BestTeams.Num())];
+	return RandomBestTeam;
 }

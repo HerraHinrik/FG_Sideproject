@@ -16,7 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDiedSignature, ACharacter*,
 UCLASS()
 class MAGICSAND_API AMagicSandGameModeBase : public AGameMode
 {
-	GENERATED_BODY()
+    GENERATED_UCLASS_BODY()
 
 public:
 
@@ -31,6 +31,9 @@ protected:
     int32 WinnerTeam;
 
 protected:
+    /** setup team changes at player login */
+    void PostLogin(APlayerController* NewPlayer) override;
+
     /** select best spawn point for player */
     virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 

@@ -86,6 +86,7 @@ void UGunComponent::CreateWeaponLoadouts_Implementation()
 	FWeaponLoadout Shotgun = BuildShotgunLoadout();
 	FWeaponLoadout BoltAction = BuildBoltLoadout();
 
+	UE_LOG(LogTemp, Warning, TEXT("Creating weapons"))
 	AddLoadout(BoltAction);
 	AddLoadout(Shotgun);
 }
@@ -119,7 +120,6 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 		{
 			if (!IsValid(Constraint))
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Found invalid constraint in: %d"), CurrentIndex)
 
 				continue;
 			}
@@ -131,14 +131,12 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 		{
 			if (!IsValid(Modifiers[i]))
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Found invalid modifier in: %d"), CurrentIndex)
 
 				continue;
 			}
 
 			if (!Durations.IsValidIndex(i))
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Found invalid duration index in: %d"), CurrentIndex)
 
 					continue;
 			}
@@ -147,7 +145,6 @@ void UGunComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 			if (Durations[i] >= Modifiers[i]->GetDurationMax())
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Expired weapon modifier is added to list"))
 				Loadout.ExpiredModifiers.Add(Modifiers[i]);
 			}
 		}
