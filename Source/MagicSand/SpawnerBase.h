@@ -27,9 +27,6 @@ public:
 
 protected:
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	APawn* InstigatingCharacter;
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<class AProjectileBase> ProjectileClass;
 
@@ -38,6 +35,10 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FVector MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
+
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 TeamNumber;
 
 protected:
 
@@ -57,5 +58,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	TArray<AProjectileBase*> SpawnProjectiles(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost);
 	virtual TArray<AProjectileBase*> SpawnProjectiles_Implementation(FVector Location, FRotator Rotation, int32 RawDamageBoost, float DamagePercentageBoost);
+
+	UFUNCTION()
+		void SetTeamNumber(int32 Team);
 	
 };

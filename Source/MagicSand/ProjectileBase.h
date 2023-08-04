@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 TeamNumber;
+
 	UPROPERTY(EditDefaultsOnly)
 	float RawDamage;
 
@@ -66,6 +69,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetRawDamage(float Amount);
+
+	UFUNCTION(BlueprintCallable)
+	void SetTeamNumber(int32 Team);
 
 	UFUNCTION(BlueprintCallable)
 	USphereComponent* GetCollisionComponent();
