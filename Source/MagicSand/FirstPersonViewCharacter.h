@@ -94,7 +94,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION(NetMulticast, reliable)
+	UFUNCTION(Client, reliable)
 	void LocalClientSetUp();
 
 	UFUNCTION()
