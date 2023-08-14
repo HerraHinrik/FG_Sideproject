@@ -15,22 +15,6 @@ class MAGICSAND_API AMagicSandPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 public:
-	void SetTeamNum(int32 NewTeamNumber);
-
-	/** player killed someone */
-	void ScoreKill(AMagicSandPlayerState* Victim, int32 Points);
-
-	/** player died */
-	void ScoreDeath(AMagicSandPlayerState* KilledBy, int32 Points);
-
-	/** get current team */
-	int32 GetTeamNum() const;
-
-	/** get number of kills */
-	int32 GetKills() const;
-
-	/** get number of deaths */
-	int32 GetDeaths() const;
 
 protected:
 	void UpdateTeamColors();
@@ -48,5 +32,25 @@ protected:
 	int32 NumDeaths;
 
 public:
+	UFUNCTION(BlueprintCallable)
 	bool ShareTeamWith(AMagicSandPlayerState* Other);
+
+	UFUNCTION(BlueprintCallable)
+	void SetTeamNum(int32 NewTeamNumber);
+
+	/** player killed someone */
+	void ScoreKill(AMagicSandPlayerState* Victim, int32 Points);
+
+	/** player died */
+	void ScoreDeath(AMagicSandPlayerState* KilledBy, int32 Points);
+
+	/** get current team */
+	UFUNCTION(BlueprintCallable)
+	int32 GetTeamNum() const;
+
+	/** get number of kills */
+	int32 GetKills() const;
+
+	/** get number of deaths */
+	int32 GetDeaths() const;
 };

@@ -4,6 +4,11 @@
 #include "MagicSandPlayerState.h"
 #include "Net/UnrealNetwork.h"
 
+bool AMagicSandPlayerState::ShareTeamWith(AMagicSandPlayerState* Other)
+{
+	return Other->TeamNumber == TeamNumber;
+}
+
 void AMagicSandPlayerState::SetTeamNum(int32 NewTeamNumber)
 {
 	TeamNumber = NewTeamNumber;
@@ -38,11 +43,6 @@ int32 AMagicSandPlayerState::GetDeaths() const
 void AMagicSandPlayerState::UpdateTeamColors()
 {
 	GetPlayerController()->GetCharacter(); // apply team colors on character
-}
-
-bool AMagicSandPlayerState::ShareTeamWith(AMagicSandPlayerState* Other)
-{
-	return Other->TeamNumber == TeamNumber;
 }
 
 void AMagicSandPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
