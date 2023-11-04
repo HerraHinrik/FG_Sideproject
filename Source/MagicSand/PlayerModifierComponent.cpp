@@ -9,10 +9,9 @@
 UPlayerModifierComponent::UPlayerModifierComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	RegisterComponent();
 
 	SetNetAddressable();
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 // Called when the game starts

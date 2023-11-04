@@ -43,7 +43,7 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 	//create initial deck component
 	DeckComponent = CreateDefaultSubobject<UDeckComponentBase>(TEXT("DeckComp"));
 
-	//create initial gun component
+	//create initial stats component
 	PlayerModifierComponent = CreateDefaultSubobject<UPlayerModifierComponent>(TEXT("PlayerModifierComp"));
 
 	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
@@ -67,6 +67,8 @@ void AFirstPersonViewCharacter::BeginPlay()
 
 	//Use BP for weapon component
 	WeaponComponent = NewObject<UGunComponent>(this, GunComponentBP);
+	WeaponComponent->RegisterComponent();
+	AddInstanceComponent(WeaponComponent);
 	UE_LOG(LogTemp, Warning, TEXT("Weapon comp blueprint name: %s"), *WeaponComponent->GetName())
 
 	WeaponComponent->InitializeGunComponent(PlayerModifierComponent);

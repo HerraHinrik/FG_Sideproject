@@ -21,8 +21,8 @@ bool UAmmoConstraint::Evaluate_Implementation()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Remaining ammo: %i"), CurrentAmmo)
-		UE_LOG(LogTemp, Warning, TEXT("Max ammo: %i"), MaxAmmo)
+		//UE_LOG(LogTemp, Warning, TEXT("Remaining ammo: %i"), CurrentAmmo)
+		//UE_LOG(LogTemp, Warning, TEXT("Max ammo: %i"), MaxAmmo)
 		return false;
 	}
 }

@@ -11,7 +11,6 @@
 UGunComponent::UGunComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	RegisterComponent();
 }
 
 void UGunComponent::BeginPlay()
@@ -215,11 +214,11 @@ void UGunComponent::Fire_Implementation()
 	{
 		if (!IsValid(Constraint)) continue;
 
-		UE_LOG(LogTemp, Warning, TEXT("Constraint is evaluating: %s"), *Constraint->GetName())
+		//UE_LOG(LogTemp, Warning, TEXT("Constraint is evaluating: %s"), *Constraint->GetName())
 
 		if (!Constraint->Evaluate())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("This constraint failed: %s"), *Constraint->GetName())
+			//UE_LOG(LogTemp, Warning, TEXT("This constraint failed: %s"), *Constraint->GetName())
 				return;
 		}
 	}
@@ -229,7 +228,7 @@ void UGunComponent::Fire_Implementation()
 	{
 		if (!IsValid(Constraint)) continue;
 
-		UE_LOG(LogTemp, Warning, TEXT("This constraint is processing fire: %s"), *Constraint->GetName())
+		//UE_LOG(LogTemp, Warning, TEXT("This constraint is processing fire: %s"), *Constraint->GetName())
 			Constraint->ProcessFire();
 	}
 
@@ -281,7 +280,7 @@ TArray<FModifierUIData> UGunComponent::GetActiveModifierData()
 
 		if (!IsValid(Modifier))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
+			//UE_LOG(LogTemp, Warning, TEXT("Invalid modifier pointer while requesting UI data"))
 			continue;
 		}
 
