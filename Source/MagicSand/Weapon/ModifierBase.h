@@ -5,7 +5,6 @@
 #include "UObject/NoExportTypes.h"
 #include "ConstraintBase.h"
 #include "ProjectileBase.h"
-#include "TimerConstraint.h"
 #include "ModifierBase.generated.h"
 
 /**

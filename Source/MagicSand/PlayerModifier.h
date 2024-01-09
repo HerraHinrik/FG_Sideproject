@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "ModifierStructs.h"
+#include "Weapon/ModifierStructs.h"
 #include "PlayerModifier.generated.h"
 
 

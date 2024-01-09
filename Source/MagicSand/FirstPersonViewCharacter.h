@@ -6,12 +6,12 @@
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
 #include "InputAction.h"
-#include "HandComponent.h"
-#include "DeckComponentBase.h"
+#include "Card/HandComponent.h"
+#include "Card/DeckComponentBase.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "GunComponent.h"
-//#include "PlayerModifierComponent.h"
+#include "Weapon/GunComponent.h"
+#include "PlayerModifierComponent.h"
 #include "FirstPersonViewCharacter.generated.h"
 
 class UInputComponent;
