@@ -87,8 +87,12 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* AbilityActionFour;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* AbilityActionFive;
+
 	UPROPERTY()
-	float InitialSpeed;
+		float InitialSpeed;
 
 public:
 	AFirstPersonViewCharacter();
@@ -176,6 +180,9 @@ public:
 
 	UFUNCTION()
 	void UseAbilityFour(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void UseAbilityFive(const FInputActionValue& Value);
 
 	// Getters
 

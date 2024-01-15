@@ -174,6 +174,9 @@ void AFirstPersonViewCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		//Ability four
 		EnhancedInputComponent->BindAction(AbilityActionFour, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityFour);
+
+		//Ability five
+		EnhancedInputComponent->BindAction(AbilityActionFive, ETriggerEvent::Triggered, this, &AFirstPersonViewCharacter::UseAbilityFive);
 	}
 }
 
@@ -313,6 +316,12 @@ void AFirstPersonViewCharacter::UseAbilityThree(const FInputActionValue& Value)
 void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
 {
 	HandComponent->ServerPlayCard(3, this);
+}
+
+
+void AFirstPersonViewCharacter::UseAbilityFour(const FInputActionValue& Value)
+{
+	HandComponent->ServerPlayCard(4, this);
 }
 
 UGunComponent* AFirstPersonViewCharacter::GetWeaponComponenet()
