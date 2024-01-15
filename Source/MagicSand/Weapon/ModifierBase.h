@@ -27,9 +27,6 @@ class MAGICSAND_API UModifierBase : public UObject
 public:
 	UModifierBase();
 
-	/*UPROPERTY(BlueprintAssignable);
-	FGunModifierDelegate OnExpire;*/
-
 private:
 	bool CheckConstaints();
 	void UpdateConstraints();
@@ -45,7 +42,7 @@ protected:
 	TArray<UConstraintBase*> ConstraintArray;
 
 	UPROPERTY(BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
-		float ExpiredDuration = 0;
+	float ExpiredDuration = 0;
 
 protected:
 

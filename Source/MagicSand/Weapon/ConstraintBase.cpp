@@ -3,11 +3,6 @@
 
 #include "ConstraintBase.h"
 
-UConstraintBase::UConstraintBase()
-{
-
-}
-
 bool UConstraintBase::Evaluate_Implementation()
 {
 	return true;

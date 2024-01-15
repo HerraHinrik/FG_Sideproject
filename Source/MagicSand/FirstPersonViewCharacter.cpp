@@ -48,6 +48,10 @@ AFirstPersonViewCharacter::AFirstPersonViewCharacter()
 
 	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
 	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::UpdateMovement);
+
+	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::Client_BroadcastStatChange);
+	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::Client_BroadcastStatChange);
+
 }
 
 // Called when the game starts or when spawned
@@ -87,19 +91,10 @@ void AFirstPersonViewCharacter::BeginPlay()
 	DeckComponent->SetNetAddressable();
 	DeckComponent->ServerInitializeCardComponent();
 
-	if (HasLocalNetOwner())
-	{
-		LocalClientSetUp();
-	}
-
 	// For speed adjustment purposes
 	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
-void AFirstPersonViewCharacter::LocalClientSetUp_Implementation()
-{
-	SetUpHUD();
-}
 
 void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
 {
@@ -114,6 +109,13 @@ void AFirstPersonViewCharacter::UpdateMovement(UPlayerModifier* Modifier)
 
 	float SpeedAdjustment = StatComponent->GetCurrentModifications().SpeedMultiplier;
 	Movement->MaxWalkSpeed = InitialSpeed * (1 + SpeedAdjustment );
+}
+
+
+void AFirstPersonViewCharacter::RegisterUIEvents()
+{
+	PlayerModifierComponent->OnRemoveModifier.AddDynamic(this, &AFirstPersonViewCharacter::Client_BroadcastStatChange_Implementation);
+	PlayerModifierComponent->OnApplyModifier.AddDynamic(this, &AFirstPersonViewCharacter::Client_BroadcastStatChange_Implementation);
 }
 
 void AFirstPersonViewCharacter::Destroyed()
@@ -194,13 +196,6 @@ void AFirstPersonViewCharacter::CallRestartPlayer()
 	}
 }
 
-//void AFirstPersonViewCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const
-//{
-//	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-//
-//	DOREPLIFETIME(AFirstPersonViewCharacter, WeaponComponent);
-//}
-
 void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 {
 	GetCharacterMovement()->StopActiveMovement();
@@ -211,6 +206,18 @@ void AFirstPersonViewCharacter::LaunchFromPad(FVector Velocity)
 void AFirstPersonViewCharacter::DrawCards(int Amount)
 {
 	DeckComponent->ServerDrawCards(Amount);
+}
+
+
+void AFirstPersonViewCharacter::Client_BroadcastStatChange_Implementation(UPlayerModifier* Modifier)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Attempting stats changed broadcast."))
+	OnStatsChanged.Broadcast();
+}
+
+bool AFirstPersonViewCharacter::Client_BroadcastStatChange_Validate(UPlayerModifier* Modifier)
+{
+	return true;
 }
 
 void AFirstPersonViewCharacter::JumpEvent_Implementation(const FInputActionValue& Value)

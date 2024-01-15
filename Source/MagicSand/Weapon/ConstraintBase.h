@@ -31,10 +31,10 @@ class UConstraintBase : public UObject
 	GENERATED_BODY()
 	
 public:
-	UConstraintBase();
 
 private:
 	// Track The last frame number we were ticked.
+	UPROPERTY();
 	int32 LastTickFrame = INDEX_NONE;
 
 protected:

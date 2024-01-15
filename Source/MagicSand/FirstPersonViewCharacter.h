@@ -22,6 +22,9 @@ class UAnimMontage;
 class USoundBase;
 class UPlayerModifierComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNotifyUIDelegate);
+
+
 UCLASS()
 class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 {
@@ -90,15 +93,17 @@ class MAGICSAND_API AFirstPersonViewCharacter : public ACharacter
 public:
 	AFirstPersonViewCharacter();
 
+	UPROPERTY(BlueprintAssignable);
+	FNotifyUIDelegate OnStatsChanged;
 
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION(Client, reliable)
-	void LocalClientSetUp();
-
 	UFUNCTION()
 	void UpdateMovement(UPlayerModifier* Modifier);
+
+	UFUNCTION()
+	void RegisterUIEvents();
 
 	//Called when our Actor is destroyed during Gameplay.
 	virtual void Destroyed();
@@ -130,6 +135,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DrawCards(int Amount);
+
+	UFUNCTION(Client, reliable, WithValidation)
+	void Client_BroadcastStatChange(UPlayerModifier* Modifier);
 
 	// Input functions
 	UFUNCTION(BlueprintNativeEvent)

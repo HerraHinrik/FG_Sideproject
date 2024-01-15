@@ -10,7 +10,6 @@ UModifierBase::UModifierBase()
 }
 
 
-
 bool UModifierBase::CheckConstaints()
 {
 	for (UConstraintBase* Constraint : ConstraintArray)

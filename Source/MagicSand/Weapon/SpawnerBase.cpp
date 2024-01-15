@@ -3,11 +3,6 @@
 
 #include "SpawnerBase.h"
 
-USpawnerBase::USpawnerBase()
-{
-
-}
-
 AProjectileBase* USpawnerBase::SpawnProjectile(
 	TSubclassOf<AProjectileBase> InClass,
 	const FVector* Location,

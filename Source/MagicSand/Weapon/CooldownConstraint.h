@@ -21,6 +21,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Cooldown;
 
+	UPROPERTY();
 	float TimeElapsed = HUGE_VALF;
 
 public:

@@ -79,8 +79,6 @@ void UPlayerModifierComponent::OnTakeDamage_Implementation(AActor* DamagedActor,
 
 	ApplyModifications(HealthChange);
 	BroadcastModifierDelegate(OnApplyModifier, nullptr);
-	UE_LOG(LogTemp, Warning, TEXT("%s took damage"), *DamagedActor->GetName())
-	UE_LOG(LogTemp, Warning, TEXT("%f health left"), GetCurrentModifications().Health)
 }
 
 bool UPlayerModifierComponent::OnTakeDamage_Validate(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
@@ -132,6 +130,12 @@ void UPlayerModifierComponent::BroadcastModifierDelegate_Implementation(const FP
 {
 	Event.Broadcast(Modifier);
 }
+
+bool UPlayerModifierComponent::BroadcastModifierDelegate_Validate(const FPlayerModifierDelegate& Event, UPlayerModifier* Modifier)
+{
+	return true;
+}
+
 
 FPlayerStatBlock UPlayerModifierComponent::GetCurrentModifications()
 {

@@ -23,7 +23,6 @@ class USpawnerBase : public UObject
 	GENERATED_BODY()
 
 public:
-	USpawnerBase();
 
 protected:
 

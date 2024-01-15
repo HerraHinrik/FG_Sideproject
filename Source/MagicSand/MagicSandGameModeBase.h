@@ -25,9 +25,11 @@ protected:
     FOnPlayerDiedSignature OnPlayerDied;
 
     /** number of teams */
+    UPROPERTY()
     int32 NumTeams;
 
     /** best team */
+    UPROPERTY()
     int32 WinnerTeam;
 
 protected:

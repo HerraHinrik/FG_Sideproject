@@ -6,7 +6,7 @@
 
 void UPlayerModifier::TickModifier(float DeltaTime)
 {
-	
+	// For child classes to override
 }
 
 void UPlayerModifier::InitializeStatValues()

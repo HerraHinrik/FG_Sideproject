@@ -8,7 +8,6 @@
 #include "Components/Widget.h"
 #include "PlayerModifierComponent.generated.h"
 
-
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAGICSAND_API UPlayerModifierComponent : public UActorComponent
 {
@@ -23,6 +22,7 @@ public:
 	UPROPERTY(BlueprintAssignable);
 	FPlayerModifierDelegate OnRemoveModifier;
 
+
 protected:
 	// Tracking modifiers
 	UPROPERTY()
@@ -34,8 +34,8 @@ protected:
 	UPROPERTY()
 	TArray<UPlayerModifier*> ExpiredModifiers;
 
-	// Tracking and validating stat changes
-	UPROPERTY(Replicated)
+	// Tracking stat changes
+	UPROPERTY(Replicated) 
 	FPlayerStatBlock ActiveModifications;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
@@ -68,7 +68,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(Client, reliable)
+	UFUNCTION(Client, reliable, WithValidation)
 	void BroadcastModifierDelegate(const FPlayerModifierDelegate & Event, UPlayerModifier* Modifier);
 
 	UFUNCTION(BlueprintCallable)
